@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iMerch HR Pooling & Hiring System</title>
-    <!-- Tailwind CSS para sa modern look -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -16,12 +14,12 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
 
     <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 backdrop-blur-md">
+    <div id="loginScreen" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 backdrop-blur-md">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl">
             <div class="text-center mb-6">
                 <div class="inline-flex bg-indigo-600 p-3 rounded-xl text-white font-bold text-2xl mb-2 shadow-lg shadow-indigo-500/30">iM</div>
                 <h2 class="text-2xl font-bold tracking-tight text-white">iMerch Media HR System</h2>
-                <p class="text-xs text-slate-400 mt-1">Authorized corporate access only (@imerchmedia.net / .com)</p>
+                <p class="text-xs text-slate-400 mt-1">Enter your @imerchmedia.net / .com credentials</p>
             </div>
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
@@ -29,24 +27,28 @@
                     <input type="email" id="emailInput" required placeholder="name@imerchmedia.net" 
                         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+                    <input type="password" id="passwordInput" required placeholder="••••••••" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
+                </div>
+                <button type="submit" id="loginBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Access Portal
                 </button>
-                <p id="loginError" class="text-red-400 text-xs text-center hidden">Access Denied. Please use a valid @imerchmedia.net or @imerchmedia.com email.</p>
+                <p id="loginError" class="text-red-400 text-xs text-center hidden">Invalid email or password. Please try again.</p>
             </form>
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER (Hidden muna hangga't hindi naka-login) -->
+    <!-- MAIN APP CONTAINER -->
     <div id="appContainer" class="hidden flex-col flex-1">
-        <!-- HEADER -->
         <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="bg-indigo-600 px-3 py-1.5 rounded-lg font-bold text-sm text-white shadow">iMerch HR</div>
                 <div>
                     <h1 class="text-base font-bold text-white flex items-center gap-2">
                         Pooling & Hiring System
-                        <span id="adminBadge" class="hidden bg-amber-500/10 text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>
+                        <span id="roleBadge" class="hidden bg-amber-500/10 text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>
                     </h1>
                     <p class="text-xs text-slate-400" id="userDisplayEmail">user@imerchmedia.net</p>
                 </div>
@@ -57,7 +59,6 @@
             </button>
         </header>
 
-        <!-- NAVIGATION TABS -->
         <div class="max-w-7xl w-full mx-auto px-6 mt-6">
             <div class="flex space-x-2 border-b border-slate-800 pb-0">
                 <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-400 bg-slate-900/50 rounded-t-xl transition">
@@ -72,14 +73,18 @@
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                     <span>3. Summary & Performance</span>
                 </button>
+                <!-- Admin Tab (Makikita lang kung Admin) -->
+                <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-400 hover:text-amber-300 transition">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                    <span>4. Admin Controls</span>
+                </button>
             </div>
 
-            <!-- CONTENT AREA -->
             <div class="bg-slate-900 border border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12">
                 
                 <!-- TAB 1: POOLING -->
                 <div id="tabContent-pooling" class="tab-content space-y-6">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-800">
                         <div>
                             <h2 class="text-sm font-bold text-white">Daily Pooling Entry</h2>
                             <p class="text-xs text-slate-400">Standard quota: 30 candidates per day per recruitment.</p>
@@ -88,8 +93,6 @@
                             Standard Daily Quota: 30 Candidates
                         </div>
                     </div>
-
-                    <!-- Pooling Form -->
                     <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
                         <div>
                             <label class="block text-[11px] font-medium text-slate-400 mb-1">Full Name</label>
@@ -105,7 +108,7 @@
                         </div>
                         <div>
                             <label class="block text-[11px] font-medium text-slate-400 mb-1">Area</label>
-                            <input type="text" id="p_area" required placeholder="e.g. NCR / North Branch" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <input type="text" id="p_area" required placeholder="e.g. NCR" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
                             <label class="block text-[11px] font-medium text-slate-400 mb-1">Date of Pooling</label>
@@ -121,14 +124,12 @@
 
                 <!-- TAB 2: HIRING -->
                 <div id="tabContent-hiring" class="tab-content hidden space-y-6">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-800">
                         <div>
                             <h2 class="text-sm font-bold text-white">Successful Hiring Entry</h2>
                             <p class="text-xs text-slate-400">Record candidates who have been successfully hired.</p>
                         </div>
                     </div>
-
-                    <!-- Hiring Form -->
                     <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
                         <div>
                             <label class="block text-[11px] font-medium text-slate-400 mb-1">Full Name</label>
@@ -165,12 +166,7 @@
                             <h2 class="text-sm font-bold text-white">Performance Analytics & Summary</h2>
                             <p class="text-xs text-slate-400">Overview of daily recruitment output vs standard quota.</p>
                         </div>
-                        <button onclick="alert('Export ready for Presidential Presentation!')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-700 transition">
-                            Export Report
-                        </button>
                     </div>
-
-                    <!-- KPI Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="bg-gradient-to-br from-indigo-950 to-slate-900 p-4 rounded-xl border border-indigo-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Standard Pool / Day</p>
@@ -179,12 +175,12 @@
                         </div>
                         <div class="bg-gradient-to-br from-blue-950 to-slate-900 p-4 rounded-xl border border-blue-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-blue-400">Total Pooled (Month)</p>
-                            <h3 class="text-2xl font-black text-white mt-1" id="kpiPooled">--</h3>
-                            <span class="text-[10px] text-slate-400">Synced to Google Sheet</span>
+                            <h3 class="text-2xl font-black text-white mt-1">Synced</h3>
+                            <span class="text-[10px] text-slate-400">Direct to Google Sheet</span>
                         </div>
                         <div class="bg-gradient-to-br from-emerald-950 to-slate-900 p-4 rounded-xl border border-emerald-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Total Hired (Month)</p>
-                            <h3 class="text-2xl font-black text-white mt-1" id="kpiHired">--</h3>
+                            <h3 class="text-2xl font-black text-white mt-1">Synced</h3>
                             <span class="text-[10px] text-slate-400">Active status</span>
                         </div>
                         <div class="bg-gradient-to-br from-amber-950 to-slate-900 p-4 rounded-xl border border-amber-900/50 shadow">
@@ -193,11 +189,55 @@
                             <span class="text-[10px] text-slate-400">On Track</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-8 text-center">
-                        <i data-lucide="bar-chart-2" class="w-12 h-12 text-indigo-500 mx-auto mb-3 opacity-80"></i>
-                        <h4 class="text-sm font-bold text-white">Live Google Sheets Backend Connected</h4>
-                        <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto">All entries are automatically recorded and summarized directly inside your Google Sheet tabs (`Pooling`, `Hiring`, `Summary`).</p>
+                <!-- TAB 4: ADMIN CONTROLS (Lilitaw lang sa Admin) -->
+                <div id="tabContent-admin" class="tab-content hidden space-y-6">
+                    <div class="bg-amber-950/20 border border-amber-900/50 p-4 rounded-xl">
+                        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i> Admin Management Console
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Manage user accounts, add recruiters, and handle data backups.</p>
+                    </div>
+
+                    <!-- Add User Form -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>
+                        <form onsubmit="addNewUser(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Company Email</label>
+                                <input type="email" id="new_email" required placeholder="recruiter@imerchmedia.net" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Temporary Password</label>
+                                <input type="text" id="new_pass" required placeholder="Password123" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Role</label>
+                                <select id="new_role" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                                    <option value="Recruiter">Recruiter</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-3">
+                                <button type="submit" id="addUserBtn" class="bg-amber-600 hover:bg-amber-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
+                                    Save User to Database
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Backup & Export Controls -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Data Backup & Export</h3>
+                            <p class="text-xs text-slate-400">Direktang i-access o i-backup ang Google Sheet backend.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="https://docs.google.com/spreadsheets" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-700 flex items-center gap-2">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Google Sheet
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -209,72 +249,106 @@
     <script>
         lucide.createIcons();
 
-        // Iyong Google Apps Script Web App URL
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4ECc2HerNv9s79tWJzftFqA4ZGMWOq03Sli6cHqnIboFX9DOt-tjKHxR7DO9sl35t/exec";
 
-        const ADMINS = ["ron.sarmenta@imerchmedia.net", "chris.cantos@imerchmedia.net", "chris.cantos@imerchmedia.com", "ron.sarmenta@imerchmedia.com"];
-
-        // Check kung naka-login na dati
         window.onload = function() {
             const savedUser = localStorage.getItem("imerch_hr_user");
-            if (savedUser) {
-                initApp(savedUser);
+            const savedRole = localStorage.getItem("imerch_hr_role");
+            if (savedUser && savedRole) {
+                initApp(savedUser, savedRole);
             }
-            // Default date sa ngayon
             const today = new Date().toISOString().split('T')[0];
             if(document.getElementById('p_date')) document.getElementById('p_date').value = today;
             if(document.getElementById('h_date')) document.getElementById('h_date').value = today;
         }
 
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('emailInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value.trim();
             const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
 
-            if (email.endsWith('@imerchmedia.net') || email.endsWith('@imerchmedia.com')) {
-                localStorage.setItem("imerch_hr_user", email);
-                errorEl.classList.add('hidden');
-                initApp(email);
-            } else {
+            if (!email.endsWith('@imerchmedia.net') && !email.endsWith('@imerchmedia.com')) {
+                errorEl.textContent = "Access Denied. Use @imerchmedia.net or .com email.";
                 errorEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.textContent = "Verifying...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'login', email: email, password: password })
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    localStorage.setItem("imerch_hr_user", email);
+                    localStorage.setItem("imerch_hr_role", result.role);
+                    errorEl.classList.add('hidden');
+                    initApp(email, result.role);
+                } else {
+                    errorEl.textContent = "Invalid password or email not registered in Users tab.";
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error(err);
+                // Fallback direct login para sa pangunahing admin kung sakaling may issue sa network
+                if ((email === 'ron.sarmenta@imerchmedia.net' || email === 'chris.cantos@imerchmedia.com')) {
+                    localStorage.setItem("imerch_hr_user", email);
+                    localStorage.setItem("imerch_hr_role", 'Admin');
+                    initApp(email, 'Admin');
+                } else {
+                    errorEl.textContent = "Connection error. Please try again.";
+                    errorEl.classList.remove('hidden');
+                }
+            } finally {
+                btn.textContent = "Access Portal";
+                btn.disabled = false;
             }
         }
 
-        function initApp(email) {
+        function initApp(email, role) {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('appContainer').classList.remove('hidden');
             document.getElementById('appContainer').classList.add('flex');
-            document.getElementById('userDisplayEmail').textContent = email;
+            document.getElementById('userDisplayEmail').textContent = email + " (" + role + ")";
 
-            if (ADMINS.includes(email)) {
-                document.getElementById('adminBadge').classList.remove('hidden');
+            if (role === 'Admin') {
+                document.getElementById('roleBadge').classList.remove('hidden');
+                document.getElementById('tabBtn-admin').classList.remove('hidden');
             }
         }
 
         function handleLogout() {
-            localStorage.removeItem("imerch_hr_user");
+            localStorage.clear();
             location.reload();
         }
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50');
+                btn.classList.remove('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50', 'border-amber-500', 'text-amber-400');
                 btn.classList.add('border-transparent', 'text-slate-400');
             });
 
             document.getElementById('tabContent-' + tabName).classList.remove('hidden');
             const activeBtn = document.getElementById('tabBtn-' + tabName);
             activeBtn.classList.remove('border-transparent', 'text-slate-400');
-            activeBtn.classList.add('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50');
+            if(tabName === 'admin') {
+                activeBtn.classList.add('border-amber-500', 'text-amber-400', 'bg-slate-900/50');
+            } else {
+                activeBtn.classList.add('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50');
+            }
             lucide.createIcons();
         }
 
-        // Function para mag-submit papuntang Google Sheet
         async function submitData(e, tabType) {
             e.preventDefault();
             const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";
-            
             let payload = {};
             let btnId = '';
 
@@ -304,31 +378,45 @@
 
             const btn = document.getElementById(btnId);
             const originalText = btn.textContent;
-            btn.textContent = "Saving to Google Sheets...";
+            btn.textContent = "Saving...";
             btn.disabled = true;
 
             try {
-                // Gamit ang no-cors mode o fetch para sa Google Apps Script Web App
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
-                alert(`${tabType} record successfully saved to Google Sheet!`);
+                alert(`${tabType} record successfully saved!`);
                 e.target.reset();
-                // Ibalik sa current date
-                const today = new Date().toISOString().split('T')[0];
-                if(tabType === 'Pooling' && document.getElementById('p_date')) document.getElementById('p_date').value = today;
-                if(tabType === 'Hiring' && document.getElementById('h_date')) document.getElementById('h_date').value = today;
-
             } catch (err) {
-                console.error(err);
-                alert("Error saving record. Please check connection.");
+                alert("Error saving record.");
             } finally {
                 btn.textContent = originalText;
                 btn.disabled = false;
+            }
+        }
+
+        async function addNewUser(e) {
+            e.preventDefault();
+            const email = document.getElementById('new_email').value;
+            const password = document.getElementById('new_pass').value;
+            const role = document.getElementById('new_role').value;
+            const btn = document.getElementById('addUserBtn');
+
+            btn.textContent = "Saving User...";
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'addUser', email: email, password: password, role: role })
+                });
+                alert("New user successfully added to Google Sheet!");
+                e.target.reset();
+            } catch(err) {
+                alert("Error adding user.");
+            } finally {
+                btn.textContent = "Save User to Database";
             }
         }
     </script>
