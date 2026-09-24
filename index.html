@@ -165,6 +165,9 @@
                             <h2 class="text-sm font-bold text-white">Performance Analytics & Summary</h2>
                             <p class="text-xs text-slate-400">Overview of daily recruitment output vs standard quota.</p>
                         </div>
+                        <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs transition">
+                            Refresh Stats
+                        </button>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="bg-gradient-to-br from-indigo-950 to-slate-900 p-4 rounded-xl border border-indigo-900/50 shadow">
@@ -173,19 +176,19 @@
                             <span class="text-[10px] text-slate-400">× 5 days = 150 / week</span>
                         </div>
                         <div class="bg-gradient-to-br from-blue-950 to-slate-900 p-4 rounded-xl border border-blue-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-400">Total Pooled (Month)</p>
-                            <h3 class="text-2xl font-black text-white mt-1">Synced</h3>
-                            <span class="text-[10px] text-slate-400">Direct to Google Sheet</span>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-400">Total Pooled Records</p>
+                            <h3 id="totalPooledCount" class="text-2xl font-black text-white mt-1">0</h3>
+                            <span class="text-[10px] text-slate-400">Live from Google Sheet</span>
                         </div>
                         <div class="bg-gradient-to-br from-emerald-950 to-slate-900 p-4 rounded-xl border border-emerald-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Total Hired (Month)</p>
-                            <h3 class="text-2xl font-black text-white mt-1">Synced</h3>
-                            <span class="text-[10px] text-slate-400">Active status</span>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Total Hired Records</p>
+                            <h3 id="totalHiredCount" class="text-2xl font-black text-white mt-1">0</h3>
+                            <span class="text-[10px] text-slate-400">Live from Google Sheet</span>
                         </div>
                         <div class="bg-gradient-to-br from-amber-950 to-slate-900 p-4 rounded-xl border border-amber-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Target Compliance</p>
-                            <h3 class="text-2xl font-black text-white mt-1">100%</h3>
-                            <span class="text-[10px] text-slate-400">On Track</span>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-400">System Status</p>
+                            <h3 class="text-2xl font-black text-emerald-400 mt-1">Active</h3>
+                            <span class="text-[10px] text-slate-400">Connected</span>
                         </div>
                     </div>
                 </div>
@@ -246,8 +249,7 @@
     <script>
         lucide.createIcons();
 
-        // Tumchya navin Google Apps Script Web App URL che integration
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbts3Z4jy-wTHkLoo4LXYhUi4tjOHRoWqoLJ7obKVX_kLTkhtAZ18ccTtuVati0Vo0/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDguBvLmir-Gg54ub8wqUyiDKinGZZ3CTqQsa5Hmd0S602Lty3hIVkKNtFEqLlehIe/exec";
 
         window.onload = function() {
             const savedUser = localStorage.getItem("imerch_hr_user");
@@ -318,6 +320,7 @@
                 document.getElementById('roleBadge').classList.remove('hidden');
                 document.getElementById('tabBtn-admin').classList.remove('hidden');
             }
+            loadSummaryData();
         }
 
         function handleLogout() {
@@ -340,7 +343,25 @@
             } else {
                 activeBtn.classList.add('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50');
             }
+            
+            // Kung clinick ang Summary tab, awtomatikong i-fetch ang live data
+            if(tabName === 'summary') {
+                loadSummaryData();
+            }
             lucide.createIcons();
+        }
+
+        async function loadSummaryData() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);
+                const result = await response.json();
+                if(result.status === 'success') {
+                    document.getElementById('totalPooledCount').textContent = result.poolingCount;
+                    document.getElementById('totalHiredCount').textContent = result.hiringCount;
+                }
+            } catch (err) {
+                console.error("Error loading summary stats:", err);
+            }
         }
 
         async function submitData(e, tabType) {
@@ -386,6 +407,7 @@
                 });
                 alert(`${tabType} record successfully saved!`);
                 e.target.reset();
+                loadSummaryData(); // I-refresh ang stats pagkatapos mag-save
             } catch (err) {
                 alert("Error saving record.");
             } finally {
