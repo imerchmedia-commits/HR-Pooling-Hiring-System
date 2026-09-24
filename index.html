@@ -253,6 +253,30 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- RECRUITER HIRING DETAILS / CALENDAR LOG TABLE -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Detailed Hired Applicants Log (Filtered Date)</h3>
+                            <span id="hiredCountBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">0 Hired Records</span>
+                        </div>
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Date Hired</th>
+                                    <th class="py-2 px-3">Applicant Name</th>
+                                    <th class="py-2 px-3">Area</th>
+                                    <th class="py-2 px-3">Contact Number</th>
+                                    <th class="py-2 px-3">Recruiter</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailedHiredTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
+                                <tr>
+                                    <td colspan="5" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- TAB 4: ADMIN CONTROLS -->
@@ -471,7 +495,6 @@
                 if(result.status === 'success') {
                     globalRawSummaryData = result;
                     globalAvailablePool = result.availablePooling || [];
-                    console.log("Loaded Available Pool:", globalAvailablePool); // Debug log
                     populateHiringDropdown(globalAvailablePool);
                     applyAdminFilter();
                 }
@@ -520,6 +543,31 @@
             document.getElementById('conversionRate').textContent = conv + "%";
 
             renderRecruiterTableAndChart(recruiterStats);
+            renderDetailedHiredTable(filteredHired);
+        }
+
+        function renderDetailedHiredTable(hiredList) {
+            const tbody = document.getElementById('detailedHiredTableBody');
+            const badge = document.getElementById('hiredCountBadge');
+            tbody.innerHTML = '';
+            badge.textContent = `${hiredList.length} Hired Records`;
+
+            if (hiredList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td></tr>';
+                return;
+            }
+
+            hiredList.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.date || 'N/A'}</td>
+                    <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
+                    <td class="py-3 px-3">${item.area || 'N/A'}</td>
+                    <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
+                    <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.recruiter || 'N/A'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
         function getWeekOfYear(dateStr) {
@@ -565,7 +613,6 @@
 
             poolList.forEach((item, index) => {
                 const itemRecruiter = (item.recruiter || "").trim().toLowerCase();
-                // Pinapayagan kung Admin, o kung sakaling tugma ang email, o kaya ay 'unassigned'
                 if (isAdmin || itemRecruiter === currentUser || itemRecruiter === 'unassigned' || itemRecruiter === '') {
                     const opt = document.createElement('option');
                     opt.value = index;
