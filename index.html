@@ -73,7 +73,6 @@
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                     <span>3. Summary & Performance</span>
                 </button>
-                <!-- Admin Tab (Makikita lang kung Admin) -->
                 <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-400 hover:text-amber-300 transition">
                     <i data-lucide="shield-alert" class="w-4 h-4"></i>
                     <span>4. Admin Controls</span>
@@ -191,7 +190,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: ADMIN CONTROLS (Lilitaw lang sa Admin) -->
+                <!-- TAB 4: ADMIN CONTROLS -->
                 <div id="tabContent-admin" class="tab-content hidden space-y-6">
                     <div class="bg-amber-950/20 border border-amber-900/50 p-4 rounded-xl">
                         <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
@@ -200,7 +199,6 @@
                         <p class="text-xs text-slate-400 mt-1">Manage user accounts, add recruiters, and handle data backups.</p>
                     </div>
 
-                    <!-- Add User Form -->
                     <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>
                         <form onsubmit="addNewUser(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -227,7 +225,6 @@
                         </form>
                     </div>
 
-                    <!-- Backup & Export Controls -->
                     <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Data Backup & Export</h3>
@@ -249,7 +246,8 @@
     <script>
         lucide.createIcons();
 
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4ECc2HerNv9s79tWJzftFqA4ZGMWOq03Sli6cHqnIboFX9DOt-tjKHxR7DO9sl35t/exec";
+        // Tumchya navin Google Apps Script Web App URL che integration
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbts3Z4jy-wTHkLoo4LXYhUi4tjOHRoWqoLJ7obKVX_kLTkhtAZ18ccTtuVati0Vo0/exec";
 
         window.onload = function() {
             const savedUser = localStorage.getItem("imerch_hr_user");
@@ -296,7 +294,6 @@
                 }
             } catch (err) {
                 console.error(err);
-                // Fallback direct login para sa pangunahing admin kung sakaling may issue sa network
                 if ((email === 'ron.sarmenta@imerchmedia.net' || email === 'chris.cantos@imerchmedia.com')) {
                     localStorage.setItem("imerch_hr_user", email);
                     localStorage.setItem("imerch_hr_role", 'Admin');
