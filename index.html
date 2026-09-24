@@ -228,15 +228,29 @@
                         </div>
                     </div>
 
+                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-4">Recruiter Performance Visual Graph</h3>
-                        <div class="relative h-72 w-full">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
+                            <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>
+                        </div>
+                        <div class="relative w-full" id="chartContainerWrapper">
                             <canvas id="recruiterChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
+                    <!-- RECRUITER BREAKDOWN TABLE WITH SEARCH & PAGINATION -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
+                            <div class="flex items-center gap-2 w-full md:w-auto">
+                                <div class="relative w-full md:w-64">
+                                    <input type="text" id="recruiterSearchInput" oninput="handleRecruiterSearch()" placeholder="Search recruiter name..." 
+                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
+                                </div>
+                            </div>
+                        </div>
                         <table class="w-full text-left text-xs">
                             <thead>
                                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
@@ -252,13 +266,31 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Recruiter Table Pagination Controls -->
+                        <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
+                            <span id="recruiterPaginationInfo">Showing 0 of 0 entries</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeRecruiterPage(-1)" id="recruiterPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="recruiterPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button onclick="changeRecruiterPage(1)" id="recruiterNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- RECRUITER HIRING DETAILS / CALENDAR LOG TABLE -->
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Detailed Hired Applicants Log (Filtered Date)</h3>
-                            <span id="hiredCountBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">0 Hired Records</span>
+                    <!-- DETAILED HIRED APPLICANTS LOG TABLE WITH SEARCH & PAGINATION (MIN 10 PER PAGE) -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6 space-y-4">
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                            <div class="flex items-center gap-3">
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Detailed Hired Applicants Log</h3>
+                                <span id="hiredCountBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">0 Hired Records</span>
+                            </div>
+                            <div class="flex items-center gap-2 w-full md:w-auto">
+                                <div class="relative w-full md:w-64">
+                                    <input type="text" id="hiredSearchInput" oninput="handleHiredSearch()" placeholder="Search applicant or recruiter..." 
+                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
+                                </div>
+                            </div>
                         </div>
                         <table class="w-full text-left text-xs">
                             <thead>
@@ -276,6 +308,15 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- Hired Table Pagination Controls -->
+                        <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
+                            <span id="hiredPaginationInfo">Showing 0 of 0 entries</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeHiredPage(-1)" id="hiredPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="hiredPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button onclick="changeHiredPage(1)" id="hiredNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -337,6 +378,14 @@
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
+        // Pagination and Search states
+        let globalRecruiterStatsArray = [];
+        let recruiterCurrentPage = 1;
+        const rowsPerPage = 10;
+
+        let globalFilteredHiredList = [];
+        let hiredCurrentPage = 1;
+
         window.onload = function() {
             const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";
             if (savedTheme === "light") {
@@ -368,7 +417,7 @@
                 localStorage.setItem("imerch_hr_theme", "dark");
                 updateThemeButtonUI("dark");
             }
-            if(myChart && globalRawSummaryData) processAndRenderData(globalRawSummaryData);
+            if(myChart && globalRawSummaryData) applyAdminFilter();
         }
 
         function updateThemeButtonUI(theme) {
@@ -542,32 +591,125 @@
             document.getElementById('totalHiredCount').textContent = totalHired;
             document.getElementById('conversionRate').textContent = conv + "%";
 
-            renderRecruiterTableAndChart(recruiterStats);
-            renderDetailedHiredTable(filteredHired);
+            // Convert to array and sort descending (Top to Below performance)
+            globalRecruiterStatsArray = Object.keys(recruiterStats).map(rec => {
+                const data = recruiterStats[rec];
+                return {
+                    recruiter: rec,
+                    pooled: data.pooled,
+                    hired: data.hired,
+                    netActive: Math.max(0, data.pooled - data.hired)
+                };
+            }).sort((a, b) => b.pooled - a.pooled);
+
+            recruiterCurrentPage = 1;
+            renderRecruiterTable();
+            renderTopToBottomChart(globalRecruiterStatsArray);
+
+            globalFilteredHiredList = filteredHired;
+            hiredCurrentPage = 1;
+            renderDetailedHiredTable();
         }
 
-        function renderDetailedHiredTable(hiredList) {
-            const tbody = document.getElementById('detailedHiredTableBody');
-            const badge = document.getElementById('hiredCountBadge');
-            tbody.innerHTML = '';
-            badge.textContent = `${hiredList.length} Hired Records`;
+        // --- RECRUITER TABLE SEARCH & PAGINATION ---
+        function handleRecruiterSearch() {
+            recruiterCurrentPage = 1;
+            renderRecruiterTable();
+        }
 
-            if (hiredList.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td></tr>';
-                return;
+        function renderRecruiterTable() {
+            const query = (document.getElementById('recruiterSearchInput').value || "").toLowerCase();
+            const filtered = globalRecruiterStatsArray.filter(item => item.recruiter.toLowerCase().includes(query));
+
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            if (recruiterCurrentPage > totalPages) recruiterCurrentPage = totalPages;
+
+            const startIdx = (recruiterCurrentPage - 1) * rowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);
+
+            const tbody = document.getElementById('recruiterTableBody');
+            tbody.innerHTML = '';
+
+            if (paginatedItems.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No recruiters found matching your search.</td></tr>';
+            } else {
+                paginatedItems.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.recruiter}</td>
+                        <td class="py-3 px-3">${item.pooled}</td>
+                        <td class="py-3 px-3 text-emerald-600 dark:text-emerald-400">${item.hired}</td>
+                        <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">${item.netActive}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             }
 
-            hiredList.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.date || 'N/A'}</td>
-                    <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
-                    <td class="py-3 px-3">${item.area || 'N/A'}</td>
-                    <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
-                    <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.recruiter || 'N/A'}</td>
-                `;
-                tbody.appendChild(tr);
+            document.getElementById('recruiterPaginationInfo').textContent = `Showing ${startIdx + 1} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} recruiters`;
+            document.getElementById('recruiterPageNum').textContent = recruiterCurrentPage;
+            document.getElementById('recruiterPrevBtn').disabled = recruiterCurrentPage === 1;
+            document.getElementById('recruiterNextBtn').disabled = recruiterCurrentPage >= totalPages;
+        }
+
+        function changeRecruiterPage(direction) {
+            recruiterCurrentPage += direction;
+            renderRecruiterTable();
+        }
+
+        // --- DETAILED HIRED TABLE SEARCH & PAGINATION ---
+        function handleHiredSearch() {
+            hiredCurrentPage = 1;
+            renderDetailedHiredTable();
+        }
+
+        function renderDetailedHiredTable() {
+            const query = (document.getElementById('hiredSearchInput').value || "").toLowerCase();
+            const filtered = globalFilteredHiredList.filter(item => {
+                return (item.fullName || "").toLowerCase().includes(query) ||
+                       (item.recruiter || "").toLowerCase().includes(query) ||
+                       (item.area || "").toLowerCase().includes(query) ||
+                       (item.contactNumber || "").toLowerCase().includes(query);
             });
+
+            const badge = document.getElementById('hiredCountBadge');
+            badge.textContent = `${globalFilteredHiredList.length} Hired Records`;
+
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            if (hiredCurrentPage > totalPages) hiredCurrentPage = totalPages;
+
+            const startIdx = (hiredCurrentPage - 1) * rowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);
+
+            const tbody = document.getElementById('detailedHiredTableBody');
+            tbody.innerHTML = '';
+
+            if (paginatedItems.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';
+            } else {
+                paginatedItems.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.date || 'N/A'}</td>
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.area || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
+                        <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.recruiter || 'N/A'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('hiredPaginationInfo').textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} entries`;
+            document.getElementById('hiredPageNum').textContent = hiredCurrentPage;
+            document.getElementById('hiredPrevBtn').disabled = hiredCurrentPage === 1;
+            document.getElementById('hiredNextBtn').disabled = hiredCurrentPage >= totalPages;
+        }
+
+        function changeHiredPage(direction) {
+            hiredCurrentPage += direction;
+            renderDetailedHiredTable();
         }
 
         function getWeekOfYear(dateStr) {
@@ -581,18 +723,9 @@
         }
 
         function exportRecruiterSummary() {
-            const rows = document.querySelectorAll('#recruiterTableBody tr');
             let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
-
-            rows.forEach(row => {
-                const cols = row.querySelectorAll('td');
-                if (cols.length >= 4) {
-                    const rec = cols[0].innerText.trim();
-                    const pooled = cols[1].innerText.trim();
-                    const hired = cols[2].innerText.trim();
-                    const net = cols[3].innerText.trim();
-                    csvContent += `"${rec}",${pooled},${hired},${net}\n`;
-                }
+            globalRecruiterStatsArray.forEach(item => {
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
@@ -642,51 +775,23 @@
             }
         }
 
-        function renderRecruiterTableAndChart(stats) {
-            const tbody = document.getElementById('recruiterTableBody');
-            tbody.innerHTML = '';
-
-            const recruiters = Object.keys(stats);
-            if (recruiters.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No records found for this filter.</td></tr>';
-                renderChart([], [], [], []);
-                return;
-            }
-
-            let chartLabels = [];
-            let chartPooled = [];
-            let chartHired = [];
-            let chartNet = [];
-
-            recruiters.forEach(rec => {
-                const data = stats[rec];
-                const netActive = Math.max(0, data.pooled - data.hired);
-
-                chartLabels.push(rec);
-                chartPooled.push(data.pooled);
-                chartHired.push(data.hired);
-                chartNet.push(netActive);
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${rec}</td>
-                    <td class="py-3 px-3">${data.pooled}</td>
-                    <td class="py-3 px-3 text-emerald-600 dark:text-emerald-400">${data.hired}</td>
-                    <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">${netActive}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            renderChart(chartLabels, chartPooled, chartHired, chartNet);
-        }
-
-        function renderChart(labels, pooledData, hiredData, netData) {
+        // --- TOP TO BOTTOM HORIZONTAL BAR CHART (SORTED PERFORMANCE RANKING) ---
+        function renderTopToBottomChart(statsArray) {
             const ctx = document.getElementById('recruiterChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
             
             if (myChart) {
                 myChart.destroy();
             }
+
+            const labels = statsArray.map(item => item.recruiter);
+            const pooledData = statsArray.map(item => item.pooled);
+            const hiredData = statsArray.map(item => item.hired);
+
+            // Dynamic height based on number of recruiters so bars don't squeeze
+            const containerWrapper = document.getElementById('chartContainerWrapper');
+            const calculatedHeight = Math.max(280, statsArray.length * 45);
+            containerWrapper.style.height = calculatedHeight + 'px';
 
             myChart = new Chart(ctx, {
                 type: 'bar',
@@ -696,38 +801,34 @@
                         {
                             label: 'Total Pooled',
                             data: pooledData,
-                            backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
                             borderColor: 'rgba(59, 130, 246, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            borderRadius: 4
                         },
                         {
                             label: 'Total Hired',
                             data: hiredData,
-                            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
                             borderColor: 'rgba(16, 185, 129, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Net Active Pool',
-                            data: netData,
-                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
-                            borderColor: 'rgba(99, 102, 241, 1)',
-                            borderWidth: 1
+                            borderWidth: 1,
+                            borderRadius: 4
                         }
                     ]
                 },
                 options: {
+                    indexAxis: 'y', // Makes it horizontal (Top to Bottom performance ranking)
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: {
+                        x: {
                             beginAtZero: true,
                             grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
                             ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         },
-                        x: {
+                        y: {
                             grid: { display: false },
-                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
+                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11, weight: 'bold' } }
                         }
                     },
                     plugins: {
