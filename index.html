@@ -1,116 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iMerch HR Pooling & Hiring System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js para sa Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
     <!-- LOGIN SCREEN -->
     <div id="loginScreen" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl">
             <div class="text-center mb-6">
                 <div class="inline-flex bg-indigo-600 p-3 rounded-xl text-white font-bold text-2xl mb-2 shadow-lg shadow-indigo-500/30">iM</div>
-                <h2 class="text-2xl font-bold tracking-tight text-white">iMerch Media HR System</h2>
-                <p class="text-xs text-slate-400 mt-1">Enter your @imerchmedia.net / .com credentials</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">iMerch Media HR System</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Enter your @imerchmedia.net / .com credentials</p>
             </div>
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Company Email</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Company Email</label>
                     <input type="email" id="emailInput" required placeholder="name@imerchmedia.net" 
-                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
+                        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 transition text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Password</label>
                     <input type="password" id="passwordInput" required placeholder="••••••••" 
-                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
+                        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 transition text-sm">
                 </div>
                 <button type="submit" id="loginBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Access Portal
                 </button>
-                <p id="loginError" class="text-red-400 text-xs text-center hidden">Invalid email or password. Please try again.</p>
+                <p id="loginError" class="text-red-500 dark:text-red-400 text-xs text-center hidden">Invalid email or password. Please try again.</p>
             </form>
         </div>
     </div>
 
     <!-- MAIN APP CONTAINER -->
     <div id="appContainer" class="hidden flex-col flex-1">
-        <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-colors">
             <div class="flex items-center space-x-3">
                 <div class="bg-indigo-600 px-3 py-1.5 rounded-lg font-bold text-sm text-white shadow">iMerch HR</div>
                 <div>
-                    <h1 class="text-base font-bold text-white flex items-center gap-2">
+                    <h1 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Pooling & Hiring System
-                        <span id="roleBadge" class="hidden bg-amber-500/10 text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>
+                        <span id="roleBadge" class="hidden bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>
                     </h1>
-                    <p class="text-xs text-slate-400" id="userDisplayEmail">user@imerchmedia.net</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400" id="userDisplayEmail">user@imerchmedia.net</p>
                 </div>
             </div>
-            <button onclick="handleLogout()" class="flex items-center space-x-1.5 bg-slate-800 hover:bg-red-600/20 hover:text-red-400 text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-700">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                <span>Logout</span>
-            </button>
+            
+            <div class="flex items-center space-x-2">
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleTheme()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">
+                    <i id="themeIcon" data-lucide="sun" class="w-4 h-4"></i>
+                    <span id="themeText">Light Mode</span>
+                </button>
+
+                <button onclick="handleLogout()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-red-500/20 hover:text-red-500 dark:hover:text-red-400 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
         </header>
 
         <div class="max-w-7xl w-full mx-auto px-6 mt-6">
-            <div class="flex space-x-2 border-b border-slate-800 pb-0 overflow-x-auto">
-                <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-400 bg-slate-900/50 rounded-t-xl transition whitespace-nowrap">
+            <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-0 overflow-x-auto">
+                <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-slate-100 dark:bg-slate-900/50 rounded-t-xl transition whitespace-nowrap">
                     <i data-lucide="users" class="w-4 h-4"></i>
                     <span>1. Pooling (Target: 30/day)</span>
                 </button>
-                <button onclick="switchTab('hiring')" id="tabBtn-hiring" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition whitespace-nowrap">
+                <button onclick="switchTab('hiring')" id="tabBtn-hiring" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="user-check" class="w-4 h-4"></i>
-                    <span>2. Hiring Tab</span>
+                    <span>2. Hiring Tab (From Pool)</span>
                 </button>
-                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition whitespace-nowrap">
+                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                     <span>3. Summary & Analytics Graph</span>
                 </button>
-                <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-400 hover:text-amber-300 transition whitespace-nowrap">
+                <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition whitespace-nowrap">
                     <i data-lucide="shield-alert" class="w-4 h-4"></i>
                     <span>4. Admin Controls</span>
                 </button>
             </div>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12 transition-colors">
                 
                 <!-- TAB 1: POOLING -->
                 <div id="tabContent-pooling" class="tab-content space-y-6">
-                    <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-white">Daily Pooling Entry</h2>
-                            <p class="text-xs text-slate-400">Standard quota: 30 candidates per day per recruiter.</p>
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Daily Pooling Entry</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Standard quota: 30 candidates per day per recruiter.</p>
                         </div>
                     </div>
-                    <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                    <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Full Name</label>
-                            <input type="text" id="p_name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
+                            <input type="text" id="p_name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Address</label>
-                            <input type="text" id="p_address" required placeholder="e.g. Makati City" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>
+                            <input type="text" id="p_address" required placeholder="e.g. Makati City" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Contact Number</label>
-                            <input type="text" id="p_contact" required placeholder="09123456789" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>
+                            <input type="text" id="p_contact" required placeholder="09123456789" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Area</label>
-                            <input type="text" id="p_area" required placeholder="e.g. NCR" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
+                            <input type="text" id="p_area" required placeholder="e.g. NCR" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Date of Pooling</label>
-                            <input type="date" id="p_date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date of Pooling</label>
+                            <input type="date" id="p_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div class="flex items-end">
                             <button type="submit" id="poolingSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
@@ -122,36 +135,42 @@
 
                 <!-- TAB 2: HIRING -->
                 <div id="tabContent-hiring" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-white">Successful Hiring Entry</h2>
-                            <p class="text-xs text-slate-400">Record candidates who have been successfully hired.</p>
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Successful Hiring Entry (From Pool)</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Pumili ng aplikante mula sa iyong pooling list para i-mark bilang hired at ibawas sa active pool.</p>
                         </div>
                     </div>
-                    <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
-                        <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Full Name</label>
-                            <input type="text" id="h_name" required placeholder="e.g. Maria Santos" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                    <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                        <div class="md:col-span-3">
+                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Pumili ng Aplikante mula sa Pooling List</label>
+                            <select id="h_select_pool" onchange="autofillPoolingCandidate(this)" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                <option value="">-- Piliin ang Kandidato --</option>
+                            </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Address</label>
-                            <input type="text" id="h_address" required placeholder="e.g. Taguig City" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
+                            <input type="text" id="h_name" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Contact Number</label>
-                            <input type="text" id="h_contact" required placeholder="09987654321" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>
+                            <input type="text" id="h_address" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Area</label>
-                            <input type="text" id="h_area" required placeholder="e.g. South Branch" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>
+                            <input type="text" id="h_contact" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-400 mb-1">Date Hired</label>
-                            <input type="date" id="h_date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
+                            <input type="text" id="h_area" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date Hired</label>
+                            <input type="date" id="h_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                         </div>
                         <div class="flex items-end">
                             <button type="submit" id="hiringSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
-                                Submit Hiring Record
+                                Submit Hiring (Mark as Hired)
                             </button>
                         </div>
                     </form>
@@ -159,53 +178,50 @@
 
                 <!-- TAB 3: SUMMARY & GRAPH -->
                 <div id="tabContent-summary" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-white">Performance Analytics & Recruiter Breakdown</h2>
-                            <p class="text-xs text-slate-400">Net Active Pool = Total Pooled minus Total Hired per recruiter.</p>
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Performance Analytics & Recruiter Breakdown</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Net Active Pool = Total Pooled minus Total Hired (bawas na ang mga na-hire).</p>
                         </div>
                         <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5">
                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Analytics
                         </button>
                     </div>
 
-                    <!-- Top Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-gradient-to-br from-blue-950 to-slate-900 p-4 rounded-xl border border-blue-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-400">Total All-Time Pooled</p>
-                            <h3 id="totalPooledCount" class="text-2xl font-black text-white mt-1">0</h3>
+                        <div class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total All-Time Pooled</p>
+                            <h3 id="totalPooledCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
-                        <div class="bg-gradient-to-br from-emerald-950 to-slate-900 p-4 rounded-xl border border-emerald-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Total All-Time Hired</p>
-                            <h3 id="totalHiredCount" class="text-2xl font-black text-white mt-1">0</h3>
+                        <div class="bg-gradient-to-br from-emerald-50 to-slate-100 dark:from-emerald-950 dark:to-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total All-Time Hired</p>
+                            <h3 id="totalHiredCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
-                        <div class="bg-gradient-to-br from-indigo-950 to-slate-900 p-4 rounded-xl border border-indigo-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Overall Conversion Rate</p>
-                            <h3 id="conversionRate" class="text-2xl font-black text-indigo-300 mt-1">0%</h3>
+                        <div class="bg-gradient-to-br from-indigo-50 to-slate-100 dark:from-indigo-950 dark:to-slate-900 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Overall Conversion Rate</p>
+                            <h3 id="conversionRate" class="text-2xl font-black text-indigo-600 dark:text-indigo-300 mt-1">0%</h3>
                         </div>
                     </div>
 
-                    <!-- Graph Section -->
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-4">Recruiter Performance Visual Graph</h3>
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-4">Recruiter Performance Visual Graph</h3>
                         <div class="relative h-72 w-full">
                             <canvas id="recruiterChart"></canvas>
                         </div>
                     </div>
 
-                    <!-- Recruiter Table Breakdown (Net Active Pool) -->
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 overflow-x-auto">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="border-b border-slate-800 text-slate-400">
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                                     <th class="py-2 px-3">Recruiter</th>
                                     <th class="py-2 px-3">Total Pooled</th>
                                     <th class="py-2 px-3">Total Hired</th>
-                                    <th class="py-2 px-3 text-indigo-400 font-bold">Net Active Pool (Pooled - Hired)</th>
+                                    <th class="py-2 px-3 text-indigo-600 dark:text-indigo-400 font-bold">Net Active Pool (Pooled - Hired)</th>
                                 </tr>
                             </thead>
-                            <tbody id="recruiterTableBody" class="divide-y divide-slate-800/60 text-slate-200">
+                            <tbody id="recruiterTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
                                     <td colspan="4" class="py-4 text-center text-slate-500">Loading recruiter breakdown...</td>
                                 </tr>
@@ -216,27 +232,27 @@
 
                 <!-- TAB 4: ADMIN CONTROLS -->
                 <div id="tabContent-admin" class="tab-content hidden space-y-6">
-                    <div class="bg-amber-950/20 border border-amber-900/50 p-4 rounded-xl">
-                        <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                    <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-4 rounded-xl">
+                        <h2 class="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">
                             <i data-lucide="shield-check" class="w-4 h-4"></i> Admin Management Console
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">Manage user accounts and add recruiters.</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Manage user accounts and add recruiters.</p>
                     </div>
 
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>
                         <form onsubmit="addNewUser(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Company Email</label>
-                                <input type="email" id="new_email" required placeholder="recruiter@imerchmedia.net" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Company Email</label>
+                                <input type="email" id="new_email" required placeholder="recruiter@imerchmedia.net" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Temporary Password</label>
-                                <input type="text" id="new_pass" required placeholder="Password123" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Temporary Password</label>
+                                <input type="text" id="new_pass" required placeholder="Password123" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-400 mb-1">Role</label>
-                                <select id="new_role" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Role</label>
+                                <select id="new_role" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                                     <option value="Recruiter">Recruiter</option>
                                     <option value="Admin">Admin</option>
                                 </select>
@@ -249,12 +265,12 @@
                         </form>
                     </div>
 
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
                         <div>
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Data Backup & Export</h3>
-                            <p class="text-xs text-slate-400">Buksan ang Google Sheet para sa direct viewing.</p>
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Data Backup & Export</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Buksan ang Google Sheet para sa direct viewing.</p>
                         </div>
-                        <a href="https://docs.google.com/spreadsheets" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-700 flex items-center gap-2">
+                        <a href="https://docs.google.com/spreadsheets" target="_blank" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-300 dark:border-slate-700 flex items-center gap-2">
                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Google Sheet
                         </a>
                     </div>
@@ -267,10 +283,21 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxEAuYSJ1uarJW91qWXOJZKAzGI-euEGZ3BZ7HW8zT8tvW0uG0NRl0kVR1ayL3shrR/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbts3Z4jy-wTHkLoo4LXYhUi4tjOHRoWqoLJ7obKVX_kLTkhtAZ18ccTtuVati0Vo0/exec";
         let myChart = null;
+        let globalAvailablePool = [];
 
         window.onload = function() {
+            // Load Saved Theme
+            const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";
+            if (savedTheme === "light") {
+                document.documentElement.classList.remove('dark');
+                updateThemeButtonUI("light");
+            } else {
+                document.documentElement.classList.add('dark');
+                updateThemeButtonUI("dark");
+            }
+
             const savedUser = localStorage.getItem("imerch_hr_user");
             const savedRole = localStorage.getItem("imerch_hr_role");
             if (savedUser && savedRole) {
@@ -279,6 +306,34 @@
             const today = new Date().toISOString().split('T')[0];
             if(document.getElementById('p_date')) document.getElementById('p_date').value = today;
             if(document.getElementById('h_date')) document.getElementById('h_date').value = today;
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem("imerch_hr_theme", "light");
+                updateThemeButtonUI("light");
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem("imerch_hr_theme", "dark");
+                updateThemeButtonUI("dark");
+            }
+            // Re-render chart para sumabay ang kulay ng grid lines
+            if(myChart) loadSummaryData();
+        }
+
+        function updateThemeButtonUI(theme) {
+            const iconEl = document.getElementById('themeIcon');
+            const textEl = document.getElementById('themeText');
+            if (theme === 'light') {
+                iconEl.setAttribute('data-lucide', 'moon');
+                textEl.textContent = "Dark Mode";
+            } else {
+                iconEl.setAttribute('data-lucide', 'sun');
+                textEl.textContent = "Light Mode";
+            }
+            lucide.createIcons();
         }
 
         async function handleLogin(e) {
@@ -311,7 +366,7 @@
                     initApp(email, result.role);
                 } else {
                     errorEl.textContent = "Invalid password or email not registered.";
-                    errorEl.classList.add('hidden');
+                    errorEl.classList.remove('hidden');
                 }
             } catch (err) {
                 if (email.includes('ron.sarmenta') || email.includes('chris.cantos')) {
@@ -320,7 +375,7 @@
                     initApp(email, 'Admin');
                 } else {
                     errorEl.textContent = "Connection error. Please try again.";
-                    errorEl.classList.remove('hidden');
+                    errorEl.classList.add('hidden');
                 }
             } finally {
                 btn.textContent = "Access Portal";
@@ -349,21 +404,21 @@
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50', 'border-amber-500', 'text-amber-400');
-                btn.classList.add('border-transparent', 'text-slate-400');
+                btn.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50', 'border-amber-500', 'text-amber-600', 'dark:text-amber-400');
+                btn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
             });
 
             document.getElementById('tabContent-' + tabName).classList.remove('hidden');
             const activeBtn = document.getElementById('tabBtn-' + tabName);
-            activeBtn.classList.remove('border-transparent', 'text-slate-400');
+            activeBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
             
             if(tabName === 'admin') {
-                activeBtn.classList.add('border-amber-500', 'text-amber-400', 'bg-slate-900/50');
+                activeBtn.classList.add('border-amber-500', 'text-amber-600', 'dark:text-amber-400', 'bg-slate-100', 'dark:bg-slate-900/50');
             } else {
-                activeBtn.classList.add('border-indigo-500', 'text-indigo-400', 'bg-slate-900/50');
+                activeBtn.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50');
             }
             
-            if(tabName === 'summary') {
+            if(tabName === 'summary' || tabName === 'hiring') {
                 loadSummaryData();
             }
             lucide.createIcons();
@@ -381,10 +436,48 @@
                     const conv = result.poolingCount > 0 ? ((result.hiringCount / result.poolingCount) * 100).toFixed(1) : 0;
                     document.getElementById('conversionRate').textContent = conv + "%";
                     
+                    globalAvailablePool = result.availablePooling || [];
+                    populateHiringDropdown(globalAvailablePool);
                     renderRecruiterTableAndChart(result.recruiterStats);
                 }
             } catch (err) {
                 console.error("Error loading summary stats:", err);
+            }
+        }
+
+        function populateHiringDropdown(poolList) {
+            const selectEl = document.getElementById('h_select_pool');
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+
+            selectEl.innerHTML = '<option value="">-- Piliin ang Kandidato mula sa Pooling --</option>';
+
+            poolList.forEach((item, index) => {
+                if (isAdmin || item.recruiter.toLowerCase() === currentUser) {
+                    const opt = document.createElement('option');
+                    opt.value = index;
+                    opt.textContent = `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`;
+                    selectEl.appendChild(opt);
+                }
+            });
+        }
+
+        function autofillPoolingCandidate(selectObj) {
+            const idx = selectObj.value;
+            if (idx === "") {
+                document.getElementById('h_name').value = '';
+                document.getElementById('h_address').value = '';
+                document.getElementById('h_contact').value = '';
+                document.getElementById('h_area').value = '';
+                return;
+            }
+
+            const candidate = globalAvailablePool[idx];
+            if (candidate) {
+                document.getElementById('h_name').value = candidate.fullName;
+                document.getElementById('h_address').value = candidate.address;
+                document.getElementById('h_contact').value = candidate.contactNumber;
+                document.getElementById('h_area').value = candidate.area;
             }
         }
 
@@ -405,7 +498,7 @@
 
             recruiters.forEach(rec => {
                 const data = stats[rec];
-                const netActive = Math.max(0, data.pooled - data.hired); // Nababawasan na ang pooling kapag may na-hire
+                const netActive = Math.max(0, data.pooled - data.hired);
 
                 chartLabels.push(rec);
                 chartPooled.push(data.pooled);
@@ -414,20 +507,20 @@
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="py-3 px-3 font-medium text-white">${rec}</td>
+                    <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${rec}</td>
                     <td class="py-3 px-3">${data.pooled}</td>
-                    <td class="py-3 px-3 text-emerald-400">${data.hired}</td>
-                    <td class="py-3 px-3 font-bold text-indigo-400">${netActive}</td>
+                    <td class="py-3 px-3 text-emerald-600 dark:text-emerald-400">${data.hired}</td>
+                    <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">${netActive}</td>
                 `;
                 tbody.appendChild(tr);
             });
 
-            // Render o i-update ang Chart.js Graph
             renderChart(chartLabels, chartPooled, chartHired, chartNet);
         }
 
         function renderChart(labels, pooledData, hiredData, netData) {
             const ctx = document.getElementById('recruiterChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
             
             if (myChart) {
                 myChart.destroy();
@@ -467,17 +560,17 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         }
                     },
                     plugins: {
                         legend: {
-                            labels: { color: '#cbd5e1', font: { size: 11 } }
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
                         }
                     }
                 }
