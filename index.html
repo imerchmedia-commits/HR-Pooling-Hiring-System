@@ -145,7 +145,7 @@
                         <div class="md:col-span-3">
                             <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Pumili ng Aplikante mula sa Pooling List</label>
                             <select id="h_select_pool" onchange="autofillPoolingCandidate(this)" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                                <option value="">-- Piliin ang Kandidato --</option>
+                                <option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato --</option>
                             </select>
                         </div>
                         <div>
@@ -178,27 +178,56 @@
 
                 <!-- TAB 3: SUMMARY & GRAPH -->
                 <div id="tabContent-summary" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
                             <h2 class="text-sm font-bold text-slate-900 dark:text-white">Performance Analytics & Recruiter Breakdown</h2>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Net Active Pool = Total Pooled minus Total Hired (bawas na ang mga na-hire).</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Net Active Pool = Total Pooled minus Total Hired.</p>
                         </div>
-                        <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Analytics
-                        </button>
+                        <div class="flex items-center gap-2 w-full md:w-auto">
+                            <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ADMIN CALENDAR / DATE FILTER & EXPORT CONTROLS -->
+                    <div id="adminCalendarFilterSection" class="hidden bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="calendar" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+                                <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Admin Date/Week Filter:</span>
+                            </div>
+                            <select id="filterMode" onchange="toggleFilterInputs()" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                                <option value="all">All Time</option>
+                                <option value="day">Specific Day</option>
+                                <option value="week">Specific Week</option>
+                            </select>
+                            
+                            <!-- Day Input -->
+                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                            
+                            <!-- Week Input -->
+                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                            <button onclick="exportRecruiterSummary()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Summary (CSV)
+                            </button>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total All-Time Pooled</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total Pooled (Filtered)</p>
                             <h3 id="totalPooledCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
                         <div class="bg-gradient-to-br from-emerald-50 to-slate-100 dark:from-emerald-950 dark:to-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total All-Time Hired</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Hired (Filtered)</p>
                             <h3 id="totalHiredCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
                         <div class="bg-gradient-to-br from-indigo-50 to-slate-100 dark:from-indigo-950 dark:to-slate-900 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50 shadow">
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Overall Conversion Rate</p>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Conversion Rate</p>
                             <h3 id="conversionRate" class="text-2xl font-black text-indigo-600 dark:text-indigo-300 mt-1">0%</h3>
                         </div>
                     </div>
@@ -283,12 +312,12 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtRuCSc--NZ5At2OisxFbf7l3DQdy0F1EfCsHfAOifbtEi14G561gDvMd6tVY7fPDL/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9_D2UhJMz6MhJ0NfA7bgaqiwg6s1VXfkWW-6kUE9LRB4hlxaud9IIgQ1bP8WUzpJg/exec";
         let myChart = null;
         let globalAvailablePool = [];
+        let globalRawSummaryData = null; // Store data for filtering
 
         window.onload = function() {
-            // Load Saved Theme
             const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";
             if (savedTheme === "light") {
                 document.documentElement.classList.remove('dark');
@@ -319,8 +348,7 @@
                 localStorage.setItem("imerch_hr_theme", "dark");
                 updateThemeButtonUI("dark");
             }
-            // Re-render chart para sumabay ang kulay ng grid lines
-            if(myChart) loadSummaryData();
+            if(myChart && globalRawSummaryData) processAndRenderData(globalRawSummaryData);
         }
 
         function updateThemeButtonUI(theme) {
@@ -392,6 +420,7 @@
             if (role === 'Admin') {
                 document.getElementById('roleBadge').classList.remove('hidden');
                 document.getElementById('tabBtn-admin').classList.remove('hidden');
+                document.getElementById('adminCalendarFilterSection').classList.remove('hidden');
             }
             loadSummaryData();
         }
@@ -424,25 +453,112 @@
             lucide.createIcons();
         }
 
+        function toggleFilterInputs() {
+            const mode = document.getElementById('filterMode').value;
+            const dayInput = document.getElementById('filterDayInput');
+            const weekInput = document.getElementById('filterWeekInput');
+
+            dayInput.classList.add('hidden');
+            weekInput.classList.add('hidden');
+
+            if (mode === 'day') dayInput.classList.remove('hidden');
+            if (mode === 'week') weekInput.classList.remove('hidden');
+
+            applyAdminFilter();
+        }
+
         async function loadSummaryData() {
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=getSummary`);
                 const result = await response.json();
                 
                 if(result.status === 'success') {
-                    document.getElementById('totalPooledCount').textContent = result.poolingCount;
-                    document.getElementById('totalHiredCount').textContent = result.hiringCount;
-                    
-                    const conv = result.poolingCount > 0 ? ((result.hiringCount / result.poolingCount) * 100).toFixed(1) : 0;
-                    document.getElementById('conversionRate').textContent = conv + "%";
-                    
+                    globalRawSummaryData = result;
                     globalAvailablePool = result.availablePooling || [];
                     populateHiringDropdown(globalAvailablePool);
-                    renderRecruiterTableAndChart(result.recruiterStats);
+                    applyAdminFilter();
                 }
             } catch (err) {
                 console.error("Error loading summary stats:", err);
             }
+        }
+
+        function applyAdminFilter() {
+            if (!globalRawSummaryData) return;
+            const mode = document.getElementById('filterMode').value;
+            const targetDay = document.getElementById('filterDayInput').value;
+            const targetWeek = document.getElementById('filterWeekInput').value;
+
+            let filteredPool = globalRawSummaryData.allPoolingRecords || [];
+            let filteredHired = globalRawSummaryData.allHiringRecords || [];
+
+            if (mode === 'day' && targetDay) {
+                filteredPool = filteredPool.filter(item => item.date === targetDay);
+                filteredHired = filteredHired.filter(item => item.date === targetDay);
+            } else if (mode === 'week' && targetWeek) {
+                // targetWeek format: "2026-W12"
+                filteredPool = filteredPool.filter(item => getWeekOfYear(item.date) === targetWeek);
+                filteredHired = filteredHired.filter(item => getWeekOfYear(item.date) === targetWeek);
+            }
+
+            // Recalculate Stats per Recruiter
+            let recruiterStats = {};
+            
+            filteredPool.forEach(item => {
+                const rec = item.recruiter || "unknown";
+                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
+                recruiterStats[rec].pooled += 1;
+            });
+
+            filteredHired.forEach(item => {
+                const rec = item.recruiter || "unknown";
+                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
+                recruiterStats[rec].hired += 1;
+            });
+
+            const totalPooled = filteredPool.length;
+            const totalHired = filteredHired.length;
+            const conv = totalPooled > 0 ? ((totalHired / totalPooled) * 100).toFixed(1) : 0;
+
+            document.getElementById('totalPooledCount').textContent = totalPooled;
+            document.getElementById('totalHiredCount').textContent = totalHired;
+            document.getElementById('conversionRate').textContent = conv + "%";
+
+            renderRecruiterTableAndChart(recruiterStats);
+        }
+
+        function getWeekOfYear(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `${d.getFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+        }
+
+        function exportRecruiterSummary() {
+            const rows = document.querySelectorAll('#recruiterTableBody tr');
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
+
+            rows.forEach(row => {
+                const cols = row.querySelectorAll('td');
+                if (cols.length >= 4) {
+                    const rec = cols[0].innerText.trim();
+                    const pooled = cols[1].innerText.trim();
+                    const hired = cols[2].innerText.trim();
+                    const net = cols[3].innerText.trim();
+                    csvContent += `"${rec}",${pooled},${hired},${net}\n`;
+                }
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "recruiter_summary_report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function populateHiringDropdown(poolList) {
@@ -450,12 +566,13 @@
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
 
-            selectEl.innerHTML = '<option value="">-- Piliin ang Kandidato mula sa Pooling --</option>';
+            selectEl.innerHTML = '<option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato mula sa Pooling --</option>';
 
             poolList.forEach((item, index) => {
                 if (isAdmin || item.recruiter.toLowerCase() === currentUser) {
                     const opt = document.createElement('option');
                     opt.value = index;
+                    opt.className = "bg-white dark:bg-slate-900 text-slate-900 dark:text-white py-1";
                     opt.textContent = `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`;
                     selectEl.appendChild(opt);
                 }
@@ -487,7 +604,8 @@
 
             const recruiters = Object.keys(stats);
             if (recruiters.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No records found yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No records found for this filter.</td></tr>';
+                renderChart([], [], [], []);
                 return;
             }
 
@@ -546,7 +664,7 @@
                             borderWidth: 1
                         },
                         {
-                            label: 'Net Active Pool (Pooled - Hired)',
+                            label: 'Net Active Pool',
                             data: netData,
                             backgroundColor: 'rgba(99, 102, 241, 0.8)',
                             borderColor: 'rgba(99, 102, 241, 1)',
