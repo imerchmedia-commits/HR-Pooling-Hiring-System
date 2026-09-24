@@ -61,7 +61,6 @@
             </div>
             
             <div class="flex items-center space-x-2">
-                <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">
                     <i id="themeIcon" data-lucide="sun" class="w-4 h-4"></i>
                     <span id="themeText">Light Mode</span>
@@ -203,10 +202,7 @@
                                 <option value="week">Specific Week</option>
                             </select>
                             
-                            <!-- Day Input -->
                             <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
-                            
-                            <!-- Week Input -->
                             <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                         </div>
 
@@ -315,7 +311,7 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfcf6tBnOL6Xp8fsYPF3RNPNXTaDII_steZpKsApqJxTADy0pYn955EM1eqsactPru/exec";
         let myChart = null;
         let globalAvailablePool = [];
-        let globalRawSummaryData = null; // Store data for filtering
+        let globalRawSummaryData = null;
 
         window.onload = function() {
             const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";
@@ -475,6 +471,7 @@
                 if(result.status === 'success') {
                     globalRawSummaryData = result;
                     globalAvailablePool = result.availablePooling || [];
+                    console.log("Loaded Available Pool:", globalAvailablePool); // Debug log
                     populateHiringDropdown(globalAvailablePool);
                     applyAdminFilter();
                 }
@@ -496,12 +493,10 @@
                 filteredPool = filteredPool.filter(item => item.date === targetDay);
                 filteredHired = filteredHired.filter(item => item.date === targetDay);
             } else if (mode === 'week' && targetWeek) {
-                // targetWeek format: "2026-W12"
                 filteredPool = filteredPool.filter(item => getWeekOfYear(item.date) === targetWeek);
                 filteredHired = filteredHired.filter(item => getWeekOfYear(item.date) === targetWeek);
             }
 
-            // Recalculate Stats per Recruiter
             let recruiterStats = {};
             
             filteredPool.forEach(item => {
@@ -563,13 +558,15 @@
 
         function populateHiringDropdown(poolList) {
             const selectEl = document.getElementById('h_select_pool');
-            const currentUser = (localStorage.getItem("imerch_hr_user") || "").toLowerCase();
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
 
-            selectEl.innerHTML = '<option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato mula sa Pooling --</option>';
+            selectEl.innerHTML = '<option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato --</option>';
 
             poolList.forEach((item, index) => {
-                if (isAdmin || item.recruiter.toLowerCase() === currentUser) {
+                const itemRecruiter = (item.recruiter || "").trim().toLowerCase();
+                // Pinapayagan kung Admin, o kung sakaling tugma ang email, o kaya ay 'unassigned'
+                if (isAdmin || itemRecruiter === currentUser || itemRecruiter === 'unassigned' || itemRecruiter === '') {
                     const opt = document.createElement('option');
                     opt.value = index;
                     opt.className = "bg-white dark:bg-slate-900 text-slate-900 dark:text-white py-1";
