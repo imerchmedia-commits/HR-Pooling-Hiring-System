@@ -12,6 +12,8 @@
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS (xlsx) para sa Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
@@ -335,6 +337,10 @@
                             <p class="text-xs text-slate-500 dark:text-slate-400">Real-time computation ng length of service at automatikong status badge para sa bawat empleyado.</p>
                         </div>
                         <div class="flex items-center gap-2 w-full md:w-auto">
+                            <!-- Export via Excel Button -->
+                            <button onclick="exportTenureToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">
+                                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Export via Excel
+                            </button>
                             <button onclick="loadTenureData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Tracker
                             </button>
@@ -369,17 +375,18 @@
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Active Hired Employees Tenure List</h3>
                             <div class="flex items-center gap-2 w-full md:w-auto">
                                 <div class="relative w-full md:w-64">
-                                    <input type="text" id="tenureSearchInput" oninput="handleTenureSearch()" placeholder="Search employee or area..." 
+                                    <input type="text" id="tenureSearchInput" oninput="handleTenureSearch()" placeholder="Search employee, area, or recruiter..." 
                                         class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                                     <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
                                 </div>
                             </div>
                         </div>
-                        <table class="w-full text-left text-xs">
+                        <table id="employeeTable" class="w-full text-left text-xs">
                             <thead>
                                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                                     <th class="py-2 px-3">Employee Name</th>
                                     <th class="py-2 px-3">Area / Contact</th>
+                                    <th class="py-2 px-3">Recruiter Name</th>
                                     <th class="py-2 px-3">Date Hired</th>
                                     <th class="py-2 px-3">Length of Service (Tenure)</th>
                                     <th class="py-2 px-3">Status Badge</th>
@@ -387,7 +394,7 @@
                             </thead>
                             <tbody id="tenureTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="5" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>
+                                    <td colspan="6" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -575,12 +582,10 @@
 
             if (role === 'Admin') {
                 document.getElementById('roleBadge').classList.remove('hidden');
-                // Ipakita ang Admin-only tabs (Summary, Tenure Tracker, Admin Controls)
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 loadSummaryData();
                 loadTenureData();
             } else {
-                // I-hide ang admin tabs para sa mga recruiters
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
                 loadPoolingForRecruiter();
             }
@@ -592,7 +597,6 @@
         }
 
         function switchTab(tabName) {
-            // Security check: Pigilan ang recruiters na magbukas ng admin tabs via URL or manual trigger
             const userRole = localStorage.getItem("imerch_hr_role");
             const restrictedTabs = ['summary', 'tenure', 'admin'];
             if (userRole !== 'Admin' && restrictedTabs.includes(tabName)) {
@@ -702,7 +706,6 @@
                 tenureString += `${days}d`;
             }
 
-            // Total months computation for Status Badge
             const totalMonths = (years * 12) + months + (days / 30);
             let badgeHTML = '';
 
@@ -758,7 +761,7 @@
             tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
                     const tenureData = calculateTenure(item.date);
@@ -766,6 +769,7 @@
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
                         <td class="py-3 px-3 text-slate-600 dark:text-slate-400">Area: ${item.area || 'N/A'}<br><span class="text-[10px] text-slate-400">Contact: ${item.contactNumber || 'N/A'}</span></td>
+                        <td class="py-3 px-3 font-medium text-indigo-600 dark:text-indigo-400">${item.recruiter || 'N/A'}</td>
                         <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.date || 'N/A'}</td>
                         <td class="py-3 px-3 font-bold text-slate-800 dark:text-slate-200">${tenureData.text}</td>
                         <td class="py-3 px-3">${tenureData.badge}</td>
@@ -783,6 +787,13 @@
         function changeTenurePage(direction) {
             tenureCurrentPage += direction;
             renderTenureTable();
+        }
+
+        // Export Tenure Table to Excel Function
+        function exportTenureToExcel() {
+            let table = document.getElementById("employeeTable");
+            let wb = XLSX.utils.table_to_book(table, {sheet: "Employees Tenure"});
+            XLSX.writeFile(wb, "Employee_Tenure_Tracker.xlsx");
         }
 
         async function loadPoolingForRecruiter() {
