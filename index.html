@@ -86,7 +86,7 @@
                     <span>2. Hiring Tab (From Pool)</span>
                 </button>
                 <!-- ADMIN ONLY TABS -->
-                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
+                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-admin admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                     <span>3. Summary & Analytics Graph</span>
                 </button>
@@ -148,12 +148,44 @@
                         </div>
                     </div>
                     <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
-                        <div class="md:col-span-3">
+                        
+                        <!-- CUSTOM SEARCHABLE & SCROLLABLE DROPDOWN PARA SA POOLING LIST -->
+                        <div class="md:col-span-3 relative">
                             <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Pumili ng Aplikante mula sa Pooling List</label>
-                            <select id="h_select_pool" onchange="autofillPoolingCandidate(this)" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
-                                <option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato --</option>
-                            </select>
+                            <input type="hidden" id="h_selected_pool_index" required>
+                            
+                            <!-- Dropdown Trigger Box -->
+                            <div id="customDropdownTrigger" onclick="toggleCustomDropdown()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 cursor-pointer flex justify-between items-center">
+                                <span id="customDropdownSelectedText" class="truncate">-- Piliin ang Kandidato --</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                            </div>
+
+                            <!-- Dropdown Panel (Hidden by default) -->
+                            <div id="customDropdownPanel" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-2xl z-50 p-3 space-y-3">
+                                <!-- Search bar sa loob ng dropdown -->
+                                <div class="relative">
+                                    <input type="text" id="customDropdownSearch" oninput="filterCustomDropdownOptions()" placeholder="Maghanap ng aplikante o area..." 
+                                        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"></i>
+                                </div>
+
+                                <!-- Scrollable List Container -->
+                                <div id="customDropdownList" class="max-h-48 overflow-y-auto space-y-1 divide-y divide-slate-100 dark:divide-slate-800">
+                                    <!-- Dynamic Options lalabas dito -->
+                                </div>
+
+                                <!-- Pagination Controls sa loob ng Dropdown -->
+                                <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">
+                                    <span id="dropdownPaginationInfo">Showing 0-0 of 0</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <button type="button" onclick="changeDropdownPage(-1)" id="dropdownPrevBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Prev</button>
+                                        <span id="dropdownPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                        <button type="button" onclick="changeDropdownPage(1)" id="dropdownNextBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Next</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div>
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
                             <input type="text" id="h_name" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
@@ -503,6 +535,10 @@
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
+        // Custom Dropdown Pagination & Filtering states
+        let dropdownCurrentPage = 1;
+        const dropdownRowsPerPage = 6;
+
         // Pagination and Search states
         let globalRecruiterStatsArray = [];
         let recruiterCurrentPage = 1;
@@ -533,6 +569,15 @@
             if(document.getElementById('p_date')) document.getElementById('p_date').value = today;
             if(document.getElementById('h_date')) document.getElementById('h_date').value = today;
             if(document.getElementById('calcStartDate')) document.getElementById('calcStartDate').value = today;
+
+            // Click outside to close custom dropdown
+            document.addEventListener('click', function(e) {
+                const trigger = document.getElementById('customDropdownTrigger');
+                const panel = document.getElementById('customDropdownPanel');
+                if (trigger && panel && !trigger.contains(e.target) && !panel.contains(e.target)) {
+                    panel.classList.add('hidden');
+                }
+            });
         }
 
         function toggleTheme() {
@@ -845,6 +890,121 @@
             }
         }
 
+        // --- CUSTOM SCROLLABLE & SEARCHABLE DROPDOWN LOGIC ---
+        function toggleCustomDropdown() {
+            const panel = document.getElementById('customDropdownPanel');
+            panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) {
+                document.getElementById('customDropdownSearch').focus();
+            }
+        }
+
+        function filterCustomDropdownOptions() {
+            dropdownCurrentPage = 1;
+            renderCustomDropdownList();
+        }
+
+        function changeDropdownPage(direction) {
+            dropdownCurrentPage += direction;
+            renderCustomDropdownList();
+        }
+
+        function populateHiringDropdown(poolList) {
+            dropdownCurrentPage = 1;
+            renderCustomDropdownList();
+        }
+
+        function getFilteredPoolList() {
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+            const searchQuery = (document.getElementById('customDropdownSearch').value || "").toLowerCase();
+
+            let validList = [];
+            globalAvailablePool.forEach((item, index) => {
+                const itemRecruiter = (item.recruiter || "").trim().toLowerCase();
+                if (isAdmin || itemRecruiter === currentUser || itemRecruiter === 'unassigned' || itemRecruiter === '') {
+                    const fullName = (item.fullName || "").toLowerCase();
+                    const area = (item.area || "").toLowerCase();
+                    const recruiter = (item.recruiter || "").toLowerCase();
+
+                    if (fullName.includes(searchQuery) || area.includes(searchQuery) || recruiter.includes(searchQuery)) {
+                        validList.push({ item: item, originalIndex: index });
+                    }
+                }
+            });
+            return validList;
+        }
+
+        function renderCustomDropdownList() {
+            const filtered = getFilteredPoolList();
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / dropdownRowsPerPage) || 1;
+            if (dropdownCurrentPage > totalPages) dropdownCurrentPage = totalPages;
+
+            const startIdx = (dropdownCurrentPage - 1) * dropdownRowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + dropdownRowsPerPage);
+
+            const listContainer = document.getElementById('customDropdownList');
+            listContainer.innerHTML = '';
+
+            // Add default "Piliin ang Kandidato" option
+            if (dropdownCurrentPage === 1 && (!document.getElementById('customDropdownSearch').value)) {
+                const defaultDiv = document.createElement('div');
+                defaultDiv.className = "p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer text-slate-500 text-xs";
+                defaultDiv.textContent = "-- Piliin ang Kandidato --";
+                defaultDiv.onclick = () => selectCandidate("", "-- Piliin ang Kandidato --");
+                listContainer.appendChild(defaultDiv);
+            }
+
+            if (paginatedItems.length === 0) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.className = "p-3 text-center text-slate-400 text-xs";
+                emptyDiv.textContent = "Walang nahanap na aplikante.";
+                listContainer.appendChild(emptyDiv);
+            } else {
+                paginatedItems.forEach(entry => {
+                    const item = entry.item;
+                    const idx = entry.originalIndex;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = "p-2 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded cursor-pointer transition text-xs";
+                    itemDiv.innerHTML = `<span class="font-bold text-slate-900 dark:text-white">${item.fullName}</span> <div class="text-[10px] text-slate-500">Area: ${item.area} | Recruiter: ${item.recruiter}</div>`;
+                    itemDiv.onclick = () => selectCandidate(idx, `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`);
+                    listContainer.appendChild(itemDiv);
+                });
+            }
+
+            document.getElementById('dropdownPaginationInfo').textContent = `${totalRows > 0 ? startIdx + 1 : 0}-${Math.min(startIdx + dropdownRowsPerPage, totalRows)} of ${totalRows}`;
+            document.getElementById('dropdownPageNum').textContent = dropdownCurrentPage;
+            document.getElementById('dropdownPrevBtn').disabled = dropdownCurrentPage === 1;
+            document.getElementById('dropdownNextBtn').disabled = dropdownCurrentPage >= totalPages;
+        }
+
+        function selectCandidate(originalIdx, displayText) {
+            document.getElementById('h_selected_pool_index').value = originalIdx;
+            document.getElementById('customDropdownSelectedText').textContent = displayText;
+            document.getElementById('customDropdownPanel').classList.add('hidden');
+
+            autofillPoolingCandidateByIndex(originalIdx);
+        }
+
+        function autofillPoolingCandidateByIndex(idx) {
+            if (idx === "") {
+                document.getElementById('h_name').value = '';
+                document.getElementById('h_address').value = '';
+                document.getElementById('h_contact').value = '';
+                document.getElementById('h_area').value = '';
+                return;
+            }
+
+            const candidate = globalAvailablePool[idx];
+            if (candidate) {
+                document.getElementById('h_name').value = candidate.fullName;
+                document.getElementById('h_address').value = candidate.address;
+                document.getElementById('h_contact').value = candidate.contactNumber;
+                document.getElementById('h_area').value = candidate.area;
+            }
+        }
+
         function applyAdminFilter() {
             if (!globalRawSummaryData) return;
             const mode = document.getElementById('filterMode').value;
@@ -863,7 +1023,7 @@
             }
 
             let recruiterStats = {};
-            let clientStats = {}; // Bilangan per client
+            let clientStats = {};
 
             filteredPool.forEach(item => {
                 const rec = item.recruiter || "unknown";
@@ -876,7 +1036,6 @@
                 if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
                 recruiterStats[rec].hired += 1;
 
-                // Bilangin ang client
                 const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";
                 clientStats[cl] = (clientStats[cl] || 0) + 1;
             });
@@ -1035,44 +1194,6 @@
             document.body.removeChild(link);
         }
 
-        function populateHiringDropdown(poolList) {
-            const selectEl = document.getElementById('h_select_pool');
-            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
-            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
-
-            selectEl.innerHTML = '<option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Kandidato --</option>';
-
-            poolList.forEach((item, index) => {
-                const itemRecruiter = (item.recruiter || "").trim().toLowerCase();
-                if (isAdmin || itemRecruiter === currentUser || itemRecruiter === 'unassigned' || itemRecruiter === '') {
-                    const opt = document.createElement('option');
-                    opt.value = index;
-                    opt.className = "bg-white dark:bg-slate-900 text-slate-900 dark:text-white py-1";
-                    opt.textContent = `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`;
-                    selectEl.appendChild(opt);
-                }
-            });
-        }
-
-        function autofillPoolingCandidate(selectObj) {
-            const idx = selectObj.value;
-            if (idx === "") {
-                document.getElementById('h_name').value = '';
-                document.getElementById('h_address').value = '';
-                document.getElementById('h_contact').value = '';
-                document.getElementById('h_area').value = '';
-                return;
-            }
-
-            const candidate = globalAvailablePool[idx];
-            if (candidate) {
-                document.getElementById('h_name').value = candidate.fullName;
-                document.getElementById('h_address').value = candidate.address;
-                document.getElementById('h_contact').value = candidate.contactNumber;
-                document.getElementById('h_area').value = candidate.area;
-            }
-        }
-
         function renderTopToBottomChart(statsArray) {
             const ctx = document.getElementById('recruiterChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
@@ -1136,7 +1257,6 @@
             });
         }
 
-        // Render Client Breakdown Chart
         function renderClientAnalyticsChart(clientStats) {
             const ctx = document.getElementById('clientAnalyticsChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
@@ -1203,6 +1323,11 @@
                 };
             } else {
                 btnId = 'hiringSubmitBtn';
+                const selectedIndex = document.getElementById('h_selected_pool_index').value;
+                if (selectedIndex === "") {
+                    alert("Mangyaring pumili ng aplikante mula sa pooling list.");
+                    return;
+                }
                 payload = {
                     tab: 'Hiring',
                     fullName: document.getElementById('h_name').value,
@@ -1228,6 +1353,10 @@
                 });
                 alert(`${tabType} record successfully saved!`);
                 e.target.reset();
+                if(tabType === 'Hiring') {
+                    document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";
+                    document.getElementById('h_selected_pool_index').value = '';
+                }
                 if(localStorage.getItem("imerch_hr_role") === 'Admin') {
                     loadSummaryData();
                     loadTenureData();
