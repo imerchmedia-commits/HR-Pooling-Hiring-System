@@ -170,7 +170,7 @@
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
                             <input type="text" id="h_area" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
-                        <!-- NEW COLUMN: CLIENT DROPDOWN -->
+                        <!-- CLIENT DROPDOWN -->
                         <div>
                             <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Client</label>
                             <select id="h_client" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
@@ -267,6 +267,17 @@
                         </div>
                     </div>
 
+                    <!-- NEW CLIENT BREAKDOWN ANALYTICS GRAPH -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Hired Employees Breakdown per Client</h3>
+                            <span class="text-[10px] text-slate-500">Total Hired per Client Distribution</span>
+                        </div>
+                        <div class="relative w-full" style="height: 280px;">
+                            <canvas id="clientAnalyticsChart"></canvas>
+                        </div>
+                    </div>
+
                     <!-- RECRUITER BREAKDOWN TABLE WITH SEARCH & PAGINATION -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
@@ -305,7 +316,7 @@
                         </div>
                     </div>
 
-                    <!-- DETAILED HIRED APPLICANTS LOG TABLE WITH SEARCH & PAGINATION (MIN 10 PER PAGE) -->
+                    <!-- DETAILED HIRED APPLICANTS LOG TABLE WITH SEARCH & PAGINATION -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6 space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                             <div class="flex items-center gap-3">
@@ -486,8 +497,9 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxdIsiU3UDYSB5xeWp9OxHn_ONYlPQjKfyOcmZX1SVeIihP8MwcFuxPXGODyM4uxSHf/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwekUf4e7HfLCNVZa9ez34vk8vjSUGT1PEie-26JWHb6s4IweRgYz0nwmCtYxpxnpup/exec";
         let myChart = null;
+        let clientChart = null; // New chart instance for client breakdown
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
@@ -814,7 +826,6 @@
             renderTenureTable();
         }
 
-        // Export Tenure Table to Excel Function
         function exportTenureToExcel() {
             let table = document.getElementById("employeeTable");
             let wb = XLSX.utils.table_to_book(table, {sheet: "Employees Tenure"});
@@ -852,7 +863,8 @@
             }
 
             let recruiterStats = {};
-            
+            let clientStats = {}; // Bilangan per client
+
             filteredPool.forEach(item => {
                 const rec = item.recruiter || "unknown";
                 if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
@@ -863,6 +875,10 @@
                 const rec = item.recruiter || "unknown";
                 if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
                 recruiterStats[rec].hired += 1;
+
+                // Bilangin ang client
+                const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";
+                clientStats[cl] = (clientStats[cl] || 0) + 1;
             });
 
             const totalPooled = filteredPool.length;
@@ -886,6 +902,7 @@
             recruiterCurrentPage = 1;
             renderRecruiterTable();
             renderTopToBottomChart(globalRecruiterStatsArray);
+            renderClientAnalyticsChart(clientStats);
 
             globalFilteredHiredList = filteredHired;
             hiredCurrentPage = 1;
@@ -1108,6 +1125,54 @@
                         y: {
                             grid: { display: false },
                             ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11, weight: 'bold' } }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render Client Breakdown Chart
+        function renderClientAnalyticsChart(clientStats) {
+            const ctx = document.getElementById('clientAnalyticsChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+
+            if (clientChart) {
+                clientChart.destroy();
+            }
+
+            const labels = Object.keys(clientStats);
+            const data = Object.values(clientStats);
+
+            clientChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.length > 0 ? labels : ['No Data'],
+                    datasets: [{
+                        label: 'Total Hired Employees per Client',
+                        data: data.length > 0 ? data : [0],
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', stepSize: 1, font: { size: 10 } }
                         }
                     },
                     plugins: {
