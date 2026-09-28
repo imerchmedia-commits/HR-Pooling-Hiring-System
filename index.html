@@ -170,11 +170,32 @@
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
                             <input type="text" id="h_area" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
+                        <!-- NEW COLUMN: CLIENT DROPDOWN -->
+                        <div>
+                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Client</label>
+                            <select id="h_client" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                <option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Client --</option>
+                                <option value="NutriAsia">NutriAsia</option>
+                                <option value="URATEX">URATEX</option>
+                                <option value="SERTA">SERTA</option>
+                                <option value="TWG AVSC">TWG AVSC</option>
+                                <option value="TWG IAJWC">TWG IAJWC</option>
+                                <option value="DELFI">DELFI</option>
+                                <option value="LIFESTRONG">LIFESTRONG</option>
+                                <option value="FRABELLE">FRABELLE</option>
+                                <option value="BNF ASIA">BNF ASIA</option>
+                                <option value="SANICARE">SANICARE</option>
+                                <option value="C-JOY">C-JOY</option>
+                                <option value="COL-PAL">COL-PAL</option>
+                                <option value="PRAN">PRAN</option>
+                                <option value="CAMEL">CAMEL</option>
+                            </select>
+                        </div>
                         <div>
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date Hired</label>
                             <input type="date" id="h_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                         </div>
-                        <div class="flex items-end">
+                        <div class="md:col-span-3 flex items-end">
                             <button type="submit" id="hiringSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
                                 Submit Hiring (Mark as Hired)
                             </button>
@@ -306,12 +327,13 @@
                                     <th class="py-2 px-3">Applicant Name</th>
                                     <th class="py-2 px-3">Area</th>
                                     <th class="py-2 px-3">Contact Number</th>
+                                    <th class="py-2 px-3">Client</th>
                                     <th class="py-2 px-3">Recruiter</th>
                                 </tr>
                             </thead>
                             <tbody id="detailedHiredTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="5" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td>
+                                    <td colspan="6" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -386,6 +408,7 @@
                                 <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
                                     <th class="py-2 px-3">Employee Name</th>
                                     <th class="py-2 px-3">Area / Contact</th>
+                                    <th class="py-2 px-3">Client</th>
                                     <th class="py-2 px-3">Recruiter Name</th>
                                     <th class="py-2 px-3">Date Hired</th>
                                     <th class="py-2 px-3">Length of Service (Tenure)</th>
@@ -394,7 +417,7 @@
                             </thead>
                             <tbody id="tenureTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="6" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>
+                                    <td colspan="7" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -747,6 +770,7 @@
             const filtered = globalTenureEmployees.filter(item => {
                 return (item.fullName || "").toLowerCase().includes(query) ||
                        (item.area || "").toLowerCase().includes(query) ||
+                       (item.client || "").toLowerCase().includes(query) ||
                        (item.recruiter || "").toLowerCase().includes(query);
             });
 
@@ -761,7 +785,7 @@
             tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
                     const tenureData = calculateTenure(item.date);
@@ -769,6 +793,7 @@
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
                         <td class="py-3 px-3 text-slate-600 dark:text-slate-400">Area: ${item.area || 'N/A'}<br><span class="text-[10px] text-slate-400">Contact: ${item.contactNumber || 'N/A'}</span></td>
+                        <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.client || 'N/A'}</td>
                         <td class="py-3 px-3 font-medium text-indigo-600 dark:text-indigo-400">${item.recruiter || 'N/A'}</td>
                         <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.date || 'N/A'}</td>
                         <td class="py-3 px-3 font-bold text-slate-800 dark:text-slate-200">${tenureData.text}</td>
@@ -923,6 +948,7 @@
                 return (item.fullName || "").toLowerCase().includes(query) ||
                        (item.recruiter || "").toLowerCase().includes(query) ||
                        (item.area || "").toLowerCase().includes(query) ||
+                       (item.client || "").toLowerCase().includes(query) ||
                        (item.contactNumber || "").toLowerCase().includes(query);
             });
 
@@ -940,7 +966,7 @@
             tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
                     const tr = document.createElement('tr');
@@ -949,6 +975,7 @@
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
                         <td class="py-3 px-3">${item.area || 'N/A'}</td>
                         <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
+                        <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.client || 'N/A'}</td>
                         <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.recruiter || 'N/A'}</td>
                     `;
                     tbody.appendChild(tr);
@@ -1117,6 +1144,7 @@
                     address: document.getElementById('h_address').value,
                     contactNumber: document.getElementById('h_contact').value,
                     area: document.getElementById('h_area').value,
+                    client: document.getElementById('h_client').value,
                     date: document.getElementById('h_date').value,
                     recruiter: currentUser
                 };
