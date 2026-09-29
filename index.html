@@ -529,7 +529,7 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwekUf4e7HfLCNVZa9ez34vk8vjSUGT1PEie-26JWHb6s4IweRgYz0nwmCtYxpxnpup/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4W3XYyH49m2i-BFI4yamkTSjj2wGsHyb_NRUIQKGt9AzQqWWdtdT7Fn_tkVGET26v/exec";
         let myChart = null;
         let clientChart = null; // New chart instance for client breakdown
         let globalAvailablePool = [];
@@ -1312,6 +1312,24 @@
 
             if (tabType === 'Pooling') {
                 btnId = 'poolingSubmitBtn';
+                const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
+                const newContactInput = document.getElementById('p_contact').value.trim();
+
+                // Duplication check across existing available pooling records
+                let isDuplicate = false;
+                if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
+                    isDuplicate = globalRawSummaryData.allPoolingRecords.some(item => {
+                        const existingName = (item.fullName || "").trim().toLowerCase();
+                        const existingContact = (item.contactNumber || "").trim();
+                        return existingName === newNameInput && existingContact === newContactInput;
+                    });
+                }
+
+                if (isDuplicate) {
+                    alert("Duplicate Error: Ang pangalan at cellphone number na ito ay naka-pool na sa sistema!");
+                    return;
+                }
+
                 payload = {
                     tab: 'Pooling',
                     fullName: document.getElementById('p_name').value,
