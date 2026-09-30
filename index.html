@@ -94,12 +94,10 @@
                     <i data-lucide="user-check" class="w-4 h-4"></i>
                     <span>2. Hiring Tab (From Pool)</span>
                 </button>
-                <!-- SUMMARY TAB NA BUKAS NA RIN SA RECRUITERS -->
                 <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                     <span>3. Summary & Analytics Graph</span>
                 </button>
-                <!-- ADMIN ONLY TABS -->
                 <button onclick="switchTab('tenure')" id="tabBtn-tenure" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition whitespace-nowrap">
                     <i data-lucide="clock" class="w-4 h-4"></i>
                     <span>4. Employee Tenure Tracker</span>
@@ -237,7 +235,7 @@
                     </form>
                 </div>
 
-                <!-- TAB 3: SUMMARY & GRAPH (NGAYON AY BUKSAN NA SA RECRUITERS, PERO EXPORT BUTTON AY ADMIN ONLY) -->
+                <!-- TAB 3: SUMMARY & GRAPH -->
                 <div id="tabContent-summary" class="tab-content hidden space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
@@ -251,7 +249,7 @@
                         </div>
                     </div>
 
-                    <!-- ADMIN CALENDAR / DATE FILTER & EXPORT CONTROLS (EXPORT BUTTON AY NAKA-HIDE SA RECRUITERS) -->
+                    <!-- ADMIN CALENDAR / DATE FILTER & EXPORT CONTROLS -->
                     <div id="adminCalendarFilterSection" class="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                             <div class="flex items-center gap-1.5">
@@ -268,7 +266,7 @@
                             <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                         </div>
 
-                        <!-- EXPORT BUTTON NAKA-HIDE SA RECRUITERS (ADMIN LANG ANG MAKAKAKITA) -->
+                        <!-- EXPORT BUTTON ADMIN ONLY -->
                         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
                             <button id="exportSummaryBtn" onclick="exportRecruiterSummary()" class="hidden admin-only bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">
                                 <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Summary (CSV)
@@ -291,18 +289,25 @@
                         </div>
                     </div>
 
-                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
+                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART (WITH FAST HTML PROFILE PICTURES) -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
                             <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>
                         </div>
-                        <div class="relative w-full transition-all duration-300" id="chartContainerWrapper">
-                            <canvas id="recruiterChart"></canvas>
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center">
+                            <!-- Left side: Custom Recruiter Names with Profile Pictures -->
+                            <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4">
+                                <!-- Dynamic labels with pics will be injected here -->
+                            </div>
+                            <!-- Right side: Clean Fast Canvas Bar Chart -->
+                            <div class="lg:col-span-3 relative w-full" id="chartContainerWrapper" style="height: 320px;">
+                                <canvas id="recruiterChart"></canvas>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- NEW CLIENT BREAKDOWN ANALYTICS GRAPH -->
+                    <!-- CLIENT BREAKDOWN ANALYTICS GRAPH -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Hired Employees Breakdown per Client</h3>
@@ -313,7 +318,7 @@
                         </div>
                     </div>
 
-                    <!-- RECRUITER BREAKDOWN TABLE WITH SEARCH & PAGINATION -->
+                    <!-- RECRUITER BREAKDOWN TABLE -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
@@ -350,7 +355,7 @@
                         </div>
                     </div>
 
-                    <!-- DETAILED HIRED APPLICANTS LOG TABLE WITH SEARCH & PAGINATION -->
+                    <!-- DETAILED HIRED APPLICANTS LOG TABLE -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6 space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                             <div class="flex items-center gap-3">
@@ -393,7 +398,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: EMPLOYEE TENURE TRACKER & CALCULATOR (ADMIN ONLY) -->
+                <!-- TAB 4: EMPLOYEE TENURE TRACKER -->
                 <div id="tabContent-tenure" class="tab-content hidden space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
@@ -473,7 +478,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 5: ADMIN CONTROLS (ADMIN ONLY) -->
+                <!-- TAB 5: ADMIN CONTROLS -->
                 <div id="tabContent-admin" class="tab-content hidden space-y-6">
                     <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-4 rounded-xl">
                         <h2 class="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">
@@ -676,9 +681,8 @@
                 loadSummaryData();
                 loadTenureData();
             } else {
-                // Pinapanatiling nakatago ang mga eksklusibong admin-only elements tulad ng export button at iba pang admin tabs
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
-                loadSummaryData(); // Na-load na rin ang summary data para makita ng recruiters ang graph at breakdown
+                loadSummaryData();
                 loadPoolingForRecruiter();
             }
         }
@@ -690,7 +694,6 @@
 
         function switchTab(tabName) {
             const userRole = localStorage.getItem("imerch_hr_role");
-            // Ang summary tab ay pwede na sa lahat, samantalang ang tenure at admin ay restricted pa rin
             const restrictedTabs = ['tenure', 'admin'];
             if (userRole !== 'Admin' && restrictedTabs.includes(tabName)) {
                 alert("Access Restricted: Admin or Sir Chris authorization required.");
@@ -1212,6 +1215,21 @@
         }
 
         function renderTopToBottomChart(statsArray) {
+            // 1. Render Fast HTML Custom Labels with Profile Pictures sa Kaliwa
+            const customLabelsContainer = document.getElementById('chartCustomLabels');
+            customLabelsContainer.innerHTML = '';
+            
+            statsArray.forEach(item => {
+                const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';
+                const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar" alt="${item.recruiter}">` : `<div class="recruiter-avatar bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white">${item.recruiter.substring(0,2).toUpperCase()}</div>`;
+                
+                const div = document.createElement('div');
+                div.className = "flex items-center gap-2 py-1.5 px-2 bg-white/50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800/80";
+                div.innerHTML = `${imgTag}<span class="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate" title="${item.recruiter}">${item.recruiter}</span>`;
+                customLabelsContainer.appendChild(div);
+            });
+
+            // 2. Render Clean Bar Chart sa Kanan (Walang Y-axis labels para mas mabilis at malinis)
             const ctx = document.getElementById('recruiterChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
             
@@ -1226,6 +1244,8 @@
             const containerWrapper = document.getElementById('chartContainerWrapper');
             const calculatedHeight = Math.max(280, statsArray.length * 45);
             containerWrapper.style.height = calculatedHeight + 'px';
+            customLabelsContainer.style.height = calculatedHeight + 'px';
+            customLabelsContainer.style.overflowY = 'auto';
 
             myChart = new Chart(ctx, {
                 type: 'bar',
@@ -1261,14 +1281,8 @@
                             ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         },
                         y: {
-                            grid: { display: false },
-                            ticks: { 
-                                color: isDark ? '#cbd5e1' : '#334155', 
-                                font: { size: 11, weight: 'bold' },
-                                callback: function(value, index) {
-                                    return this.getLabelForValue(value);
-                                }
-                            }
+                            display: false, // Itinatago ang default text labels dahil nasa kaliwa na natin ang HTML profile pictures
+                            grid: { display: false }
                         }
                     },
                     plugins: {
@@ -1276,45 +1290,7 @@
                             labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
                         }
                     }
-                },
-                plugins: [{
-                    id: 'yAxisImages',
-                    afterDraw: (chart) => {
-                        const ctx = chart.ctx;
-                        const yAxis = chart.scales.y;
-                        
-                        yAxis.ticks.forEach((tick, index) => {
-                            const labelText = yAxis.getLabelForValue(tick.value);
-                            const imgFile = recruiterImages[labelText.toLowerCase()];
-                            if (imgFile) {
-                                const yCoord = yAxis.getPixelForTick(index);
-                                const xCoord = yAxis.left - 38; 
-                                
-                                const img = new Image();
-                                img.src = imgFile;
-                                if (img.complete) {
-                                    ctx.save();
-                                    ctx.beginPath();
-                                    ctx.arc(xCoord + 12, yCoord, 14, 0, Math.PI * 2, true);
-                                    ctx.closePath();
-                                    ctx.clip();
-                                    ctx.drawImage(img, xCoord - 2, yCoord - 14, 28, 28);
-                                    ctx.restore();
-                                    
-                                    ctx.save();
-                                    ctx.beginPath();
-                                    ctx.arc(xCoord + 12, yCoord, 14, 0, Math.PI * 2, true);
-                                    ctx.lineWidth = 1.5;
-                                    ctx.strokeStyle = '#cbd5e1';
-                                    ctx.stroke();
-                                    ctx.restore();
-                                } else {
-                                    img.onload = () => chart.draw();
-                                }
-                            }
-                        });
-                    }
-                }]
+                }
             });
         }
 
