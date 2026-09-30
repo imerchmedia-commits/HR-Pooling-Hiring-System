@@ -30,7 +30,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-    <!-- LOGIN SCREEN NA MAY BAGONG BACKGROUND AT LOGO -->
+    <!-- LOGIN SCREEN -->
     <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: url('background2.png');">
         <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
 
@@ -291,15 +291,18 @@
                         </div>
                     </div>
 
-                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
+                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART (WITH FAST HTML PROFILE PICTURES) -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
                             <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>
                         </div>
                         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center">
+                            <!-- Left side: Custom Recruiter Names with Profile Pictures -->
                             <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4">
+                                <!-- Dynamic labels with pics will be injected here -->
                             </div>
+                            <!-- Right side: Clean Fast Canvas Bar Chart -->
                             <div class="lg:col-span-3 relative w-full" id="chartContainerWrapper" style="height: 320px;">
                                 <canvas id="recruiterChart"></canvas>
                             </div>
@@ -1214,6 +1217,7 @@
         }
 
         function renderTopToBottomChart(statsArray) {
+            // 1. Render Fast HTML Custom Labels with Profile Pictures sa Kaliwa
             const customLabelsContainer = document.getElementById('chartCustomLabels');
             customLabelsContainer.innerHTML = '';
             
@@ -1227,6 +1231,7 @@
                 customLabelsContainer.appendChild(div);
             });
 
+            // 2. Render Clean Bar Chart sa Kanan (Walang Y-axis labels para mas mabilis at malinis)
             const ctx = document.getElementById('recruiterChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
             
@@ -1278,7 +1283,7 @@
                             ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         },
                         y: {
-                            display: false,
+                            display: false, // Itinatago ang default text labels dahil nasa kaliwa na natin ang HTML profile pictures
                             grid: { display: false }
                         }
                     },
