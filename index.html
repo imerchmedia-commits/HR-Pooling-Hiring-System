@@ -1358,11 +1358,11 @@
                 if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
                     isDuplicate = globalRawSummaryData.allPoolingRecords.some(item => {
                         const existingName = (item.fullName || "").trim().toLowerCase();
-                        const existingContact = (item.contactNumber || "").trim();
+                        // Dito ginamit ang String() para ligtas kahit number o undefined ang laman
+                        const existingContact = String(item.contactNumber || "").trim();
                         return existingName === newNameInput && existingContact === newContactInput;
                     });
                 }
-
                 if (isDuplicate) {
                     alert("Duplicate Error: Ang pangalan at cellphone number na ito ay naka-pool na sa sistema!");
                     return;
