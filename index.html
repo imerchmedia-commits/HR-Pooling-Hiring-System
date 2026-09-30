@@ -1354,17 +1354,39 @@
                 const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
                 const newContactInput = document.getElementById('p_contact').value.trim();
 
-                let isDuplicate = false;
+                let isDuplicateName = false;
+                let isDuplicateContact = false;
+
                 if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
-                    isDuplicate = globalRawSummaryData.allPoolingRecords.some(item => {
+                    globalRawSummaryData.allPoolingRecords.some(item => {
                         const existingName = (item.fullName || "").trim().toLowerCase();
                         // Dito ginamit ang String() para ligtas kahit number o undefined ang laman
                         const existingContact = String(item.contactNumber || "").trim();
-                        return existingName === newNameInput && existingContact === newContactInput;
+
+                        // 1. Check kung may kaparehong pangalan
+                        if (existingName === newNameInput && newNameInput !== "") {
+                            isDuplicateName = true;
+                        }
+                        
+                        // 2. Check kung may kaparehong contact number
+                        if (existingContact === newContactInput && newContactInput !== "") {
+                            isDuplicateContact = true;
+                        }
+
+                        // Huminto agad kapag nahanap na ang alinman sa dalawa
+                        return isDuplicateName || isDuplicateContact;
                     });
                 }
-                if (isDuplicate) {
-                    alert("Duplicate Error: Ang pangalan at cellphone number na ito ay naka-pool na sa sistema!");
+
+                // Harangin kung may kapareho nang pangalan
+                if (isDuplicateName) {
+                    alert("Duplicate Error: Ang pangalan na ito ay naka-pool na sa sistema!");
+                    return;
+                }
+
+                // Harangin kung may kapareho nang contact number
+                if (isDuplicateContact) {
+                    alert("Duplicate Error: Ang cellphone number na ito ay nagamit na ng ibang aplikante!");
                     return;
                 }
 
@@ -1416,8 +1438,7 @@
                     document.getElementById('h_selected_pool_index').value = '';
                 }
 
-                // 2. ISA NALANG ANG TAWAG: Ang loadSummaryData() ay sapat na 
-                // dahil binabasa na rin nito ang hiring records para sa tenure at summary.
+                // 2. I-refresh ang data
                 await loadSummaryData();
                 
                 if (globalRawSummaryData && globalRawSummaryData.allHiringRecords) {
@@ -1431,7 +1452,7 @@
                 btn.textContent = originalText;
                 btn.disabled = false;
             }
-        } // <--- ETO ANG IDINAGDAG KO NA NAWOLANG CLOSING BRACKET PARA SA submitData
+        }
 
         async function addNewUser(e) {
             e.preventDefault();
