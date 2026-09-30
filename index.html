@@ -17,6 +17,15 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
+        /* Recruiter Profile Picture Styling (Pabilog at Realistic) */
+        .recruiter-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
@@ -534,6 +543,23 @@
         let clientChart = null; // New chart instance for client breakdown
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
+
+        // Recruiter Profile Pictures Mapping (GitHub root folder filenames)
+        const recruiterImages = {
+            "mercedes.dondonilla@imerchmedia.net": "hr merzy.png",
+            "beverly.batulanon@imerchmedia.net": "hr beverly.png",
+            "christian.moralde@imerchmedia.net": "hr christian.png",
+            "karla.sanpedro@imerchmedia.net": "hr karla.png",
+            "beverly.bosita@imerchmedia.net": "hr beverlybosita.png",
+            "sheena.gillo@imerchmedia.net": "hr sheena.png",
+            "judith.balquin@imerchmedia.net": "hr judith.png",
+            "anna.santos@imerchmedia.net": "hr anna.png",
+            "glenry.ramirez@imerchmedia.net": "hr glenry.png",
+            "generose.francisco@imerchmedia.net": "hr generose.png",
+            "geraldine.certifico@imerchmedia.net": "hr geraldine.png",
+            "mariely.haya@imerchmedia.net": "hr mariely.png",
+            "ellengrace.placido@imerchmedia.net": "hr ellen.png"
+        };
 
         // Custom Dropdown Pagination & Filtering states
         let dropdownCurrentPage = 1;
@@ -1091,9 +1117,12 @@
                 tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No recruiters found matching your search.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
+                    const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';
+                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
+                    
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.recruiter}</td>
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white flex items-center">${imgTag}<span>${item.recruiter}</span></td>
                         <td class="py-3 px-3">${item.pooled}</td>
                         <td class="py-3 px-3 text-emerald-600 dark:text-emerald-400">${item.hired}</td>
                         <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">${item.netActive}</td>
@@ -1145,6 +1174,10 @@
                 tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
+                    const recKey = (item.recruiter || "").toLowerCase();
+                    const imgFile = recruiterImages[recKey] || '';
+                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
+
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.date || 'N/A'}</td>
@@ -1152,7 +1185,7 @@
                         <td class="py-3 px-3">${item.area || 'N/A'}</td>
                         <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
                         <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.client || 'N/A'}</td>
-                        <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium">${item.recruiter || 'N/A'}</td>
+                        <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium flex items-center">${imgTag}<span>${item.recruiter || 'N/A'}</span></td>
                     `;
                     tbody.appendChild(tr);
                 });
@@ -1315,7 +1348,6 @@
                 const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
                 const newContactInput = document.getElementById('p_contact').value.trim();
 
-                // Duplication check across existing available pooling records
                 let isDuplicate = false;
                 if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
                     isDuplicate = globalRawSummaryData.allPoolingRecords.some(item => {
