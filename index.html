@@ -20,11 +20,12 @@
         
         /* Recruiter Profile Picture Styling (Pabilog at Realistic) */
         .recruiter-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #e2e8f0;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -540,7 +541,7 @@
         lucide.createIcons();
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4W3XYyH49m2i-BFI4yamkTSjj2wGsHyb_NRUIQKGt9AzQqWWdtdT7Fn_tkVGET26v/exec";
         let myChart = null;
-        let clientChart = null; // New chart instance for client breakdown
+        let clientChart = null; 
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
@@ -596,7 +597,6 @@
             if(document.getElementById('h_date')) document.getElementById('h_date').value = today;
             if(document.getElementById('calcStartDate')) document.getElementById('calcStartDate').value = today;
 
-            // Click outside to close custom dropdown
             document.addEventListener('click', function(e) {
                 const trigger = document.getElementById('customDropdownTrigger');
                 const panel = document.getElementById('customDropdownPanel');
@@ -780,7 +780,6 @@
             }
         }
 
-        // --- TENURE CALCULATOR & STATUS BADGE LOGIC ---
         function calculateTenure(dateHiredStr) {
             if (!dateHiredStr) return { text: "N/A", badge: `<span class="bg-slate-500/10 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold border border-slate-500/20">Unknown</span>` };
             
@@ -916,7 +915,6 @@
             }
         }
 
-        // --- CUSTOM SCROLLABLE & SEARCHABLE DROPDOWN LOGIC ---
         function toggleCustomDropdown() {
             const panel = document.getElementById('customDropdownPanel');
             panel.classList.toggle('hidden');
@@ -973,7 +971,6 @@
             const listContainer = document.getElementById('customDropdownList');
             listContainer.innerHTML = '';
 
-            // Add default "Piliin ang Kandidato" option
             if (dropdownCurrentPage === 1 && (!document.getElementById('customDropdownSearch').value)) {
                 const defaultDiv = document.createElement('div');
                 defaultDiv.className = "p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer text-slate-500 text-xs";
@@ -1176,6 +1173,7 @@
                 paginatedItems.forEach(item => {
                     const recKey = (item.recruiter || "").toLowerCase();
                     const imgFile = recruiterImages[recKey] || '';
+                    // May kasama nang pabilog na pic dito sa Detailed Hired Applicants Log
                     const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
 
                     const tr = document.createElement('tr');
@@ -1235,7 +1233,7 @@
                 myChart.destroy();
             }
 
-            const labels = statsArray.map(item => item.recruiter);
+            const rawLabels = statsArray.map(item => item.recruiter);
             const pooledData = statsArray.map(item => item.pooled);
             const hiredData = statsArray.map(item => item.hired);
 
@@ -1246,7 +1244,7 @@
             myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: rawLabels,
                     datasets: [
                         {
                             label: 'Total Pooled',
@@ -1278,15 +1276,71 @@
                         },
                         y: {
                             grid: { display: false },
-                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11, weight: 'bold' } }
+                            ticks: { 
+                                color: isDark ? '#cbd5e1' : '#334155', 
+                                font: { size: 11, weight: 'bold' },
+                                // May kasama na ring pabilog na pic sa Y-axis labels ng Horizontal Graph
+                                callback: function(value, index) {
+                                    const labelVal = this.getLabelForValue(value);
+                                    return labelVal;
+                                }
+                            }
                         }
                     },
                     plugins: {
                         legend: {
                             labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
+                        },
+                        // Custom HTML Tooltip / Image label display extension kung kailangan
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return context[0].label;
+                                }
+                            }
                         }
                     }
-                }
+                },
+                plugins: [{
+                    id: 'yAxisImages',
+                    afterDraw: (chart) => {
+                        const ctx = chart.ctx;
+                        const yAxis = chart.scales.y;
+                        
+                        yAxis.ticks.forEach((tick, index) => {
+                            const labelText = yAxis.getLabelForValue(tick.value);
+                            const imgFile = recruiterImages[labelText.toLowerCase()];
+                            if (imgFile) {
+                                const yCoord = yAxis.getPixelForTick(index);
+                                const xCoord = yAxis.left - 38; // Posisyon sa kaliwa ng Y-axis label
+                                
+                                // I-draw ang pabilog na imahe gamit ang canvas arc clipping
+                                const img = new Image();
+                                img.src = imgFile;
+                                if (img.complete) {
+                                    ctx.save();
+                                    ctx.beginPath();
+                                    ctx.arc(xCoord + 12, yCoord, 14, 0, Math.PI * 2, true);
+                                    ctx.closePath();
+                                    ctx.clip();
+                                    ctx.drawImage(img, xCoord - 2, yCoord - 14, 28, 28);
+                                    ctx.restore();
+                                    
+                                    // Border sa paligid ng pabilog na larawan
+                                    ctx.save();
+                                    ctx.beginPath();
+                                    ctx.arc(xCoord + 12, yCoord, 14, 0, Math.PI * 2, true);
+                                    ctx.lineWidth = 1.5;
+                                    ctx.strokeStyle = '#cbd5e1';
+                                    ctx.stroke();
+                                    ctx.restore();
+                                } else {
+                                    img.onload = () => chart.draw();
+                                }
+                            }
+                        });
+                    }
+                }]
             });
         }
 
