@@ -30,119 +30,119 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-    <!-- LOGIN SCREEN NA MAY BAGONG BACKGROUND AT LOGO -->
-    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: url('background2.png');">[cite: 5]
-        <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>[cite: 5]
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: url('background2.png');">
+        <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-sm"></div>
 
-        <div class="relative bg-slate-900/90 border border-slate-700/80 rounded-2xl p-8 max-w-md w-full shadow-2xl backdrop-blur-md">[cite: 5]
-            <div class="text-center mb-6">[cite: 5]
-                <img src="IMwhite.png" alt="iMerch Logo" class="h-10 mx-auto mb-3 object-contain">[cite: 5]
-                <h2 class="text-2xl font-bold tracking-tight text-white"> HR Recruiter Pooling & Hiring System</h2>[cite: 5]
-                <p class="text-xs text-slate-400 mt-1">Enter your @imerchmedia.net / .com credentials</p>[cite: 5]
+        <div class="relative bg-slate-900/90 border border-slate-700/80 rounded-2xl p-8 max-w-md w-full shadow-2xl backdrop-blur-md">
+            <div class="text-center mb-6">
+                <img src="IMwhite.png" alt="iMerch Logo" class="h-10 mx-auto mb-3 object-contain">
+                <h2 class="text-2xl font-bold tracking-tight text-white"> HR Recruiter Pooling & Hiring System</h2>
+                <p class="text-xs text-slate-400 mt-1">Enter your @imerchmedia.net / .com credentials</p>
             </div>
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">[cite: 5]
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Company Email</label>[cite: 5]
-                    <input type="email" id="emailInput" required placeholder="name@imerchmedia.net" [cite: 5]
-                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">[cite: 5]
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Company Email</label>
+                    <input type="email" id="emailInput" required placeholder="name@imerchmedia.net" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>[cite: 5]
-                    <input type="password" id="passwordInput" required placeholder="••••••••" [cite: 5]
-                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">[cite: 5]
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Password</label>
+                    <input type="password" id="passwordInput" required placeholder="••••••••" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition text-sm">
                 </div>
-                <button type="submit" id="loginBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">[cite: 5]
+                <button type="submit" id="loginBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-indigo-600/30 text-sm">
                     Access Portal
                 </button>
-                <p id="loginError" class="text-red-400 text-xs text-center hidden">Invalid email or password. Please try again.</p>[cite: 5]
+                <p id="loginError" class="text-red-400 text-xs text-center hidden">Invalid email or password. Please try again.</p>
             </form>
         </div>
     </div>
 
     <!-- MAIN APP CONTAINER -->
-    <div id="appContainer" class="hidden flex-col flex-1">[cite: 5]
-        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-colors">[cite: 5]
-            <div class="flex items-center space-x-3">[cite: 5]
-                <img src="IMwhite.png" alt="iMerch Logo" class="h-7 object-contain">[cite: 5]
+    <div id="appContainer" class="hidden flex-col flex-1">
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 px-6 py-4 flex justify-between items-center transition-colors">
+            <div class="flex items-center space-x-3">
+                <img src="IMwhite.png" alt="iMerch Logo" class="h-7 object-contain">
                 <div>
-                    <h1 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">[cite: 5]
+                    <h1 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         Pooling & Hiring System
-                        <span id="roleBadge" class="hidden bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>[cite: 5]
+                        <span id="roleBadge" class="hidden bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] px-2 py-0.5 rounded-full border border-amber-500/20 font-semibold">ADMIN</span>
                     </h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400" id="userDisplayEmail">user@imerchmedia.net</p>[cite: 5]
+                    <p class="text-xs text-slate-500 dark:text-slate-400" id="userDisplayEmail">user@imerchmedia.net</p>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-2">[cite: 5]
-                <button onclick="toggleTheme()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">[cite: 5]
-                    <i id="themeIcon" data-lucide="sun" class="w-4 h-4"></i>[cite: 5]
-                    <span id="themeText">Light Mode</span>[cite: 5]
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleTheme()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">
+                    <i id="themeIcon" data-lucide="sun" class="w-4 h-4"></i>
+                    <span id="themeText">Light Mode</span>
                 </button>
 
-                <button onclick="handleLogout()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-red-500/20 hover:text-red-500 dark:hover:text-red-400 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">[cite: 5]
-                    <i data-lucide="log-out" class="w-4 h-4"></i>[cite: 5]
-                    <span>Logout</span>[cite: 5]
+                <button onclick="handleLogout()" class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-red-500/20 hover:text-red-500 dark:hover:text-red-400 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-slate-700">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span>Logout</span>
                 </button>
             </div>
         </header>
 
-        <div class="max-w-7xl w-full mx-auto px-6 mt-6">[cite: 5]
-            <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-0 overflow-x-auto">[cite: 5]
-                <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-slate-100 dark:bg-slate-900/50 rounded-t-xl transition whitespace-nowrap">[cite: 5]
-                    <i data-lucide="users" class="w-4 h-4"></i>[cite: 5]
-                    <span>1. Pooling (Target: 30/day)</span>[cite: 5]
+        <div class="max-w-7xl w-full mx-auto px-6 mt-6">
+            <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-0 overflow-x-auto">
+                <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-slate-100 dark:bg-slate-900/50 rounded-t-xl transition whitespace-nowrap">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    <span>1. Pooling (Target: 30/day)</span>
                 </button>
-                <button onclick="switchTab('hiring')" id="tabBtn-hiring" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">[cite: 5]
-                    <i data-lucide="user-check" class="w-4 h-4"></i>[cite: 5]
-                    <span>2. Hiring Tab (From Pool)</span>[cite: 5]
+                <button onclick="switchTab('hiring')" id="tabBtn-hiring" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                    <span>2. Hiring Tab (From Pool)</span>
                 </button>
-                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">[cite: 5]
-                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i>[cite: 5]
-                    <span>3. Summary & Analytics Graph</span>[cite: 5]
+                <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                    <span>3. Summary & Analytics Graph</span>
                 </button>
-                <button onclick="switchTab('tenure')" id="tabBtn-tenure" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition whitespace-nowrap">[cite: 5]
-                    <i data-lucide="clock" class="w-4 h-4"></i>[cite: 5]
-                    <span>4. Employee Tenure Tracker</span>[cite: 5]
+                <button onclick="switchTab('tenure')" id="tabBtn-tenure" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition whitespace-nowrap">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                    <span>4. Employee Tenure Tracker</span>
                 </button>
-                <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition whitespace-nowrap">[cite: 5]
-                    <i data-lucide="shield-alert" class="w-4 h-4"></i>[cite: 5]
-                    <span>5. Admin Controls</span>[cite: 5]
+                <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition whitespace-nowrap">
+                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                    <span>5. Admin Controls</span>
                 </button>
             </div>
 
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12 transition-colors">[cite: 5]
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12 transition-colors">
                 
                 <!-- TAB 1: POOLING -->
-                <div id="tabContent-pooling" class="tab-content space-y-6">[cite: 5]
-                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">[cite: 5]
+                <div id="tabContent-pooling" class="tab-content space-y-6">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Daily Pooling Entry</h2>[cite: 5]
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Standard quota: 30 candidates per day per recruiter.</p>[cite: 5]
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Daily Pooling Entry</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Standard quota: 30 candidates per day per recruiter.</p>
                         </div>
                     </div>
-                    <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">[cite: 5]
+                    <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>[cite: 5]
-                            <input type="text" id="p_name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
+                            <input type="text" id="p_name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>[cite: 5]
-                            <input type="text" id="p_address" required placeholder="e.g. Makati City" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>
+                            <input type="text" id="p_address" required placeholder="e.g. Makati City" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>[cite: 5]
-                            <input type="text" id="p_contact" required placeholder="09123456789" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>
+                            <input type="text" id="p_contact" required placeholder="09123456789" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>[cite: 5]
-                            <input type="text" id="p_area" required placeholder="e.g. NCR" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
+                            <input type="text" id="p_area" required placeholder="e.g. NCR" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date of Pooling</label>[cite: 5]
-                            <input type="date" id="p_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date of Pooling</label>
+                            <input type="date" id="p_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
                         <div class="flex items-end">
-                            <button type="submit" id="poolingSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">[cite: 5]
+                            <button type="submit" id="poolingSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
                                 Submit Pooling Record
                             </button>
                         </div>
@@ -150,87 +150,87 @@
                 </div>
 
                 <!-- TAB 2: HIRING -->
-                <div id="tabContent-hiring" class="tab-content hidden space-y-6">[cite: 5]
-                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">[cite: 5]
+                <div id="tabContent-hiring" class="tab-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Successful Hiring Entry (From Pool)</h2>[cite: 5]
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Pumili ng aplikante mula sa iyong pooling list para i-mark bilang hired at ibawas sa active pool.</p>[cite: 5]
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Successful Hiring Entry (From Pool)</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Pumili ng aplikante mula sa iyong pooling list para i-mark bilang hired at ibawas sa active pool.</p>
                         </div>
                     </div>
-                    <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">[cite: 5]
+                    <form id="hiringForm" onsubmit="submitData(event, 'Hiring')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
                         
-                        <div class="md:col-span-3 relative">[cite: 5]
-                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Pumili ng Aplikante mula sa Pooling List</label>[cite: 5]
-                            <input type="hidden" id="h_selected_pool_index" required>[cite: 5]
+                        <div class="md:col-span-3 relative">
+                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Pumili ng Aplikante mula sa Pooling List</label>
+                            <input type="hidden" id="h_selected_pool_index" required>
                             
-                            <div id="customDropdownTrigger" onclick="toggleCustomDropdown()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 cursor-pointer flex justify-between items-center">[cite: 5]
-                                <span id="customDropdownSelectedText" class="truncate">-- Piliin ang Kandidato --</span>[cite: 5]
-                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>[cite: 5]
+                            <div id="customDropdownTrigger" onclick="toggleCustomDropdown()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 cursor-pointer flex justify-between items-center">
+                                <span id="customDropdownSelectedText" class="truncate">-- Piliin ang Kandidato --</span>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                             </div>
 
-                            <div id="customDropdownPanel" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-2xl z-50 p-3 space-y-3">[cite: 5]
+                            <div id="customDropdownPanel" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl shadow-2xl z-50 p-3 space-y-3">
                                 <div class="relative">
-                                    <input type="text" id="customDropdownSearch" oninput="filterCustomDropdownOptions()" placeholder="Maghanap ng aplikante o area..." [cite: 5]
-                                        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">[cite: 5]
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"></i>[cite: 5]
+                                    <input type="text" id="customDropdownSearch" oninput="filterCustomDropdownOptions()" placeholder="Maghanap ng aplikante o area..." 
+                                        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3"></i>
                                 </div>
 
-                                <div id="customDropdownList" class="max-h-48 overflow-y-auto space-y-1 divide-y divide-slate-100 dark:divide-slate-800">[cite: 5]
+                                <div id="customDropdownList" class="max-h-48 overflow-y-auto space-y-1 divide-y divide-slate-100 dark:divide-slate-800">
                                 </div>
 
-                                <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">[cite: 5]
-                                    <span id="dropdownPaginationInfo">Showing 0-0 of 0</span>[cite: 5]
-                                    <div class="flex items-center gap-1.5">[cite: 5]
-                                        <button type="button" onclick="changeDropdownPage(-1)" id="dropdownPrevBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Prev</button>[cite: 5]
-                                        <span id="dropdownPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>[cite: 5]
-                                        <button type="button" onclick="changeDropdownPage(1)" id="dropdownNextBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Next</button>[cite: 5]
+                                <div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">
+                                    <span id="dropdownPaginationInfo">Showing 0-0 of 0</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <button type="button" onclick="changeDropdownPage(-1)" id="dropdownPrevBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Prev</button>
+                                        <span id="dropdownPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                        <button type="button" onclick="changeDropdownPage(1)" id="dropdownNextBtn" class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2.5 py-1 rounded hover:bg-slate-200 transition disabled:opacity-40">Next</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>[cite: 5]
-                            <input type="text" id="h_name" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
+                            <input type="text" id="h_name" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>[cite: 5]
-                            <input type="text" id="h_address" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>
+                            <input type="text" id="h_address" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>[cite: 5]
-                            <input type="text" id="h_contact" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Contact Number</label>
+                            <input type="text" id="h_contact" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>[cite: 5]
-                            <input type="text" id="h_area" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
+                            <input type="text" id="h_area" readonly class="w-full bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Client</label>[cite: 5]
-                            <select id="h_client" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">[cite: 5]
-                                <option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Client --</option>[cite: 5]
-                                <option value="NutriAsia">NutriAsia</option>[cite: 5]
-                                <option value="URATEX">URATEX</option>[cite: 5]
-                                <option value="SERTA">SERTA</option>[cite: 5]
-                                <option value="TWG AVSC">TWG AVSC</option>[cite: 5]
-                                <option value="TWG IAJWC">TWG IAJWC</option>[cite: 5]
-                                <option value="DELFI">DELFI</option>[cite: 5]
-                                <option value="LIFESTRONG">LIFESTRONG</option>[cite: 5]
-                                <option value="FRABELLE">FRABELLE</option>[cite: 5]
-                                <option value="BNF ASIA">BNF ASIA</option>[cite: 5]
-                                <option value="SANICARE">SANICARE</option>[cite: 5]
-                                <option value="C-JOY">C-JOY</option>[cite: 5]
-                                <option value="COL-PAL">COL-PAL</option>[cite: 5]
-                                <option value="PRAN">PRAN</option>[cite: 5]
-                                <option value="CAMEL">CAMEL</option>[cite: 5]
+                            <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Client</label>
+                            <select id="h_client" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                <option value="" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">-- Piliin ang Client --</option>
+                                <option value="NutriAsia">NutriAsia</option>
+                                <option value="URATEX">URATEX</option>
+                                <option value="SERTA">SERTA</option>
+                                <option value="TWG AVSC">TWG AVSC</option>
+                                <option value="TWG IAJWC">TWG IAJWC</option>
+                                <option value="DELFI">DELFI</option>
+                                <option value="LIFESTRONG">LIFESTRONG</option>
+                                <option value="FRABELLE">FRABELLE</option>
+                                <option value="BNF ASIA">BNF ASIA</option>
+                                <option value="SANICARE">SANICARE</option>
+                                <option value="C-JOY">C-JOY</option>
+                                <option value="COL-PAL">COL-PAL</option>
+                                <option value="PRAN">PRAN</option>
+                                <option value="CAMEL">CAMEL</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date Hired</label>[cite: 5]
-                            <input type="date" id="h_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">[cite: 5]
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date Hired</label>
+                            <input type="date" id="h_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                         </div>
                         <div class="md:col-span-3 flex items-end">
-                            <button type="submit" id="hiringSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">[cite: 5]
+                            <button type="submit" id="hiringSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
                                 Submit Hiring (Mark as Hired)
                             </button>
                         </div>
@@ -238,287 +238,287 @@
                 </div>
 
                 <!-- TAB 3: SUMMARY & GRAPH -->
-                <div id="tabContent-summary" class="tab-content hidden space-y-6">[cite: 5]
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">[cite: 5]
+                <div id="tabContent-summary" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Performance Analytics & Recruiter Breakdown</h2>[cite: 5]
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Net Active Pool = Total Pooled minus Total Hired.</p>[cite: 5]
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Performance Analytics & Recruiter Breakdown</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Net Active Pool = Total Pooled minus Total Hired.</p>
                         </div>
                         <div class="flex items-center gap-2 w-full md:w-auto">
-                            <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">[cite: 5]
+                            <button onclick="loadSummaryData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
                             </button>
                         </div>
                     </div>
 
                     <!-- ADMIN CALENDAR / DATE FILTER & EXPORT CONTROLS -->
-                    <div id="adminCalendarFilterSection" class="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">[cite: 5]
+                    <div id="adminCalendarFilterSection" class="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                             <div class="flex items-center gap-1.5">
-                                <i data-lucide="calendar" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>[cite: 5]
-                                <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Date/Week Filter:</span>[cite: 5]
+                                <i data-lucide="calendar" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+                                <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Date/Week Filter:</span>
                             </div>
-                            <select id="filterMode" onchange="toggleFilterInputs()" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">[cite: 5]
-                                <option value="all">All Time</option>[cite: 5]
-                                <option value="day">Specific Day</option>[cite: 5]
-                                <option value="week">Specific Week</option>[cite: 5]
+                            <select id="filterMode" onchange="toggleFilterInputs()" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                                <option value="all">All Time</option>
+                                <option value="day">Specific Day</option>
+                                <option value="week">Specific Week</option>
                             </select>
                             
-                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">[cite: 5]
-                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">[cite: 5]
+                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                         </div>
 
                         <!-- EXPORT BUTTON ADMIN ONLY -->
-                        <div class="flex items-center gap-2 w-full md:w-auto justify-end">[cite: 5]
-                            <button id="exportSummaryBtn" onclick="exportRecruiterSummary()" class="hidden admin-only bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">[cite: 5]
-                                <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Summary (CSV)[cite: 5]
+                        <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                            <button id="exportSummaryBtn" onclick="exportRecruiterSummary()" class="hidden admin-only bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Summary (CSV)
                             </button>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 shadow">[cite: 5]
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total Pooled (Filtered)</p>[cite: 5]
-                            <h3 id="totalPooledCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>[cite: 5]
+                        <div class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total Pooled (Filtered)</p>
+                            <h3 id="totalPooledCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
-                        <div class="bg-gradient-to-br from-emerald-50 to-slate-100 dark:from-emerald-950 dark:to-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 shadow">[cite: 5]
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Hired (Filtered)</p>[cite: 5]
-                            <h3 id="totalHiredCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>[cite: 5]
+                        <div class="bg-gradient-to-br from-emerald-50 to-slate-100 dark:from-emerald-950 dark:to-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Hired (Filtered)</p>
+                            <h3 id="totalHiredCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
-                        <div class="bg-gradient-to-br from-indigo-50 to-slate-100 dark:from-indigo-950 dark:to-slate-900 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50 shadow">[cite: 5]
-                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Conversion Rate</p>[cite: 5]
-                            <h3 id="conversionRate" class="text-2xl font-black text-indigo-600 dark:text-indigo-300 mt-1">0%</h3>[cite: 5]
+                        <div class="bg-gradient-to-br from-indigo-50 to-slate-100 dark:from-indigo-950 dark:to-slate-900 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Conversion Rate</p>
+                            <h3 id="conversionRate" class="text-2xl font-black text-indigo-600 dark:text-indigo-300 mt-1">0%</h3>
                         </div>
                     </div>
 
                     <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>[cite: 5]
-                            <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>[cite: 5]
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
+                            <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>
                         </div>
-                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center">[cite: 5]
-                            <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4">[cite: 5]
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center">
+                            <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4">
                             </div>
-                            <div class="lg:col-span-3 relative w-full" id="chartContainerWrapper" style="height: 320px;">[cite: 5]
-                                <canvas id="recruiterChart"></canvas>[cite: 5]
+                            <div class="lg:col-span-3 relative w-full" id="chartContainerWrapper" style="height: 320px;">
+                                <canvas id="recruiterChart"></canvas>
                             </div>
                         </div>
                     </div>
 
                     <!-- CLIENT BREAKDOWN ANALYTICS GRAPH -->
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Hired Employees Breakdown per Client</h3>[cite: 5]
-                            <span class="text-[10px] text-slate-500">Total Hired per Client Distribution</span>[cite: 5]
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Hired Employees Breakdown per Client</h3>
+                            <span class="text-[10px] text-slate-500">Total Hired per Client Distribution</span>
                         </div>
-                        <div class="relative w-full" style="height: 280px;">[cite: 5]
-                            <canvas id="clientAnalyticsChart"></canvas>[cite: 5]
+                        <div class="relative w-full" style="height: 280px;">
+                            <canvas id="clientAnalyticsChart"></canvas>
                         </div>
                     </div>
 
                     <!-- RECRUITER BREAKDOWN TABLE -->
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>[cite: 5]
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Recruiter Breakdown (Pooled vs Hired vs Net Active Pool)</h3>
                             <div class="flex items-center gap-2 w-full md:w-auto">
                                 <div class="relative w-full md:w-64">
-                                    <input type="text" id="recruiterSearchInput" oninput="handleRecruiterSearch()" placeholder="Search recruiter name..." [cite: 5]
-                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>[cite: 5]
+                                    <input type="text" id="recruiterSearchInput" oninput="handleRecruiterSearch()" placeholder="Search recruiter name..." 
+                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
                                 </div>
                             </div>
                         </div>
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">[cite: 5]
-                                    <th class="py-2 px-3">Recruiter</th>[cite: 5]
-                                    <th class="py-2 px-3">Total Pooled</th>[cite: 5]
-                                    <th class="py-2 px-3">Total Hired</th>[cite: 5]
-                                    <th class="py-2 px-3 text-indigo-600 dark:text-indigo-400 font-bold">Net Active Pool (Pooled - Hired)</th>[cite: 5]
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Recruiter</th>
+                                    <th class="py-2 px-3">Total Pooled</th>
+                                    <th class="py-2 px-3">Total Hired</th>
+                                    <th class="py-2 px-3 text-indigo-600 dark:text-indigo-400 font-bold">Net Active Pool (Pooled - Hired)</th>
                                 </tr>
                             </thead>
-                            <tbody id="recruiterTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">[cite: 5]
+                            <tbody id="recruiterTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="4" class="py-4 text-center text-slate-500">Loading recruiter breakdown...</td>[cite: 5]
+                                    <td colspan="4" class="py-4 text-center text-slate-500">Loading recruiter breakdown...</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
-                            <span id="recruiterPaginationInfo">Showing 0 of 0 entries</span>[cite: 5]
+                            <span id="recruiterPaginationInfo">Showing 0 of 0 entries</span>
                             <div class="flex items-center gap-2">
-                                <button onclick="changeRecruiterPage(-1)" id="recruiterPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>[cite: 5]
-                                <span id="recruiterPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>[cite: 5]
-                                <button onclick="changeRecruiterPage(1)" id="recruiterNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>[cite: 5]
+                                <button onclick="changeRecruiterPage(-1)" id="recruiterPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="recruiterPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button onclick="changeRecruiterPage(1)" id="recruiterNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- DETAILED HIRED APPLICANTS LOG TABLE -->
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6 space-y-4">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto mt-6 space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                             <div class="flex items-center gap-3">
-                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Detailed Hired Applicants Log</h3>[cite: 5]
-                                <span id="hiredCountBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">0 Hired Records</span>[cite: 5]
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Detailed Hired Applicants Log</h3>
+                                <span id="hiredCountBadge" class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/20 font-semibold">0 Hired Records</span>
                             </div>
                             <div class="flex items-center gap-2 w-full md:w-auto">
                                 <div class="relative w-full md:w-64">
-                                    <input type="text" id="hiredSearchInput" oninput="handleHiredSearch()" placeholder="Search applicant or recruiter..." [cite: 5]
-                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">[cite: 5]
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>[cite: 5]
+                                    <input type="text" id="hiredSearchInput" oninput="handleHiredSearch()" placeholder="Search applicant or recruiter..." 
+                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
                                 </div>
                             </div>
                         </div>
                         <table class="w-full text-left text-xs">
                             <thead>
-                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">[cite: 5]
-                                    <th class="py-2 px-3">Date Hired</th>[cite: 5]
-                                    <th class="py-2 px-3">Applicant Name</th>[cite: 5]
-                                    <th class="py-2 px-3">Area</th>[cite: 5]
-                                    <th class="py-2 px-3">Contact Number</th>[cite: 5]
-                                    <th class="py-2 px-3">Client</th>[cite: 5]
-                                    <th class="py-2 px-3">Recruiter</th>[cite: 5]
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Date Hired</th>
+                                    <th class="py-2 px-3">Applicant Name</th>
+                                    <th class="py-2 px-3">Area</th>
+                                    <th class="py-2 px-3">Contact Number</th>
+                                    <th class="py-2 px-3">Client</th>
+                                    <th class="py-2 px-3">Recruiter</th>
                                 </tr>
                             </thead>
-                            <tbody id="detailedHiredTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">[cite: 5]
+                            <tbody id="detailedHiredTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="6" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td>[cite: 5]
+                                    <td colspan="6" class="py-4 text-center text-slate-500">No hiring records found for this filter.</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
-                            <span id="hiredPaginationInfo">Showing 0 of 0 entries</span>[cite: 5]
+                            <span id="hiredPaginationInfo">Showing 0 of 0 entries</span>
                             <div class="flex items-center gap-2">
-                                <button onclick="changeHiredPage(-1)" id="hiredPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>[cite: 5]
-                                <span id="hiredPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>[cite: 5]
-                                <button onclick="changeHiredPage(1)" id="hiredNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>[cite: 5]
+                                <button onclick="changeHiredPage(-1)" id="hiredPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="hiredPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button onclick="changeHiredPage(1)" id="hiredNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 4: EMPLOYEE TENURE TRACKER -->
-                <div id="tabContent-tenure" class="tab-content hidden space-y-6">[cite: 5]
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">[cite: 5]
+                <div id="tabContent-tenure" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">[cite: 5]
-                                <i data-lucide="clock" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i> Employee Tenure Tracker & Status Dashboard[cite: 5]
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <i data-lucide="clock" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i> Employee Tenure Tracker & Status Dashboard
                             </h2>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Real-time computation ng length of service at automatikong status badge para sa bawat empleyado.</p>[cite: 5]
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Real-time computation ng length of service at automatikong status badge para sa bawat empleyado.</p>
                         </div>
                         <div class="flex items-center gap-2 w-full md:w-auto">
-                            <button onclick="exportTenureToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">[cite: 5]
-                                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Export via Excel[cite: 5]
+                            <button onclick="exportTenureToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shadow">
+                                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Export via Excel
                             </button>
-                            <button onclick="loadTenureData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">[cite: 5]
+                            <button onclick="loadTenureData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-lg text-xs transition flex items-center gap-1.5 whitespace-nowrap">
                                 <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Tracker
                             </button>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-indigo-900/10 to-slate-900/20 border border-indigo-200 dark:border-indigo-900/40 p-5 rounded-xl space-y-4">[cite: 5]
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400">Quick Tenure Calculator</h3>[cite: 5]
+                    <div class="bg-gradient-to-r from-indigo-900/10 to-slate-900/20 border border-indigo-200 dark:border-indigo-900/40 p-5 rounded-xl space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400">Quick Tenure Calculator</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Pumili o I-type ang Date Hired</label>[cite: 5]
-                                <input type="date" id="calcStartDate" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Pumili o I-type ang Date Hired</label>
+                                <input type="date" id="calcStartDate" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                             </div>
                             <div>
-                                <button onclick="calculateManualTenure()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">[cite: 5]
+                                <button onclick="calculateManualTenure()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
                                     Calculate Tenure & Status
                                 </button>
                             </div>
                             <div>
-                                <div id="calcResultBox" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 hidden">[cite: 5]
-                                    <span class="font-bold text-indigo-600 dark:text-indigo-400" id="calcTenureOutput">-</span>[cite: 5]
-                                    <div class="mt-1" id="calcBadgeOutput">-</div>[cite: 5]
+                                <div id="calcResultBox" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 hidden">
+                                    <span class="font-bold text-indigo-600 dark:text-indigo-400" id="calcTenureOutput">-</span>
+                                    <div class="mt-1" id="calcBadgeOutput">-</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
                         <div class="flex flex-col md:flex-row justify-between items-center gap-3">
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Active Hired Employees Tenure List</h3>[cite: 5]
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Active Hired Employees Tenure List</h3>
                             <div class="flex items-center gap-2 w-full md:w-auto">
                                 <div class="relative w-full md:w-64">
-                                    <input type="text" id="tenureSearchInput" oninput="handleTenureSearch()" placeholder="Search employee, area, or recruiter..." [cite: 5]
-                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">[cite: 5]
-                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>[cite: 5]
+                                    <input type="text" id="tenureSearchInput" oninput="handleTenureSearch()" placeholder="Search employee, area, or recruiter..." 
+                                        class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
                                 </div>
                             </div>
                         </div>
                         <table id="employeeTable" class="w-full text-left text-xs">
                             <thead>
-                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">[cite: 5]
-                                    <th class="py-2 px-3">Employee Name</th>[cite: 5]
-                                    <th class="py-2 px-3">Area / Contact</th>[cite: 5]
-                                    <th class="py-2 px-3">Client</th>[cite: 5]
-                                    <th class="py-2 px-3">Recruiter Name</th>[cite: 5]
-                                    <th class="py-2 px-3">Date Hired</th>[cite: 5]
-                                    <th class="py-2 px-3">Length of Service (Tenure)</th>[cite: 5]
-                                    <th class="py-2 px-3">Status Badge</th>[cite: 5]
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Employee Name</th>
+                                    <th class="py-2 px-3">Area / Contact</th>
+                                    <th class="py-2 px-3">Client</th>
+                                    <th class="py-2 px-3">Recruiter Name</th>
+                                    <th class="py-2 px-3">Date Hired</th>
+                                    <th class="py-2 px-3">Length of Service (Tenure)</th>
+                                    <th class="py-2 px-3">Status Badge</th>
                                 </tr>
                             </thead>
-                            <tbody id="tenureTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">[cite: 5]
+                            <tbody id="tenureTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                 <tr>
-                                    <td colspan="7" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>[cite: 5]
+                                    <td colspan="7" class="py-4 text-center text-slate-500">Loading employee tenure records...</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
-                            <span id="tenurePaginationInfo">Showing 0 of 0 entries</span>[cite: 5]
+                            <span id="tenurePaginationInfo">Showing 0 of 0 entries</span>
                             <div class="flex items-center gap-2">
-                                <button onclick="changeTenurePage(-1)" id="tenurePrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>[cite: 5]
-                                <span id="tenurePageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>[cite: 5]
-                                <button onclick="changeTenurePage(1)" id="tenureNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>[cite: 5]
+                                <button onclick="changeTenurePage(-1)" id="tenurePrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="tenurePageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button onclick="changeTenurePage(1)" id="tenureNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- TAB 5: ADMIN CONTROLS -->
-                <div id="tabContent-admin" class="tab-content hidden space-y-6">[cite: 5]
-                    <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-4 rounded-xl">[cite: 5]
-                        <h2 class="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">[cite: 5]
-                            <i data-lucide="shield-check" class="w-4 h-4"></i> Admin Management Console[cite: 5]
+                <div id="tabContent-admin" class="tab-content hidden space-y-6">
+                    <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-4 rounded-xl">
+                        <h2 class="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i> Admin Management Console
                         </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Manage user accounts and add recruiters.</p>[cite: 5]
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Manage user accounts and add recruiters.</p>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">[cite: 5]
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>[cite: 5]
-                        <form onsubmit="addNewUser(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3">Add New Recruiter / Admin Account</h3>
+                        <form onsubmit="addNewUser(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Company Email</label>[cite: 5]
-                                <input type="email" id="new_email" required placeholder="recruiter@imerchmedia.net" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">[cite: 5]
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Company Email</label>
+                                <input type="email" id="new_email" required placeholder="recruiter@imerchmedia.net" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Temporary Password</label>[cite: 5]
-                                <input type="text" id="new_pass" required placeholder="Password123" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">[cite: 5]
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Temporary Password</label>
+                                <input type="text" id="new_pass" required placeholder="Password123" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
                             </div>
                             <div>
-                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Role</label>[cite: 5]
-                                <select id="new_role" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">[cite: 5]
-                                    <option value="Recruiter">Recruiter</option>[cite: 5]
-                                    <option value="Admin">Admin</option>[cite: 5]
+                                <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Role</label>
+                                <select id="new_role" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white">
+                                    <option value="Recruiter">Recruiter</option>
+                                    <option value="Admin">Admin</option>
                                 </select>
                             </div>
                             <div class="md:col-span-3">
-                                <button type="submit" id="addUserBtn" class="bg-amber-600 hover:bg-amber-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">[cite: 5]
+                                <button type="submit" id="addUserBtn" class="bg-amber-600 hover:bg-amber-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
                                     Save User to Database
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">[cite: 5]
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
                         <div>
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Data Backup & Export</h3>[cite: 5]
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Buksan ang Google Sheet para sa direct viewing.</p>[cite: 5]
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Data Backup & Export</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Buksan ang Google Sheet para sa direct viewing.</p>
                         </div>
-                        <a href="https://docs.google.com/spreadsheets" target="_blank" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-300 dark:border-slate-700 flex items-center gap-2">[cite: 5]
-                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Google Sheet[cite: 5]
+                        <a href="https://docs.google.com/spreadsheets" target="_blank" class="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-xs font-medium border border-slate-300 dark:border-slate-700 flex items-center gap-2">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Google Sheet
                         </a>
                     </div>
                 </div>
@@ -530,26 +530,26 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4W3XYyH49m2i-BFI4yamkTSjj2wGsHyb_NRUIQKGt9AzQqWWdtdT7Fn_tkVGET26v/exec";[cite: 5]
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4W3XYyH49m2i-BFI4yamkTSjj2wGsHyb_NRUIQKGt9AzQqWWdtdT7Fn_tkVGET26v/exec";
         let myChart = null;
         let clientChart = null; 
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
         const recruiterImages = {
-            "mercedes.dondonilla@imerchmedia.net": "hr merzy.png",[cite: 5]
-            "beverly.batulanon@imerchmedia.net": "hr beverly.png",[cite: 5]
-            "christian.moralde@imerchmedia.net": "hr christian.png",[cite: 5]
-            "karla.sanpedro@imerchmedia.net": "hr karla.png",[cite: 5]
-            "beverly.bosita@imerchmedia.net": "hr beverlybosita.png",[cite: 5]
-            "sheena.gillo@imerchmedia.net": "hr sheena.png",[cite: 5]
-            "judith.balquin@imerchmedia.net": "hr judith.png",[cite: 5]
-            "anna.santos@imerchmedia.net": "hr anna.png",[cite: 5]
-            "glenry.ramirez@imerchmedia.net": "hr glenry.png",[cite: 5]
-            "generose.francisco@imerchmedia.net": "hr generose.png",[cite: 5]
-            "geraldine.certifico@imerchmedia.net": "hr geraldine.png",[cite: 5]
-            "mariely.haya@imerchmedia.net": "hr mariely.png",[cite: 5]
-            "ellengrace.placido@imerchmedia.net": "hr ellen.png"[cite: 5]
+            "mercedes.dondonilla@imerchmedia.net": "hr merzy.png",
+            "beverly.batulanon@imerchmedia.net": "hr beverly.png",
+            "christian.moralde@imerchmedia.net": "hr christian.png",
+            "karla.sanpedro@imerchmedia.net": "hr karla.png",
+            "beverly.bosita@imerchmedia.net": "hr beverlybosita.png",
+            "sheena.gillo@imerchmedia.net": "hr sheena.png",
+            "judith.balquin@imerchmedia.net": "hr judith.png",
+            "anna.santos@imerchmedia.net": "hr anna.png",
+            "glenry.ramirez@imerchmedia.net": "hr glenry.png",
+            "generose.francisco@imerchmedia.net": "hr generose.png",
+            "geraldine.certifico@imerchmedia.net": "hr geraldine.png",
+            "mariely.haya@imerchmedia.net": "hr mariely.png",
+            "ellengrace.placido@imerchmedia.net": "hr ellen.png"
         };
 
         let dropdownCurrentPage = 1;
@@ -566,301 +566,301 @@
         let tenureCurrentPage = 1;
 
         window.onload = function() {
-            const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";[cite: 5]
+            const savedTheme = localStorage.getItem("imerch_hr_theme") || "dark";
             if (savedTheme === "light") {
-                document.documentElement.classList.remove('dark');[cite: 5]
-                updateThemeButtonUI("light");[cite: 5]
+                document.documentElement.classList.remove('dark');
+                updateThemeButtonUI("light");
             } else {
-                document.documentElement.classList.add('dark');[cite: 5]
-                updateThemeButtonUI("dark");[cite: 5]
+                document.documentElement.classList.add('dark');
+                updateThemeButtonUI("dark");
             }
 
-            const savedUser = localStorage.getItem("imerch_hr_user");[cite: 5]
-            const savedRole = localStorage.getItem("imerch_hr_role");[cite: 5]
+            const savedUser = localStorage.getItem("imerch_hr_user");
+            const savedRole = localStorage.getItem("imerch_hr_role");
             if (savedUser && savedRole) {
-                initApp(savedUser, savedRole);[cite: 5]
+                initApp(savedUser, savedRole);
             }
-            const today = new Date().toISOString().split('T')[0];[cite: 5]
-            if(document.getElementById('p_date')) document.getElementById('p_date').value = today;[cite: 5]
-            if(document.getElementById('h_date')) document.getElementById('h_date').value = today;[cite: 5]
-            if(document.getElementById('calcStartDate')) document.getElementById('calcStartDate').value = today;[cite: 5]
+            const today = new Date().toISOString().split('T')[0];
+            if(document.getElementById('p_date')) document.getElementById('p_date').value = today;
+            if(document.getElementById('h_date')) document.getElementById('h_date').value = today;
+            if(document.getElementById('calcStartDate')) document.getElementById('calcStartDate').value = today;
 
             document.addEventListener('click', function(e) {
-                const trigger = document.getElementById('customDropdownTrigger');[cite: 5]
-                const panel = document.getElementById('customDropdownPanel');[cite: 5]
+                const trigger = document.getElementById('customDropdownTrigger');
+                const panel = document.getElementById('customDropdownPanel');
                 if (trigger && panel && !trigger.contains(e.target) && !panel.contains(e.target)) {
-                    panel.classList.add('hidden');[cite: 5]
+                    panel.classList.add('hidden');
                 }
             });
         }
 
         function toggleTheme() {
-            const isDark = document.documentElement.classList.contains('dark');[cite: 5]
+            const isDark = document.documentElement.classList.contains('dark');
             if (isDark) {
-                document.documentElement.classList.remove('dark');[cite: 5]
-                localStorage.setItem("imerch_hr_theme", "light");[cite: 5]
-                updateThemeButtonUI("light");[cite: 5]
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem("imerch_hr_theme", "light");
+                updateThemeButtonUI("light");
             } else {
-                document.documentElement.classList.add('dark');[cite: 5]
-                localStorage.setItem("imerch_hr_theme", "dark");[cite: 5]
-                updateThemeButtonUI("dark");[cite: 5]
+                document.documentElement.classList.add('dark');
+                localStorage.setItem("imerch_hr_theme", "dark");
+                updateThemeButtonUI("dark");
             }
-            if(myChart && globalRawSummaryData) applyAdminFilter();[cite: 5]
+            if(myChart && globalRawSummaryData) applyAdminFilter();
         }
 
         function updateThemeButtonUI(theme) {
-            const iconEl = document.getElementById('themeIcon');[cite: 5]
-            const textEl = document.getElementById('themeText');[cite: 5]
+            const iconEl = document.getElementById('themeIcon');
+            const textEl = document.getElementById('themeText');
             if (theme === 'light') {
-                iconEl.setAttribute('data-lucide', 'moon');[cite: 5]
-                textEl.textContent = "Dark Mode";[cite: 5]
+                iconEl.setAttribute('data-lucide', 'moon');
+                textEl.textContent = "Dark Mode";
             } else {
-                iconEl.setAttribute('data-lucide', 'sun');[cite: 5]
-                textEl.textContent = "Light Mode";[cite: 5]
+                iconEl.setAttribute('data-lucide', 'sun');
+                textEl.textContent = "Light Mode";
             }
-            lucide.createIcons();[cite: 5]
+            lucide.createIcons();
         }
 
         async function handleLogin(e) {
-            e.preventDefault();[cite: 5]
-            const email = document.getElementById('emailInput').value.trim().toLowerCase();[cite: 5]
-            const password = document.getElementById('passwordInput').value.trim();[cite: 5]
-            const errorEl = document.getElementById('loginError');[cite: 5]
-            const btn = document.getElementById('loginBtn');[cite: 5]
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value.trim();
+            const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
 
             if (!email.endsWith('@imerchmedia.net') && !email.endsWith('@imerchmedia.com')) {
-                errorEl.textContent = "Access Denied. Use @imerchmedia.net or .com email.";[cite: 5]
-                errorEl.classList.remove('hidden');[cite: 5]
+                errorEl.textContent = "Access Denied. Use @imerchmedia.net or .com email.";
+                errorEl.classList.remove('hidden');
                 return;
             }
 
-            btn.textContent = "Verifying...";[cite: 5]
-            btn.disabled = true;[cite: 5]
+            btn.textContent = "Verifying...";
+            btn.disabled = true;
 
             try {
                 const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',[cite: 5]
-                    body: JSON.stringify({ action: 'login', email: email, password: password })[cite: 5]
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'login', email: email, password: password })
                 });
-                const result = await response.json();[cite: 5]
+                const result = await response.json();
 
                 if (result.status === 'success') {
-                    localStorage.setItem("imerch_hr_user", email);[cite: 5]
-                    localStorage.setItem("imerch_hr_role", result.role);[cite: 5]
-                    errorEl.classList.add('hidden');[cite: 5]
-                    initApp(email, result.role);[cite: 5]
+                    localStorage.setItem("imerch_hr_user", email);
+                    localStorage.setItem("imerch_hr_role", result.role);
+                    errorEl.classList.add('hidden');
+                    initApp(email, result.role);
                 } else {
-                    errorEl.textContent = "Invalid password or email not registered.";[cite: 5]
-                    errorEl.classList.remove('hidden');[cite: 5]
+                    errorEl.textContent = "Invalid password or email not registered.";
+                    errorEl.classList.remove('hidden');
                 }
             } catch (err) {
                 if (email.includes('ron.sarmenta') || email.includes('chris.cantos')) {
-                    localStorage.setItem("imerch_hr_user", email);[cite: 5]
-                    localStorage.setItem("imerch_hr_role", 'Admin');[cite: 5]
-                    initApp(email, 'Admin');[cite: 5]
+                    localStorage.setItem("imerch_hr_user", email);
+                    localStorage.setItem("imerch_hr_role", 'Admin');
+                    initApp(email, 'Admin');
                 } else {
-                    errorEl.textContent = "Connection error. Please try again.";[cite: 5]
-                    errorEl.classList.add('hidden');[cite: 5]
+                    errorEl.textContent = "Connection error. Please try again.";
+                    errorEl.classList.add('hidden');
                 }
             } finally {
-                btn.textContent = "Access Portal";[cite: 5]
-                btn.disabled = false;[cite: 5]
+                btn.textContent = "Access Portal";
+                btn.disabled = false;
             }
         }
 
         function initApp(email, role) {
-            document.getElementById('loginScreen').classList.add('hidden');[cite: 5]
-            document.getElementById('appContainer').classList.remove('hidden');[cite: 5]
-            document.getElementById('appContainer').classList.add('flex');[cite: 5]
-            document.getElementById('userDisplayEmail').textContent = email + " (" + role + ")";[cite: 5]
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+            document.getElementById('appContainer').classList.add('flex');
+            document.getElementById('userDisplayEmail').textContent = email + " (" + role + ")";
 
             if (role === 'Admin') {
-                document.getElementById('roleBadge').classList.remove('hidden');[cite: 5]
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));[cite: 5]
-                loadSummaryData();[cite: 5]
-                loadTenureData();[cite: 5]
+                document.getElementById('roleBadge').classList.remove('hidden');
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                loadSummaryData();
+                loadTenureData();
             } else {
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));[cite: 5]
-                loadSummaryData();[cite: 5]
-                loadPoolingForRecruiter();[cite: 5]
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                loadSummaryData();
+                loadPoolingForRecruiter();
             }
         }
 
         function handleLogout() {
-            localStorage.clear();[cite: 5]
-            location.reload();[cite: 5]
+            localStorage.clear();
+            location.reload();
         }
 
         function switchTab(tabName) {
-            const userRole = localStorage.getItem("imerch_hr_role");[cite: 5]
-            const restrictedTabs = ['tenure', 'admin'];[cite: 5]
+            const userRole = localStorage.getItem("imerch_hr_role");
+            const restrictedTabs = ['tenure', 'admin'];
             if (userRole !== 'Admin' && restrictedTabs.includes(tabName)) {
-                alert("Access Restricted: Admin or Sir Chris authorization required.");[cite: 5]
+                alert("Access Restricted: Admin or Sir Chris authorization required.");
                 return;
             }
 
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));[cite: 5]
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50', 'border-amber-500', 'text-amber-600', 'dark:text-amber-400');[cite: 5]
-                btn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');[cite: 5]
+                btn.classList.remove('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50', 'border-amber-500', 'text-amber-600', 'dark:text-amber-400');
+                btn.classList.add('border-transparent', 'text-slate-500', 'dark:text-slate-400');
             });
 
-            document.getElementById('tabContent-' + tabName).classList.remove('hidden');[cite: 5]
-            const activeBtn = document.getElementById('tabBtn-' + tabName);[cite: 5]
-            activeBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');[cite: 5]
+            document.getElementById('tabContent-' + tabName).classList.remove('hidden');
+            const activeBtn = document.getElementById('tabBtn-' + tabName);
+            activeBtn.classList.remove('border-transparent', 'text-slate-500', 'dark:text-slate-400');
             
             if(tabName === 'admin') {
-                activeBtn.classList.add('border-amber-500', 'text-amber-600', 'dark:text-amber-400', 'bg-slate-100', 'dark:bg-slate-900/50');[cite: 5]
+                activeBtn.classList.add('border-amber-500', 'text-amber-600', 'dark:text-amber-400', 'bg-slate-100', 'dark:bg-slate-900/50');
             } else {
-                activeBtn.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50');[cite: 5]
+                activeBtn.classList.add('border-indigo-500', 'text-indigo-600', 'dark:text-indigo-400', 'bg-slate-100', 'dark:bg-slate-900/50');
             }
             
             if(tabName === 'summary') {
-                loadSummaryData();[cite: 5]
+                loadSummaryData();
             } else if(tabName === 'tenure' && userRole === 'Admin') {
-                loadTenureData();[cite: 5]
+                loadTenureData();
             } else if(tabName === 'hiring') {
-                loadPoolingForRecruiter();[cite: 5]
+                loadPoolingForRecruiter();
             }
-            lucide.createIcons();[cite: 5]
+            lucide.createIcons();
         }
 
         function toggleFilterInputs() {
-            const mode = document.getElementById('filterMode').value;[cite: 5]
-            const dayInput = document.getElementById('filterDayInput');[cite: 5]
-            const weekInput = document.getElementById('filterWeekInput');[cite: 5]
+            const mode = document.getElementById('filterMode').value;
+            const dayInput = document.getElementById('filterDayInput');
+            const weekInput = document.getElementById('filterWeekInput');
 
-            dayInput.classList.add('hidden');[cite: 5]
-            weekInput.classList.add('hidden');[cite: 5]
+            dayInput.classList.add('hidden');
+            weekInput.classList.add('hidden');
 
-            if (mode === 'day') dayInput.classList.remove('hidden');[cite: 5]
-            if (mode === 'week') weekInput.classList.remove('hidden');[cite: 5]
+            if (mode === 'day') dayInput.classList.remove('hidden');
+            if (mode === 'week') weekInput.classList.remove('hidden');
 
-            applyAdminFilter();[cite: 5]
+            applyAdminFilter();
         }
 
         async function loadSummaryData() {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);[cite: 5]
-                const result = await response.json();[cite: 5]
+                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);
+                const result = await response.json();
                 
                 if(result.status === 'success') {
-                    globalRawSummaryData = result;[cite: 5]
-                    globalAvailablePool = result.availablePooling || [];[cite: 5]
-                    populateHiringDropdown(globalAvailablePool);[cite: 5]
-                    applyAdminFilter();[cite: 5]
+                    globalRawSummaryData = result;
+                    globalAvailablePool = result.availablePooling || [];
+                    populateHiringDropdown(globalAvailablePool);
+                    applyAdminFilter();
                 }
             } catch (err) {
-                console.error("Error loading summary stats:", err);[cite: 5]
+                console.error("Error loading summary stats:", err);
             }
         }
 
         async function loadTenureData() {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);[cite: 5]
-                const result = await response.json();[cite: 5]
+                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);
+                const result = await response.json();
                 if(result.status === 'success') {
-                    globalTenureEmployees = result.allHiringRecords || [];[cite: 5]
-                    tenureCurrentPage = 1;[cite: 5]
-                    renderTenureTable();[cite: 5]
+                    globalTenureEmployees = result.allHiringRecords || [];
+                    tenureCurrentPage = 1;
+                    renderTenureTable();
                 }
             } catch (err) {
-                console.error("Error loading tenure records:", err);[cite: 5]
+                console.error("Error loading tenure records:", err);
             }
         }
 
         function calculateTenure(dateHiredStr) {
-            if (!dateHiredStr) return { text: "N/A", badge: `<span class="bg-slate-500/10 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold border border-slate-500/20">Unknown</span>` };[cite: 5]
+            if (!dateHiredStr) return { text: "N/A", badge: `<span class="bg-slate-500/10 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold border border-slate-500/20">Unknown</span>` };
             
-            const hiredDate = new Date(dateHiredStr);[cite: 5]
-            const today = new Date();[cite: 5]
+            const hiredDate = new Date(dateHiredStr);
+            const today = new Date();
             
-            if (isNaN(hiredDate.getTime())) return { text: "Invalid Date", badge: `<span class="bg-slate-500/10 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold border border-slate-500/20">Invalid</span>` };[cite: 5]
+            if (isNaN(hiredDate.getTime())) return { text: "Invalid Date", badge: `<span class="bg-slate-500/10 text-slate-500 text-[10px] px-2.5 py-1 rounded-full font-bold border border-slate-500/20">Invalid</span>` };
 
-            let years = today.getFullYear() - hiredDate.getFullYear();[cite: 5]
-            let months = today.getMonth() - hiredDate.getMonth();[cite: 5]
-            let days = today.getDate() - hiredDate.getDate();[cite: 5]
+            let years = today.getFullYear() - hiredDate.getFullYear();
+            let months = today.getMonth() - hiredDate.getMonth();
+            let days = today.getDate() - hiredDate.getDate();
 
             if (days < 0) {
-                months--;[cite: 5]
-                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);[cite: 5]
-                days += prevMonth.getDate();[cite: 5]
+                months--;
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
             }
             if (months < 0) {
-                years--;[cite: 5]
-                months += 12;[cite: 5]
+                years--;
+                months += 12;
             }
 
-            let tenureString = "";[cite: 5]
-            if (years > 0) tenureString += `${years} yr${years > 1 ? 's' : ''} `;[cite: 5]
-            if (months > 0) tenureString += `${months} mo${months > 1 ? 's' : ''} `;[cite: 5]
+            let tenureString = "";
+            if (years > 0) tenureString += `${years} yr${years > 1 ? 's' : ''} `;
+            if (months > 0) tenureString += `${months} mo${months > 1 ? 's' : ''} `;
             if (years === 0 && months === 0) {
-                tenureString = `${days} day${days !== 1 ? 's' : ''}`;[cite: 5]
+                tenureString = `${days} day${days !== 1 ? 's' : ''}`;
             } else {
-                tenureString += `${days}d`;[cite: 5]
+                tenureString += `${days}d`;
             }
 
-            const totalMonths = (years * 12) + months + (days / 30);[cite: 5]
-            let badgeHTML = '';[cite: 5]
+            const totalMonths = (years * 12) + months + (days / 30);
+            let badgeHTML = '';
 
             if (totalMonths < 3) {
-                badgeHTML = `<span class="bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-blue-500/20">Probationary (New)</span>`;[cite: 5]
+                badgeHTML = `<span class="bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-blue-500/20">Probationary (New)</span>`;
             } else if (totalMonths >= 3 && totalMonths < 6) {
-                badgeHTML = `<span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-amber-500/20">Near Regular (3-6 mos)</span>`;[cite: 5]
+                badgeHTML = `<span class="bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-amber-500/20">Near Regular (3-6 mos)</span>`;
             } else if (totalMonths >= 6 && totalMonths < 12) {
-                badgeHTML = `<span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-emerald-500/20">Regular Employee</span>`;[cite: 5]
+                badgeHTML = `<span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-emerald-500/20">Regular Employee</span>`;
             } else if (totalMonths >= 12 && totalMonths < 36) {
-                badgeHTML = `<span class="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-indigo-500/20">Experienced (1-3 yrs)</span>`;[cite: 5]
+                badgeHTML = `<span class="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-indigo-500/20">Experienced (1-3 yrs)</span>`;
             } else {
-                badgeHTML = `<span class="bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-purple-500/20">Long-term Veteran (3+ yrs)</span>`;[cite: 5]
+                badgeHTML = `<span class="bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-purple-500/20">Long-term Veteran (3+ yrs)</span>`;
             }
 
-            return { text: tenureString.trim(), badge: badgeHTML };[cite: 5]
+            return { text: tenureString.trim(), badge: badgeHTML };
         }
 
         function calculateManualTenure() {
-            const val = document.getElementById('calcStartDate').value;[cite: 5]
-            const resBox = document.getElementById('calcResultBox');[cite: 5]
+            const val = document.getElementById('calcStartDate').value;
+            const resBox = document.getElementById('calcResultBox');
             if(!val) {
-                alert("Pumili muna ng petsa.");[cite: 5]
+                alert("Pumili muna ng petsa.");
                 return;
             }
-            const result = calculateTenure(val);[cite: 5]
-            document.getElementById('calcTenureOutput').textContent = "Length of Service: " + result.text;[cite: 5]
-            document.getElementById('calcBadgeOutput').innerHTML = result.badge;[cite: 5]
-            resBox.classList.remove('hidden');[cite: 5]
+            const result = calculateTenure(val);
+            document.getElementById('calcTenureOutput').textContent = "Length of Service: " + result.text;
+            document.getElementById('calcBadgeOutput').innerHTML = result.badge;
+            resBox.classList.remove('hidden');
         }
 
         function handleTenureSearch() {
-            tenureCurrentPage = 1;[cite: 5]
-            renderTenureTable();[cite: 5]
+            tenureCurrentPage = 1;
+            renderTenureTable();
         }
 
         function renderTenureTable() {
-            const query = (document.getElementById('tenureSearchInput').value || "").toLowerCase();[cite: 5]
+            const query = (document.getElementById('tenureSearchInput').value || "").toLowerCase();
             const filtered = globalTenureEmployees.filter(item => {
                 return (item.fullName || "").toLowerCase().includes(query) ||
                        (item.area || "").toLowerCase().includes(query) ||
                        (item.client || "").toLowerCase().includes(query) ||
-                       (item.recruiter || "").toLowerCase().includes(query);[cite: 5]
+                       (item.recruiter || "").toLowerCase().includes(query);
             });
 
-            const totalRows = filtered.length;[cite: 5]
-            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;[cite: 5]
-            if (tenureCurrentPage > totalPages) tenureCurrentPage = totalPages;[cite: 5]
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            if (tenureCurrentPage > totalPages) tenureCurrentPage = totalPages;
 
-            const startIdx = (tenureCurrentPage - 1) * rowsPerPage;[cite: 5]
-            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);[cite: 5]
+            const startIdx = (tenureCurrentPage - 1) * rowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);
 
-            const tbody = document.getElementById('tenureTableBody');[cite: 5]
-            tbody.innerHTML = '';[cite: 5]
+            const tbody = document.getElementById('tenureTableBody');
+            tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';[cite: 5]
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang empleyado sa tenure records.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
-                    const tenureData = calculateTenure(item.date);[cite: 5]
-                    const tr = document.createElement('tr');[cite: 5]
+                    const tenureData = calculateTenure(item.date);
+                    const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
                         <td class="py-3 px-3 text-slate-600 dark:text-slate-400">Area: ${item.area || 'N/A'}<br><span class="text-[10px] text-slate-400">Contact: ${item.contactNumber || 'N/A'}</span></td>
@@ -869,79 +869,79 @@
                         <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.date || 'N/A'}</td>
                         <td class="py-3 px-3 font-bold text-slate-800 dark:text-slate-200">${tenureData.text}</td>
                         <td class="py-3 px-3">${tenureData.badge}</td>
-                    `;[cite: 5]
-                    tbody.appendChild(tr);[cite: 5]
+                    `;
+                    tbody.appendChild(tr);
                 });
             }
 
-            document.getElementById('tenurePaginationInfo').textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} entries`;[cite: 5]
-            document.getElementById('tenurePageNum').textContent = tenureCurrentPage;[cite: 5]
-            document.getElementById('tenurePrevBtn').disabled = tenureCurrentPage === 1;[cite: 5]
-            document.getElementById('tenureNextBtn').disabled = tenureCurrentPage >= totalPages;[cite: 5]
+            document.getElementById('tenurePaginationInfo').textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} entries`;
+            document.getElementById('tenurePageNum').textContent = tenureCurrentPage;
+            document.getElementById('tenurePrevBtn').disabled = tenureCurrentPage === 1;
+            document.getElementById('tenureNextBtn').disabled = tenureCurrentPage >= totalPages;
         }
 
         function changeTenurePage(direction) {
-            tenureCurrentPage += direction;[cite: 5]
-            renderTenureTable();[cite: 5]
+            tenureCurrentPage += direction;
+            renderTenureTable();
         }
 
         function exportTenureToExcel() {
-            let table = document.getElementById("employeeTable");[cite: 5]
-            let wb = XLSX.utils.table_to_book(table, {sheet: "Employees Tenure"});[cite: 5]
-            XLSX.writeFile(wb, "Employee_Tenure_Tracker.xlsx");[cite: 5]
+            let table = document.getElementById("employeeTable");
+            let wb = XLSX.utils.table_to_book(table, {sheet: "Employees Tenure"});
+            XLSX.writeFile(wb, "Employee_Tenure_Tracker.xlsx");
         }
 
         async function loadPoolingForRecruiter() {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);[cite: 5]
-                const result = await response.json();[cite: 5]
+                const response = await fetch(`${SCRIPT_URL}?action=getSummary`);
+                const result = await response.json();
                 if(result.status === 'success') {
-                    globalAvailablePool = result.availablePooling || [];[cite: 5]
-                    populateHiringDropdown(globalAvailablePool);[cite: 5]
+                    globalAvailablePool = result.availablePooling || [];
+                    populateHiringDropdown(globalAvailablePool);
                 }
             } catch(err) {
-                console.error("Error loading pool for recruiter:", err);[cite: 5]
+                console.error("Error loading pool for recruiter:", err);
             }
         }
 
         function toggleCustomDropdown() {
-            const panel = document.getElementById('customDropdownPanel');[cite: 5]
-            panel.classList.toggle('hidden');[cite: 5]
+            const panel = document.getElementById('customDropdownPanel');
+            panel.classList.toggle('hidden');
             if(!panel.classList.contains('hidden')) {
-                document.getElementById('customDropdownSearch').focus();[cite: 5]
+                document.getElementById('customDropdownSearch').focus();
             }
         }
 
         function filterCustomDropdownOptions() {
-            dropdownCurrentPage = 1;[cite: 5]
-            renderCustomDropdownList();[cite: 5]
+            dropdownCurrentPage = 1;
+            renderCustomDropdownList();
         }
 
         function changeDropdownPage(direction) {
-            dropdownCurrentPage += direction;[cite: 5]
-            renderCustomDropdownList();[cite: 5]
+            dropdownCurrentPage += direction;
+            renderCustomDropdownList();
         }
 
         function populateHiringDropdown(poolList) {
-            dropdownCurrentPage = 1;[cite: 5]
-            renderCustomDropdownList();[cite: 5]
+            dropdownCurrentPage = 1;
+            renderCustomDropdownList();
         }
 
         function getFilteredPoolList() {
-            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();[cite: 5]
-            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';[cite: 5]
-            const searchQuery = (document.getElementById('customDropdownSearch').value || "").toLowerCase();[cite: 5]
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+            const searchQuery = (document.getElementById('customDropdownSearch').value || "").toLowerCase();
 
-            let validList = [];[cite: 5]
+            let validList = [];
             globalAvailablePool.forEach((item, index) => {
-                const itemRecruiter = (item.recruiter || "").trim().toLowerCase();[cite: 5]
+                const itemRecruiter = (item.recruiter || "").trim().toLowerCase();
                 if (isAdmin || itemRecruiter === currentUser || itemRecruiter === 'unassigned' || itemRecruiter === '') {
-                    const fullName = (item.fullName || "").toLowerCase();[cite: 5]
-                    const area = (item.area || "").toLowerCase();[cite: 5]
-                    const recruiter = (item.recruiter || "").toLowerCase();[cite: 5]
+                    const fullName = (item.fullName || "").toLowerCase();
+                    const area = (item.area || "").toLowerCase();
+                    const recruiter = (item.recruiter || "").toLowerCase();
 
                     if (fullName.includes(searchQuery) || area.includes(searchQuery) || recruiter.includes(searchQuery)) {
-                        validList.push({ item: item, originalIndex: index });[cite: 5]
+                        validList.push({ item: item, originalIndex: index });
                     }
                 }
             });
@@ -949,222 +949,222 @@
         }
 
         function renderCustomDropdownList() {
-            const filtered = getFilteredPoolList();[cite: 5]
-            const totalRows = filtered.length;[cite: 5]
-            const totalPages = Math.ceil(totalRows / dropdownRowsPerPage) || 1;[cite: 5]
-            if (dropdownCurrentPage > totalPages) dropdownCurrentPage = totalPages;[cite: 5]
+            const filtered = getFilteredPoolList();
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / dropdownRowsPerPage) || 1;
+            if (dropdownCurrentPage > totalPages) dropdownCurrentPage = totalPages;
 
-            const startIdx = (dropdownCurrentPage - 1) * dropdownRowsPerPage;[cite: 5]
-            const paginatedItems = filtered.slice(startIdx, startIdx + dropdownRowsPerPage);[cite: 5]
+            const startIdx = (dropdownCurrentPage - 1) * dropdownRowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + dropdownRowsPerPage);
 
-            const listContainer = document.getElementById('customDropdownList');[cite: 5]
-            listContainer.innerHTML = '';[cite: 5]
+            const listContainer = document.getElementById('customDropdownList');
+            listContainer.innerHTML = '';
 
             if (dropdownCurrentPage === 1 && (!document.getElementById('customDropdownSearch').value)) {
-                const defaultDiv = document.createElement('div');[cite: 5]
-                defaultDiv.className = "p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer text-slate-500 text-xs";[cite: 5]
-                defaultDiv.textContent = "-- Piliin ang Kandidato --";[cite: 5]
-                defaultDiv.onclick = () => selectCandidate("", "-- Piliin ang Kandidato --");[cite: 5]
-                listContainer.appendChild(defaultDiv);[cite: 5]
+                const defaultDiv = document.createElement('div');
+                defaultDiv.className = "p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer text-slate-500 text-xs";
+                defaultDiv.textContent = "-- Piliin ang Kandidato --";
+                defaultDiv.onclick = () => selectCandidate("", "-- Piliin ang Kandidato --");
+                listContainer.appendChild(defaultDiv);
             }
 
             if (paginatedItems.length === 0) {
-                const emptyDiv = document.createElement('div');[cite: 5]
-                emptyDiv.className = "p-3 text-center text-slate-400 text-xs";[cite: 5]
-                emptyDiv.textContent = "Walang nahanap na aplikante.";[cite: 5]
-                listContainer.appendChild(emptyDiv);[cite: 5]
+                const emptyDiv = document.createElement('div');
+                emptyDiv.className = "p-3 text-center text-slate-400 text-xs";
+                emptyDiv.textContent = "Walang nahanap na aplikante.";
+                listContainer.appendChild(emptyDiv);
             } else {
                 paginatedItems.forEach(entry => {
-                    const item = entry.item;[cite: 5]
-                    const idx = entry.originalIndex;[cite: 5]
-                    const itemDiv = document.createElement('div');[cite: 5]
-                    itemDiv.className = "p-2 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded cursor-pointer transition text-xs";[cite: 5]
-                    itemDiv.innerHTML = `<span class="font-bold text-slate-900 dark:text-white">${item.fullName}</span> <div class="text-[10px] text-slate-500">Area: ${item.area} | Recruiter: ${item.recruiter}</div>`;[cite: 5]
-                    itemDiv.onclick = () => selectCandidate(idx, `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`);[cite: 5]
-                    listContainer.appendChild(itemDiv);[cite: 5]
+                    const item = entry.item;
+                    const idx = entry.originalIndex;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = "p-2 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded cursor-pointer transition text-xs";
+                    itemDiv.innerHTML = `<span class="font-bold text-slate-900 dark:text-white">${item.fullName}</span> <div class="text-[10px] text-slate-500">Area: ${item.area} | Recruiter: ${item.recruiter}</div>`;
+                    itemDiv.onclick = () => selectCandidate(idx, `${item.fullName} (Area: ${item.area} | Recruiter: ${item.recruiter})`);
+                    listContainer.appendChild(itemDiv);
                 });
             }
 
-            document.getElementById('dropdownPaginationInfo').textContent = `${totalRows > 0 ? startIdx + 1 : 0}-${Math.min(startIdx + dropdownRowsPerPage, totalRows)} of ${totalRows}`;[cite: 5]
-            document.getElementById('dropdownPageNum').textContent = dropdownCurrentPage;[cite: 5]
-            document.getElementById('dropdownPrevBtn').disabled = dropdownCurrentPage === 1;[cite: 5]
-            document.getElementById('dropdownNextBtn').disabled = dropdownCurrentPage >= totalPages;[cite: 5]
+            document.getElementById('dropdownPaginationInfo').textContent = `${totalRows > 0 ? startIdx + 1 : 0}-${Math.min(startIdx + dropdownRowsPerPage, totalRows)} of ${totalRows}`;
+            document.getElementById('dropdownPageNum').textContent = dropdownCurrentPage;
+            document.getElementById('dropdownPrevBtn').disabled = dropdownCurrentPage === 1;
+            document.getElementById('dropdownNextBtn').disabled = dropdownCurrentPage >= totalPages;
         }
 
         function selectCandidate(originalIdx, displayText) {
-            document.getElementById('h_selected_pool_index').value = originalIdx;[cite: 5]
-            document.getElementById('customDropdownSelectedText').textContent = displayText;[cite: 5]
-            document.getElementById('customDropdownPanel').classList.add('hidden');[cite: 5]
+            document.getElementById('h_selected_pool_index').value = originalIdx;
+            document.getElementById('customDropdownSelectedText').textContent = displayText;
+            document.getElementById('customDropdownPanel').classList.add('hidden');
 
-            autofillPoolingCandidateByIndex(originalIdx);[cite: 5]
+            autofillPoolingCandidateByIndex(originalIdx);
         }
 
         function autofillPoolingCandidateByIndex(idx) {
             if (idx === "") {
-                document.getElementById('h_name').value = '';[cite: 5]
-                document.getElementById('h_address').value = '';[cite: 5]
-                document.getElementById('h_contact').value = '';[cite: 5]
-                document.getElementById('h_area').value = '';[cite: 5]
+                document.getElementById('h_name').value = '';
+                document.getElementById('h_address').value = '';
+                document.getElementById('h_contact').value = '';
+                document.getElementById('h_area').value = '';
                 return;
             }
 
-            const candidate = globalAvailablePool[idx];[cite: 5]
+            const candidate = globalAvailablePool[idx];
             if (candidate) {
-                document.getElementById('h_name').value = candidate.fullName;[cite: 5]
-                document.getElementById('h_address').value = candidate.address;[cite: 5]
-                document.getElementById('h_contact').value = candidate.contactNumber;[cite: 5]
-                document.getElementById('h_area').value = candidate.area;[cite: 5]
+                document.getElementById('h_name').value = candidate.fullName;
+                document.getElementById('h_address').value = candidate.address;
+                document.getElementById('h_contact').value = candidate.contactNumber;
+                document.getElementById('h_area').value = candidate.area;
             }
         }
 
         function applyAdminFilter() {
-            if (!globalRawSummaryData) return;[cite: 5]
-            const mode = document.getElementById('filterMode').value;[cite: 5]
-            const targetDay = document.getElementById('filterDayInput').value;[cite: 5]
-            const targetWeek = document.getElementById('filterWeekInput').value;[cite: 5]
+            if (!globalRawSummaryData) return;
+            const mode = document.getElementById('filterMode').value;
+            const targetDay = document.getElementById('filterDayInput').value;
+            const targetWeek = document.getElementById('filterWeekInput').value;
 
-            let filteredPool = globalRawSummaryData.allPoolingRecords || [];[cite: 5]
-            let filteredHired = globalRawSummaryData.allHiringRecords || [];[cite: 5]
+            let filteredPool = globalRawSummaryData.allPoolingRecords || [];
+            let filteredHired = globalRawSummaryData.allHiringRecords || [];
 
             if (mode === 'day' && targetDay) {
-                filteredPool = filteredPool.filter(item => item.date === targetDay);[cite: 5]
-                filteredHired = filteredHired.filter(item => item.date === targetDay);[cite: 5]
+                filteredPool = filteredPool.filter(item => item.date === targetDay);
+                filteredHired = filteredHired.filter(item => item.date === targetDay);
             } else if (mode === 'week' && targetWeek) {
-                filteredPool = filteredPool.filter(item => getWeekOfYear(item.date) === targetWeek);[cite: 5]
-                filteredHired = filteredHired.filter(item => getWeekOfYear(item.date) === targetWeek);[cite: 5]
+                filteredPool = filteredPool.filter(item => getWeekOfYear(item.date) === targetWeek);
+                filteredHired = filteredHired.filter(item => getWeekOfYear(item.date) === targetWeek);
             }
 
-            let recruiterStats = {};[cite: 5]
-            let clientStats = {};[cite: 5]
+            let recruiterStats = {};
+            let clientStats = {};
 
             filteredPool.forEach(item => {
-                const rec = item.recruiter || "unknown";[cite: 5]
-                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };[cite: 5]
-                recruiterStats[rec].pooled += 1;[cite: 5]
+                const rec = item.recruiter || "unknown";
+                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
+                recruiterStats[rec].pooled += 1;
             });
 
             filteredHired.forEach(item => {
-                const rec = item.recruiter || "unknown";[cite: 5]
-                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };[cite: 5]
-                recruiterStats[rec].hired += 1;[cite: 5]
+                const rec = item.recruiter || "unknown";
+                if(!recruiterStats[rec]) recruiterStats[rec] = { pooled: 0, hired: 0 };
+                recruiterStats[rec].hired += 1;
 
-                const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";[cite: 5]
-                clientStats[cl] = (clientStats[cl] || 0) + 1;[cite: 5]
+                const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";
+                clientStats[cl] = (clientStats[cl] || 0) + 1;
             });
 
-            const totalPooled = filteredPool.length;[cite: 5]
-            const totalHired = filteredHired.length;[cite: 5]
-            const conv = totalPooled > 0 ? ((totalHired / totalPooled) * 100).toFixed(1) : 0;[cite: 5]
+            const totalPooled = filteredPool.length;
+            const totalHired = filteredHired.length;
+            const conv = totalPooled > 0 ? ((totalHired / totalPooled) * 100).toFixed(1) : 0;
 
-            document.getElementById('totalPooledCount').textContent = totalPooled;[cite: 5]
-            document.getElementById('totalHiredCount').textContent = totalHired;[cite: 5]
-            document.getElementById('conversionRate').textContent = conv + "%";[cite: 5]
+            document.getElementById('totalPooledCount').textContent = totalPooled;
+            document.getElementById('totalHiredCount').textContent = totalHired;
+            document.getElementById('conversionRate').textContent = conv + "%";
 
             globalRecruiterStatsArray = Object.keys(recruiterStats).map(rec => {
-                const data = recruiterStats[rec];[cite: 5]
+                const data = recruiterStats[rec];
                 return {
                     recruiter: rec,
                     pooled: data.pooled,
                     hired: data.hired,
                     netActive: Math.max(0, data.pooled - data.hired)
                 };
-            }).sort((a, b) => b.pooled - a.pooled);[cite: 5]
+            }).sort((a, b) => b.pooled - a.pooled);
 
-            recruiterCurrentPage = 1;[cite: 5]
-            renderRecruiterTable();[cite: 5]
-            renderTopToBottomChart(globalRecruiterStatsArray);[cite: 5]
-            renderClientAnalyticsChart(clientStats);[cite: 5]
+            recruiterCurrentPage = 1;
+            renderRecruiterTable();
+            renderTopToBottomChart(globalRecruiterStatsArray);
+            renderClientAnalyticsChart(clientStats);
 
-            globalFilteredHiredList = filteredHired;[cite: 5]
-            hiredCurrentPage = 1;[cite: 5]
-            renderDetailedHiredTable();[cite: 5]
+            globalFilteredHiredList = filteredHired;
+            hiredCurrentPage = 1;
+            renderDetailedHiredTable();
         }
 
         function handleRecruiterSearch() {
-            recruiterCurrentPage = 1;[cite: 5]
-            renderRecruiterTable();[cite: 5]
+            recruiterCurrentPage = 1;
+            renderRecruiterTable();
         }
 
         function renderRecruiterTable() {
-            const query = (document.getElementById('recruiterSearchInput').value || "").toLowerCase();[cite: 5]
-            const filtered = globalRecruiterStatsArray.filter(item => item.recruiter.toLowerCase().includes(query));[cite: 5]
+            const query = (document.getElementById('recruiterSearchInput').value || "").toLowerCase();
+            const filtered = globalRecruiterStatsArray.filter(item => item.recruiter.toLowerCase().includes(query));
 
-            const totalRows = filtered.length;[cite: 5]
-            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;[cite: 5]
-            if (recruiterCurrentPage > totalPages) recruiterCurrentPage = totalPages;[cite: 5]
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            if (recruiterCurrentPage > totalPages) recruiterCurrentPage = totalPages;
 
-            const startIdx = (recruiterCurrentPage - 1) * rowsPerPage;[cite: 5]
-            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);[cite: 5]
+            const startIdx = (recruiterCurrentPage - 1) * rowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);
 
-            const tbody = document.getElementById('recruiterTableBody');[cite: 5]
-            tbody.innerHTML = '';[cite: 5]
+            const tbody = document.getElementById('recruiterTableBody');
+            tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No recruiters found matching your search.</td></tr>';[cite: 5]
+                tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No recruiters found matching your search.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
-                    const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';[cite: 5]
-                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';[cite: 5]
+                    const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';
+                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
                     
-                    const tr = document.createElement('tr');[cite: 5]
+                    const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white flex items-center">${imgTag}<span>${item.recruiter}</span></td>
                         <td class="py-3 px-3">${item.pooled}</td>
                         <td class="py-3 px-3 text-emerald-600 dark:text-emerald-400">${item.hired}</td>
                         <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">${item.netActive}</td>
-                    `;[cite: 5]
-                    tbody.appendChild(tr);[cite: 5]
+                    `;
+                    tbody.appendChild(tr);
                 });
             }
 
-            document.getElementById('recruiterPaginationInfo').textContent = `Showing ${startIdx + 1} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} recruiters`;[cite: 5]
-            document.getElementById('recruiterPageNum').textContent = recruiterCurrentPage;[cite: 5]
-            document.getElementById('recruiterPrevBtn').disabled = recruiterCurrentPage === 1;[cite: 5]
-            document.getElementById('recruiterNextBtn').disabled = recruiterCurrentPage >= totalPages;[cite: 5]
+            document.getElementById('recruiterPaginationInfo').textContent = `Showing ${startIdx + 1} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} recruiters`;
+            document.getElementById('recruiterPageNum').textContent = recruiterCurrentPage;
+            document.getElementById('recruiterPrevBtn').disabled = recruiterCurrentPage === 1;
+            document.getElementById('recruiterNextBtn').disabled = recruiterCurrentPage >= totalPages;
         }
 
         function changeRecruiterPage(direction) {
-            recruiterCurrentPage += direction;[cite: 5]
-            renderRecruiterTable();[cite: 5]
+            recruiterCurrentPage += direction;
+            renderRecruiterTable();
         }
 
         function handleHiredSearch() {
-            hiredCurrentPage = 1;[cite: 5]
-            renderDetailedHiredTable();[cite: 5]
+            hiredCurrentPage = 1;
+            renderDetailedHiredTable();
         }
 
         function renderDetailedHiredTable() {
-            const query = (document.getElementById('hiredSearchInput').value || "").toLowerCase();[cite: 5]
+            const query = (document.getElementById('hiredSearchInput').value || "").toLowerCase();
             const filtered = globalFilteredHiredList.filter(item => {
                 return (item.fullName || "").toLowerCase().includes(query) ||
                        (item.recruiter || "").toLowerCase().includes(query) ||
                        (item.area || "").toLowerCase().includes(query) ||
                        (item.client || "").toLowerCase().includes(query) ||
-                       (item.contactNumber || "").toLowerCase().includes(query);[cite: 5]
+                       (item.contactNumber || "").toLowerCase().includes(query);
             });
 
-            const badge = document.getElementById('hiredCountBadge');[cite: 5]
-            badge.textContent = `${globalFilteredHiredList.length} Hired Records`;[cite: 5]
+            const badge = document.getElementById('hiredCountBadge');
+            badge.textContent = `${globalFilteredHiredList.length} Hired Records`;
 
-            const totalRows = filtered.length;[cite: 5]
-            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;[cite: 5]
-            if (hiredCurrentPage > totalPages) hiredCurrentPage = totalPages;[cite: 5]
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+            if (hiredCurrentPage > totalPages) hiredCurrentPage = totalPages;
 
-            const startIdx = (hiredCurrentPage - 1) * rowsPerPage;[cite: 5]
-            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);[cite: 5]
+            const startIdx = (hiredCurrentPage - 1) * rowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + rowsPerPage);
 
-            const tbody = document.getElementById('detailedHiredTableBody');[cite: 5]
-            tbody.innerHTML = '';[cite: 5]
+            const tbody = document.getElementById('detailedHiredTableBody');
+            tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';[cite: 5]
+                tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-slate-500">No hiring records found matching your search.</td></tr>';
             } else {
                 paginatedItems.forEach(item => {
-                    const recKey = (item.recruiter || "").toLowerCase();[cite: 5]
-                    const imgFile = recruiterImages[recKey] || '';[cite: 5]
-                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';[cite: 5]
+                    const recKey = (item.recruiter || "").toLowerCase();
+                    const imgFile = recruiterImages[recKey] || '';
+                    const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
 
-                    const tr = document.createElement('tr');[cite: 5]
+                    const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.date || 'N/A'}</td>
                         <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
@@ -1172,77 +1172,77 @@
                         <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
                         <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">${item.client || 'N/A'}</td>
                         <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-medium flex items-center">${imgTag}<span>${item.recruiter || 'N/A'}</span></td>
-                    `;[cite: 5]
-                    tbody.appendChild(tr);[cite: 5]
+                    `;
+                    tbody.appendChild(tr);
                 });
             }
 
-            document.getElementById('hiredPaginationInfo').textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} entries`;[cite: 5]
-            document.getElementById('hiredPageNum').textContent = hiredCurrentPage;[cite: 5]
-            document.getElementById('hiredPrevBtn').disabled = hiredCurrentPage === 1;[cite: 5]
-            document.getElementById('hiredNextBtn').disabled = hiredCurrentPage >= totalPages;[cite: 5]
+            document.getElementById('hiredPaginationInfo').textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} entries`;
+            document.getElementById('hiredPageNum').textContent = hiredCurrentPage;
+            document.getElementById('hiredPrevBtn').disabled = hiredCurrentPage === 1;
+            document.getElementById('hiredNextBtn').disabled = hiredCurrentPage >= totalPages;
         }
 
         function changeHiredPage(direction) {
-            hiredCurrentPage += direction;[cite: 5]
-            renderDetailedHiredTable();[cite: 5]
+            hiredCurrentPage += direction;
+            renderDetailedHiredTable();
         }
 
         function getWeekOfYear(dateStr) {
-            if (!dateStr) return "";[cite: 5]
-            const d = new Date(dateStr);[cite: 5]
-            d.setHours(0, 0, 0, 0);[cite: 5]
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));[cite: 5]
-            const yearStart = new Date(d.getFullYear(), 0, 1);[cite: 5]
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);[cite: 5]
-            return `${d.getFullYear()}-W${String(weekNo).padStart(2, '0')}`;[cite: 5]
+            if (!dateStr) return "";
+            const d = new Date(dateStr);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `${d.getFullYear()}-W${String(weekNo).padStart(2, '0')}`;
         }
 
         function exportRecruiterSummary() {
-            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";[cite: 5]
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
             globalRecruiterStatsArray.forEach(item => {
-                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;[cite: 5]
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
             });
 
-            const encodedUri = encodeURI(csvContent);[cite: 5]
-            const link = document.createElement("a");[cite: 5]
-            link.setAttribute("href", encodedUri);[cite: 5]
-            link.setAttribute("download", "recruiter_summary_report.csv");[cite: 5]
-            document.body.appendChild(link);[cite: 5]
-            link.click();[cite: 5]
-            document.body.removeChild(link);[cite: 5]
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "recruiter_summary_report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function renderTopToBottomChart(statsArray) {
-            const customLabelsContainer = document.getElementById('chartCustomLabels');[cite: 5]
-            customLabelsContainer.innerHTML = '';[cite: 5]
+            const customLabelsContainer = document.getElementById('chartCustomLabels');
+            customLabelsContainer.innerHTML = '';
             
             statsArray.forEach(item => {
-                const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';[cite: 5]
-                const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar" alt="${item.recruiter}">` : `<div class="recruiter-avatar bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white">${item.recruiter.substring(0,2).toUpperCase()}</div>`;[cite: 5]
+                const imgFile = recruiterImages[item.recruiter.toLowerCase()] || '';
+                const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar" alt="${item.recruiter}">` : `<div class="recruiter-avatar bg-slate-700 flex items-center justify-center text-[10px] font-bold text-white">${item.recruiter.substring(0,2).toUpperCase()}</div>`;
                 
-                const div = document.createElement('div');[cite: 5]
-                div.className = "flex items-center gap-2 py-1.5 px-2 bg-white/50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800/80";[cite: 5]
-                div.innerHTML = `${imgTag}<span class="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate" title="${item.recruiter}">${item.recruiter}</span>`;[cite: 5]
-                customLabelsContainer.appendChild(div);[cite: 5]
+                const div = document.createElement('div');
+                div.className = "flex items-center gap-2 py-1.5 px-2 bg-white/50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-800/80";
+                div.innerHTML = `${imgTag}<span class="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate" title="${item.recruiter}">${item.recruiter}</span>`;
+                customLabelsContainer.appendChild(div);
             });
 
-            const ctx = document.getElementById('recruiterChart').getContext('2d');[cite: 5]
-            const isDark = document.documentElement.classList.contains('dark');[cite: 5]
+            const ctx = document.getElementById('recruiterChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
             
             if (myChart) {
-                myChart.destroy();[cite: 5]
+                myChart.destroy();
             }
 
-            const rawLabels = statsArray.map(item => item.recruiter);[cite: 5]
-            const pooledData = statsArray.map(item => item.pooled);[cite: 5]
-            const hiredData = statsArray.map(item => item.hired);[cite: 5]
+            const rawLabels = statsArray.map(item => item.recruiter);
+            const pooledData = statsArray.map(item => item.pooled);
+            const hiredData = statsArray.map(item => item.hired);
 
-            const containerWrapper = document.getElementById('chartContainerWrapper');[cite: 5]
-            const calculatedHeight = Math.max(280, statsArray.length * 45);[cite: 5]
-            containerWrapper.style.height = calculatedHeight + 'px';[cite: 5]
-            customLabelsContainer.style.height = calculatedHeight + 'px';[cite: 5]
-            customLabelsContainer.style.overflowY = 'auto';[cite: 5]
+            const containerWrapper = document.getElementById('chartContainerWrapper');
+            const calculatedHeight = Math.max(280, statsArray.length * 45);
+            containerWrapper.style.height = calculatedHeight + 'px';
+            customLabelsContainer.style.height = calculatedHeight + 'px';
+            customLabelsContainer.style.overflowY = 'auto';
 
             myChart = new Chart(ctx, {
                 type: 'bar',
@@ -1251,40 +1251,40 @@
                     datasets: [
                         {
                             label: 'Total Pooled',
-                            data: pooledData,[cite: 5]
-                            backgroundColor: 'rgba(59, 130, 246, 0.7)',[cite: 5]
-                            borderColor: 'rgba(59, 130, 246, 1)',[cite: 5]
-                            borderWidth: 1,[cite: 5]
-                            borderRadius: 4[cite: 5]
+                            data: pooledData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4
                         },
                         {
                             label: 'Total Hired',
-                            data: hiredData,[cite: 5]
-                            backgroundColor: 'rgba(16, 185, 129, 0.7)',[cite: 5]
-                            borderColor: 'rgba(16, 185, 129, 1)',[cite: 5]
-                            borderWidth: 1,[cite: 5]
-                            borderRadius: 4[cite: 5]
+                            data: hiredData,
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4
                         }
                     ]
                 },
                 options: {
-                    indexAxis: 'y',[cite: 5]
-                    responsive: true,[cite: 5]
-                    maintainAspectRatio: false,[cite: 5]
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         x: {
-                            beginAtZero: true,[cite: 5]
-                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },[cite: 5]
-                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }[cite: 5]
+                            beginAtZero: true,
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 10 } }
                         },
                         y: {
-                            display: false,[cite: 5]
-                            grid: { display: false }[cite: 5]
+                            display: false,
+                            grid: { display: false }
                         }
                     },
                     plugins: {
                         legend: {
-                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }[cite: 5]
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
                         }
                     }
                 }
@@ -1292,150 +1292,150 @@
         }
 
         function renderClientAnalyticsChart(clientStats) {
-            const ctx = document.getElementById('clientAnalyticsChart').getContext('2d');[cite: 5]
-            const isDark = document.documentElement.classList.contains('dark');[cite: 5]
+            const ctx = document.getElementById('clientAnalyticsChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
 
             if (clientChart) {
-                clientChart.destroy();[cite: 5]
+                clientChart.destroy();
             }
 
-            const labels = Object.keys(clientStats);[cite: 5]
-            const data = Object.values(clientStats);[cite: 5]
+            const labels = Object.keys(clientStats);
+            const data = Object.values(clientStats);
 
             clientChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: labels.length > 0 ? labels : ['No Data'],[cite: 5]
+                    labels: labels.length > 0 ? labels : ['No Data'],
                     datasets: [{
                         label: 'Total Hired Employees per Client',
-                        data: data.length > 0 ? data : [0],[cite: 5]
-                        backgroundColor: 'rgba(16, 185, 129, 0.7)',[cite: 5]
-                        borderColor: 'rgba(16, 185, 129, 1)',[cite: 5]
-                        borderWidth: 1,[cite: 5]
-                        borderRadius: 4[cite: 5]
+                        data: data.length > 0 ? data : [0],
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
                     }]
                 },
                 options: {
-                    responsive: true,[cite: 5]
-                    maintainAspectRatio: false,[cite: 5]
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         x: {
-                            grid: { display: false },[cite: 5]
-                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }[cite: 5]
+                            grid: { display: false },
+                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }
                         },
                         y: {
-                            beginAtZero: true,[cite: 5]
-                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },[cite: 5]
-                            ticks: { color: isDark ? '#94a3b8' : '#64748b', stepSize: 1, font: { size: 10 } }[cite: 5]
+                            beginAtZero: true,
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', stepSize: 1, font: { size: 10 } }
                         }
                     },
                     plugins: {
                         legend: {
-                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }[cite: 5]
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
                         }
                     }
                 }
             });
         }
 
-        // NAAYOS NA SUBMIT FUNCTION NA MAY BACKGROUND SYNC AT HINDI NA NAI-STUCK
+        // TULOY-TULOY AT MATATAG NA SUBMIT FUNCTION
         async function submitData(e, tabType) {
-            e.preventDefault();[cite: 5]
-            const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";[cite: 5]
-            let payload = {};[cite: 5]
+            e.preventDefault();
+            const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";
+            let payload = {};
 
             if (tabType === 'Pooling') {
-                const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();[cite: 5]
-                const newContactInput = document.getElementById('p_contact').value.trim();[cite: 5]
+                const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
+                const newContactInput = document.getElementById('p_contact').value.trim();
 
-                let isDuplicate = false;[cite: 5]
+                let isDuplicate = false;
                 if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
                     isDuplicate = globalRawSummaryData.allPoolingRecords.some(item => {
-                        const existingName = (item.fullName || "").trim().toLowerCase();[cite: 5]
-                        const existingContact = (item.contactNumber || "").trim();[cite: 5]
-                        return existingName === newNameInput && existingContact === newContactInput;[cite: 5]
+                        const existingName = (item.fullName || "").trim().toLowerCase();
+                        const existingContact = (item.contactNumber || "").trim();
+                        return existingName === newNameInput && existingContact === newContactInput;
                     });
                 }
 
                 if (isDuplicate) {
-                    alert("Duplicate Error: Ang pangalan at cellphone number na ito ay naka-pool na sa sistema!");[cite: 5]
+                    alert("Duplicate Error: Ang pangalan at cellphone number na ito ay naka-pool na sa sistema!");
                     return;
                 }
 
                 payload = {
-                    tab: 'Pooling',[cite: 5]
-                    fullName: document.getElementById('p_name').value,[cite: 5]
-                    address: document.getElementById('p_address').value,[cite: 5]
-                    contactNumber: document.getElementById('p_contact').value,[cite: 5]
-                    area: document.getElementById('p_area').value,[cite: 5]
-                    date: document.getElementById('p_date').value,[cite: 5]
-                    recruiter: currentUser[cite: 5]
+                    tab: 'Pooling',
+                    fullName: document.getElementById('p_name').value,
+                    address: document.getElementById('p_address').value,
+                    contactNumber: document.getElementById('p_contact').value,
+                    area: document.getElementById('p_area').value,
+                    date: document.getElementById('p_date').value,
+                    recruiter: currentUser
                 };
             } else {
-                const selectedIndex = document.getElementById('h_selected_pool_index').value;[cite: 5]
+                const selectedIndex = document.getElementById('h_selected_pool_index').value;
                 if (selectedIndex === "") {
-                    alert("Mangyaring pumili ng aplikante mula sa pooling list.");[cite: 5]
+                    alert("Mangyaring pumili ng aplikante mula sa pooling list.");
                     return;
                 }
                 payload = {
-                    tab: 'Hiring',[cite: 5]
-                    fullName: document.getElementById('h_name').value,[cite: 5]
-                    address: document.getElementById('h_address').value,[cite: 5]
-                    contactNumber: document.getElementById('h_contact').value,[cite: 5]
-                    area: document.getElementById('h_area').value,[cite: 5]
-                    client: document.getElementById('h_client').value,[cite: 5]
-                    date: document.getElementById('h_date').value,[cite: 5]
-                    recruiter: currentUser[cite: 5]
+                    tab: 'Hiring',
+                    fullName: document.getElementById('h_name').value,
+                    address: document.getElementById('h_address').value,
+                    contactNumber: document.getElementById('h_contact').value,
+                    area: document.getElementById('h_area').value,
+                    client: document.getElementById('h_client').value,
+                    date: document.getElementById('h_date').value,
+                    recruiter: currentUser
                 };
             }
 
-            // 1. Agad na i-reset ang form at i-enable ang button para tuloy-tuloy ang encoding
-            e.target.reset();[cite: 5]
+            // Agad na i-reset ang form para makapag-encode agad ang team
+            e.target.reset();
             if(tabType === 'Hiring') {
-                document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";[cite: 5]
-                document.getElementById('h_selected_pool_index').value = '';[cite: 5]
+                document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";
+                document.getElementById('h_selected_pool_index').value = '';
             }
 
-            alert(`${tabType} record successfully submitted! Maaari ka nang mag-encode ng sunod.`);[cite: 5]
+            alert(`${tabType} record successfully submitted! Maaari ka nang mag-encode ng sunod.`);
 
-            // 2. Tahimik at mabilis na i-save sa background papunta sa Google Sheet
+            // Background sync sa Google Sheet nang walang aberya o pagka-stuck
             try {
                 fetch(SCRIPT_URL, {
-                    method: 'POST',[cite: 5]
-                    mode: 'no-cors',[cite: 5]
-                    body: JSON.stringify(payload)[cite: 5]
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
                 });
                 
                 setTimeout(() => {
-                    loadSummaryData();[cite: 5]
-                    loadTenureData();[cite: 5]
+                    loadSummaryData();
+                    loadTenureData();
                 }, 1500);
 
             } catch (err) {
-                console.error("Background sync error:", err);[cite: 5]
+                console.error("Background sync error:", err);
             }
         }
 
         async function addNewUser(e) {
-            e.preventDefault();[cite: 5]
-            const email = document.getElementById('new_email').value;[cite: 5]
-            const password = document.getElementById('new_pass').value;[cite: 5]
-            const role = document.getElementById('new_role').value;[cite: 5]
-            const btn = document.getElementById('addUserBtn');[cite: 5]
+            e.preventDefault();
+            const email = document.getElementById('new_email').value;
+            const password = document.getElementById('new_pass').value;
+            const role = document.getElementById('new_role').value;
+            const btn = document.getElementById('addUserBtn');
 
-            btn.textContent = "Saving User...";[cite: 5]
+            btn.textContent = "Saving User...";
             try {
                 await fetch(SCRIPT_URL, {
-                    method: 'POST',[cite: 5]
-                    mode: 'no-cors',[cite: 5]
-                    body: JSON.stringify({ action: 'addUser', email: email, password: password, role: role })[cite: 5]
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'addUser', email: email, password: password, role: role })
                 });
-                alert("New user successfully added to Google Sheet!");[cite: 5]
-                e.target.reset();[cite: 5]
+                alert("New user successfully added to Google Sheet!");
+                e.target.reset();
             } catch(err) {
-                alert("Error adding user.");[cite: 5]
+                alert("Error adding user.");
             } finally {
-                btn.textContent = "Save User to Database";[cite: 5]
+                btn.textContent = "Save User to Database";
             }
         }
     </script>
