@@ -1407,21 +1407,31 @@
                     mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
+                
+                // 1. I-reset agad ang form para mabilis sa pakiramdam ng user
                 alert(`${tabType} record successfully saved!`);
                 e.target.reset();
                 if(tabType === 'Hiring') {
                     document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";
                     document.getElementById('h_selected_pool_index').value = '';
                 }
-                loadSummaryData();
-                loadTenureData();
+
+                // 2. ISA NALANG ANG TAWAG: Ang loadSummaryData() ay sapat na 
+                // dahil binabasa na rin nito ang hiring records para sa tenure at summary.
+                await loadSummaryData();
+                
+                if (globalRawSummaryData && globalRawSummaryData.allHiringRecords) {
+                    globalTenureEmployees = globalRawSummaryData.allHiringRecords;
+                    renderTenureTable();
+                }
+
             } catch (err) {
                 alert("Error saving record.");
             } finally {
                 btn.textContent = originalText;
                 btn.disabled = false;
             }
-        }
+        } // <--- ETO ANG IDINAGDAG KO NA NAWOLANG CLOSING BRACKET PARA SA submitData
 
         async function addNewUser(e) {
             e.preventDefault();
