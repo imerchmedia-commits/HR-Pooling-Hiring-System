@@ -1338,14 +1338,13 @@
             });
         }
 
+        // OPTIMIZED BACKGROUND SUBMISSION (Fire-and-Forget / Walang Lag)
         async function submitData(e, tabType) {
             e.preventDefault();
             const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";
             let payload = {};
-            let btnId = '';
 
             if (tabType === 'Pooling') {
-                btnId = 'poolingSubmitBtn';
                 const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
                 const newContactInput = document.getElementById('p_contact').value.trim();
 
@@ -1373,7 +1372,6 @@
                     recruiter: currentUser
                 };
             } else {
-                btnId = 'hiringSubmitBtn';
                 const selectedIndex = document.getElementById('h_selected_pool_index').value;
                 if (selectedIndex === "") {
                     alert("Mangyaring pumili ng aplikante mula sa pooling list.");
@@ -1391,30 +1389,31 @@
                 };
             }
 
-            const btn = document.getElementById(btnId);
-            const originalText = btn.textContent;
-            btn.textContent = "Saving...";
-            btn.disabled = true;
+            // 1. Agad na i-reset ang form para makapag-encode na ulit sila ng sunod nang walang pagka-stuck
+            e.target.reset();
+            if(tabType === 'Hiring') {
+                document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";
+                document.getElementById('h_selected_pool_index').value = '';
+            }
 
+            // Mabilis na abiso
+            alert(`${tabType} record successfully submitted! Maaari ka nang mag-encode ng sunod.`);
+
+            // 2. Tahimik na i-save sa background papunta sa Google Sheet
             try {
-                await fetch(SCRIPT_URL, {
+                fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
-                alert(`${tabType} record successfully saved!`);
-                e.target.reset();
-                if(tabType === 'Hiring') {
-                    document.getElementById('customDropdownSelectedText').textContent = "-- Piliin ang Kandidato --";
-                    document.getElementById('h_selected_pool_index').value = '';
-                }
-                loadSummaryData();
-                loadTenureData();
+                
+                setTimeout(() => {
+                    loadSummaryData();
+                    loadTenureData();
+                }, 1500);
+
             } catch (err) {
-                alert("Error saving record.");
-            } finally {
-                btn.textContent = originalText;
-                btn.disabled = false;
+                console.error("Background sync error:", err);
             }
         }
 
