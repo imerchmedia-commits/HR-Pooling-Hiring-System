@@ -113,7 +113,7 @@
             <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-b-2xl rounded-r-2xl p-6 mt-0 shadow-xl mb-12 transition-colors">
                 
                 <!-- TAB 1: POOLING -->
-              <div id="tabContent-pooling" class="tab-content space-y-6">
+                <div id="tabContent-pooling" class="tab-content space-y-6">
                     <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
                             <h2 class="text-sm font-bold text-slate-900 dark:text-white">Daily Pooling Entry</h2>
@@ -141,7 +141,6 @@
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date of Pooling</label>
                             <input type="date" id="p_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
                         </div>
-                        <!-- IDINAGDAG: Active/Inactive Status Dropdown para sa Pooling -->
                         <div>
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Status</label>
                             <select id="p_status" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
@@ -235,13 +234,13 @@
                                 <option value="Aurinko Seasonal">Aurinko Seasonal</option>
                                 <option value="Toy World Seasonal">Toy World Seasonal</option>
                                 <option value="Aunt Annies Seasonal">Aunt Annies Seasonal</option>
+                                <option value="CCPI">CCPI</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Date Hired</label>
                             <input type="date" id="h_date" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                         </div>
-                        <!-- IDINAGDAG: Active/Inactive Status Dropdown para sa Hiring -->
                         <div>
                             <label class="block text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mb-1">Employment Status</label>
                             <select id="h_status" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
@@ -271,21 +270,23 @@
                         </div>
                     </div>
 
-                    <!-- ADMIN CALENDAR / DATE FILTER & EXPORT CONTROLS -->
+                    <!-- ADMIN CALENDAR / DATE & MONTH FILTER & EXPORT CONTROLS -->
                     <div id="adminCalendarFilterSection" class="bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                             <div class="flex items-center gap-1.5">
                                 <i data-lucide="calendar" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
-                                <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Date/Week Filter:</span>
+                                <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Date/Week/Month Filter:</span>
                             </div>
                             <select id="filterMode" onchange="toggleFilterInputs()" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                                 <option value="all">All Time</option>
                                 <option value="day">Specific Day</option>
                                 <option value="week">Specific Week</option>
+                                <option value="month">Specific Month</option>
                             </select>
                             
                             <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                             <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                            <input type="month" id="filterMonthInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
                         </div>
 
                         <!-- EXPORT BUTTON ADMIN ONLY -->
@@ -311,21 +312,28 @@
                         </div>
                     </div>
 
-                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART (WITH FAST HTML PROFILE PICTURES) -->
+                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
                             <span class="text-[10px] text-slate-500">Sorted by Total Pooled / Hired</span>
                         </div>
                         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-center">
-                            <!-- Left side: Custom Recruiter Names with Profile Pictures -->
-                            <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4">
-                                <!-- Dynamic labels with pics will be injected here -->
-                            </div>
-                            <!-- Right side: Clean Fast Canvas Bar Chart -->
+                            <div id="chartCustomLabels" class="space-y-2.5 lg:col-span-1 border-r border-slate-200 dark:border-slate-800 pr-4"></div>
                             <div class="lg:col-span-3 relative w-full" id="chartContainerWrapper" style="height: 320px;">
                                 <canvas id="recruiterChart"></canvas>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- TOTAL PER MONTH PER RECRUITER ANALYTICS GRAPH -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Total Hired per Month per Recruiter</h3>
+                            <span class="text-[10px] text-slate-500">Monthly Recruiter Performance Trend</span>
+                        </div>
+                        <div class="relative w-full" style="height: 280px;">
+                            <canvas id="monthlyRecruiterChart"></canvas>
                         </div>
                     </div>
 
@@ -557,6 +565,7 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-WM1OzAg8_eaF-SpPgUNpUA_phm1ULP4A9KM5MAXVcIJSznvlbp7x_95Me2S1Lbzl/exec";
         let myChart = null;
         let clientChart = null; 
+        let monthlyRecruiterChart = null;
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
 
@@ -753,12 +762,15 @@
             const mode = document.getElementById('filterMode').value;
             const dayInput = document.getElementById('filterDayInput');
             const weekInput = document.getElementById('filterWeekInput');
+            const monthInput = document.getElementById('filterMonthInput');
 
             dayInput.classList.add('hidden');
             weekInput.classList.add('hidden');
+            monthInput.classList.add('hidden');
 
             if (mode === 'day') dayInput.classList.remove('hidden');
             if (mode === 'week') weekInput.classList.remove('hidden');
+            if (mode === 'month') monthInput.classList.remove('hidden');
 
             applyAdminFilter();
         }
@@ -1046,6 +1058,7 @@
             const mode = document.getElementById('filterMode').value;
             const targetDay = document.getElementById('filterDayInput').value;
             const targetWeek = document.getElementById('filterWeekInput').value;
+            const targetMonth = document.getElementById('filterMonthInput').value;
 
             let filteredPool = globalRawSummaryData.allPoolingRecords || [];
             let filteredHired = globalRawSummaryData.allHiringRecords || [];
@@ -1056,10 +1069,14 @@
             } else if (mode === 'week' && targetWeek) {
                 filteredPool = filteredPool.filter(item => getWeekOfYear(item.date) === targetWeek);
                 filteredHired = filteredHired.filter(item => getWeekOfYear(item.date) === targetWeek);
+            } else if (mode === 'month' && targetMonth) {
+                filteredPool = filteredPool.filter(item => item.date && item.date.startsWith(targetMonth));
+                filteredHired = filteredHired.filter(item => item.date && item.date.startsWith(targetMonth));
             }
 
             let recruiterStats = {};
             let clientStats = {};
+            let monthlyRecruiterStats = {}; // { "YYYY-MM": { "recruiterName": count } }
 
             filteredPool.forEach(item => {
                 const rec = item.recruiter || "unknown";
@@ -1074,6 +1091,14 @@
 
                 const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";
                 clientStats[cl] = (clientStats[cl] || 0) + 1;
+
+                // Monthly per Recruiter tally calculation
+                if (item.date) {
+                    const monthKey = item.date.substring(0, 7); // YYYY-MM
+                    if (!monthlyRecruiterStats[monthKey]) monthlyRecruiterStats[monthKey] = {};
+                    if (!monthlyRecruiterStats[monthKey][rec]) monthlyRecruiterStats[monthKey][rec] = 0;
+                    monthlyRecruiterStats[monthKey][rec] += 1;
+                }
             });
 
             const totalPooled = filteredPool.length;
@@ -1098,6 +1123,7 @@
             renderRecruiterTable();
             renderTopToBottomChart(globalRecruiterStatsArray);
             renderClientAnalyticsChart(clientStats);
+            renderMonthlyRecruiterChart(monthlyRecruiterStats);
 
             globalFilteredHiredList = filteredHired;
             hiredCurrentPage = 1;
@@ -1188,7 +1214,6 @@
                     const imgFile = recruiterImages[recKey] || '';
                     const imgTag = imgFile ? `<img src="${imgFile}" class="recruiter-avatar inline-block mr-2" alt="${item.recruiter}">` : '';
 
-                    // Badge formatting para sa status sa table
                     const statusVal = item.status || 'Active';
                     const statusBadge = statusVal === 'Active' 
                         ? `<span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] px-2.5 py-1 rounded-full font-bold border border-emerald-500/20">Active</span>`
@@ -1322,6 +1347,67 @@
             });
         }
 
+        function renderMonthlyRecruiterChart(monthlyStats) {
+            const ctx = document.getElementById('monthlyRecruiterChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+
+            if (monthlyRecruiterChart) {
+                monthlyRecruiterChart.destroy();
+            }
+
+            const months = Object.keys(monthlyStats).sort(); // Sorted YYYY-MM
+            let allRecruitersSet = new Set();
+            months.forEach(m => {
+                Object.keys(monthlyStats[m]).forEach(rec => allRecruitersSet.add(rec));
+            });
+            const recruiters = Array.from(allRecruitersSet);
+
+            const colorPalette = [
+                'rgba(59, 130, 246, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(245, 158, 11, 0.7)',
+                'rgba(239, 68, 68, 0.7)', 'rgba(139, 92, 246, 0.7)', 'rgba(236, 72, 153, 0.7)',
+                'rgba(14, 165, 233, 0.7)', 'rgba(34, 197, 94, 0.7)', 'rgba(234, 179, 8, 0.7)'
+            ];
+
+            const datasets = recruiters.map((rec, idx) => {
+                const data = months.map(m => monthlyStats[m][rec] || 0);
+                return {
+                    label: rec,
+                    data: data,
+                    backgroundColor: colorPalette[idx % colorPalette.length],
+                    borderWidth: 1,
+                    borderRadius: 4
+                };
+            });
+
+            monthlyRecruiterChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months.length > 0 ? months : ['No Data'],
+                    datasets: datasets.length > 0 ? datasets : [{ label: 'No Data', data: [0] }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', stepSize: 1, font: { size: 10 } }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
         function renderClientAnalyticsChart(clientStats) {
             const ctx = document.getElementById('clientAnalyticsChart').getContext('2d');
             const isDark = document.documentElement.classList.contains('dark');
@@ -1417,7 +1503,7 @@
                     contactNumber: document.getElementById('p_contact').value,
                     area: document.getElementById('p_area').value,
                     date: document.getElementById('p_date').value,
-                    status: document.getElementById('p_status').value, // Isinasama ang status dito
+                    status: document.getElementById('p_status').value,
                     recruiter: currentUser
                 };
             } else {
@@ -1435,7 +1521,7 @@
                     area: document.getElementById('h_area').value,
                     client: document.getElementById('h_client').value,
                     date: document.getElementById('h_date').value,
-                    status: document.getElementById('h_status').value, // Isinasama ang status dito
+                    status: document.getElementById('h_status').value,
                     recruiter: currentUser
                 };
             }
