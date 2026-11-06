@@ -1692,12 +1692,10 @@
             return `${d.getFullYear()}-W${String(weekNo).padStart(2, '0')}`;
         }
 
-        function exportRecruiterSummary() {
-            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool
-";
+       function exportRecruiterSummary() {
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
             globalRecruiterStatsArray.forEach(item => {
-                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}
-`;
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
