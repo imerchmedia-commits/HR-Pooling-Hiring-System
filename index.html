@@ -26,6 +26,18 @@
             border: 2px solid #e2e8f0;
             flex-shrink: 0;
         }
+
+        /* macOS / Safari Custom Calendar Picker Styling */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(0.8);
+            opacity: 0.8;
+        }
+        .dark input[type="date"]::-webkit-calendar-picker-indicator,
+        .dark input[type="month"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
@@ -90,23 +102,27 @@
             <div class="flex space-x-2 border-b border-slate-200 dark:border-slate-800 pb-0 overflow-x-auto">
                 <button onclick="switchTab('pooling')" id="tabBtn-pooling" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-slate-100 dark:bg-slate-900/50 rounded-t-xl transition whitespace-nowrap">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>1. Pooling (Target: 30/day)</span>
+                    <span>1. Pooling</span>
                 </button>
                 <button onclick="switchTab('hiring')" id="tabBtn-hiring" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="user-check" class="w-4 h-4"></i>
-                    <span>2. Hiring Tab (From Pool)</span>
+                    <span>2. Hiring Tab</span>
+                </button>
+                <button onclick="switchTab('vacant')" id="tabBtn-vacant" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                    <span>3. Vacant Tab</span>
                 </button>
                 <button onclick="switchTab('summary')" id="tabBtn-summary" class="tab-btn flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition whitespace-nowrap">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-                    <span>3. Summary & Analytics Graph</span>
+                    <span>4. Summary & Analytics</span>
                 </button>
                 <button onclick="switchTab('tenure')" id="tabBtn-tenure" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition whitespace-nowrap">
                     <i data-lucide="clock" class="w-4 h-4"></i>
-                    <span>4. Employee Tenure Tracker</span>
+                    <span>5. Tenure Tracker</span>
                 </button>
                 <button onclick="switchTab('admin')" id="tabBtn-admin" class="tab-btn admin-only hidden flex items-center space-x-2 py-3 px-5 font-medium text-xs border-b-2 border-transparent text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition whitespace-nowrap">
                     <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                    <span>5. Admin Controls</span>
+                    <span>6. Admin Controls</span>
                 </button>
             </div>
 
@@ -116,11 +132,12 @@
                 <div id="tabContent-pooling" class="tab-content space-y-6">
                     <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Daily Pooling Entry</h2>
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white" id="poolingFormTitle">Daily Pooling Entry</h2>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Standard quota: 30 candidates per day per recruiter.</p>
                         </div>
                     </div>
-                    <form id="poolingForm" onsubmit="submitData(event, 'Pooling')" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                    <form id="poolingForm" onsubmit="submitPoolingData(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                        <input type="hidden" id="p_edit_index" value="">
                         <div>
                             <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
                             <input type="text" id="p_name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
@@ -148,12 +165,42 @@
                                 <option value="Inactive">Inactive</option>
                             </select>
                         </div>
-                        <div class="md:col-span-3 flex items-end">
-                            <button type="submit" id="poolingSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
+                        <div class="md:col-span-3 flex items-center gap-2">
+                            <button type="submit" id="poolingSubmitBtn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
                                 Submit Pooling Record
+                            </button>
+                            <button type="button" id="poolingCancelBtn" onclick="cancelPoolingEdit()" class="hidden bg-slate-600 hover:bg-slate-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
+                                Cancel
                             </button>
                         </div>
                     </form>
+
+                    <!-- LIVE POOLING LIST TABLE WITH EDIT -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4 mt-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">My Pooling Records (Editable)</h3>
+                            <div class="relative w-64">
+                                <input type="text" id="poolingListSearch" oninput="renderPoolingListTable()" placeholder="Search pooling records..." class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
+                            </div>
+                        </div>
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Date</th>
+                                    <th class="py-2 px-3">Full Name</th>
+                                    <th class="py-2 px-3">Address</th>
+                                    <th class="py-2 px-3">Contact</th>
+                                    <th class="py-2 px-3">Area</th>
+                                    <th class="py-2 px-3">Status</th>
+                                    <th class="py-2 px-3 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="poolingListTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
+                                <tr><td colspan="7" class="py-4 text-center text-slate-500">Loading pooling records...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- TAB 2: HIRING -->
@@ -256,7 +303,87 @@
                     </form>
                 </div>
 
-                <!-- TAB 3: SUMMARY & GRAPH -->
+                <!-- TAB 3: VACANT TAB -->
+                <div id="tabContent-vacant" class="tab-content hidden space-y-6">
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div>
+                            <h2 class="text-sm font-bold text-slate-900 dark:text-white">Branch Vacancies Management</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Mag-encode ng mga bakanteng pwesto per branch at outlet. Pwedeng alisin o i-update kapag napunan na.</p>
+                        </div>
+                    </div>
+                    
+                    <form id="vacantForm" onsubmit="submitVacantData(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50/50 dark:bg-slate-950/40 p-5 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                        <input type="hidden" id="v_index" value="">
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Branch / Region</label>
+                            <select id="v_branch" required class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                <option value="">-- Piliin ang Branch --</option>
+                                <option value="GMA IMERCH MAIN BRANCH">GMA IMERCH MAIN BRANCH</option>
+                                <option value="Cabuyao SOUTH LUZON IMERCH BRANCH">Cabuyao SOUTH LUZON IMERCH BRANCH</option>
+                                <option value="PAMPANGA CENTRAL LUZON IMERCH BRANCH">PAMPANGA CENTRAL LUZON IMERCH BRANCH</option>
+                                <option value="DAGUPAN NORTH LUZON IMERCH BRANCH">DAGUPAN NORTH LUZON IMERCH BRANCH</option>
+                                <option value="CAUAYAN ISABELA IMERCH BRANCH">CAUAYAN ISABELA IMERCH BRANCH</option>
+                                <option value="ILOILO IMERCH BRANCH">ILOILO IMERCH BRANCH</option>
+                                <option value="CEBU IMERCH BRANCH">CEBU IMERCH BRANCH</option>
+                                <option value="CDO IMERCH BRANCH">CDO IMERCH BRANCH</option>
+                                <option value="DAVAO IMERCH BRANCH">DAVAO IMERCH BRANCH</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Outlet Name</label>
+                            <input type="text" id="v_outlet" required placeholder="e.g. Savemore Biñan" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Address</label>
+                            <input type="text" id="v_address" required placeholder="e.g. Biñan Laguna" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Area</label>
+                            <input type="text" id="v_area" required placeholder="e.g. South Luzon" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Vacant Slots Count</label>
+                            <input type="number" id="v_slots" min="1" required placeholder="e.g. 3" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="md:col-span-3 flex items-center gap-2">
+                            <button type="submit" id="vacantSubmitBtn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 rounded-lg text-xs transition shadow">
+                                Add Vacant Position
+                            </button>
+                            <button type="button" id="vacantCancelBtn" onclick="cancelVacantEdit()" class="hidden bg-slate-600 hover:bg-slate-500 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- VACANT POSITIONS LIST TABLE -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Active Branch Vacancies List</h3>
+                            <div class="relative w-64">
+                                <input type="text" id="vacantSearchInput" oninput="renderVacantTable()" placeholder="Search branch or outlet..." class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5"></i>
+                            </div>
+                        </div>
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                    <th class="py-2 px-3">Branch / Region</th>
+                                    <th class="py-2 px-3">Outlet Name</th>
+                                    <th class="py-2 px-3">Address</th>
+                                    <th class="py-2 px-3">Area</th>
+                                    <th class="py-2 px-3">Vacant Slots</th>
+                                    <th class="py-2 px-3">Encoded By</th>
+                                    <th class="py-2 px-3 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vacantTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
+                                <tr><td colspan="7" class="py-4 text-center text-slate-500">Loading branch vacancies...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: SUMMARY & GRAPH -->
                 <div id="tabContent-summary" class="tab-content hidden space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
@@ -297,7 +424,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950 dark:to-slate-900 p-4 rounded-xl border border-blue-200 dark:border-blue-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Total Pooled (Filtered)</p>
                             <h3 id="totalPooledCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
@@ -305,6 +432,10 @@
                         <div class="bg-gradient-to-br from-emerald-50 to-slate-100 dark:from-emerald-950 dark:to-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Total Hired (Filtered)</p>
                             <h3 id="totalHiredCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
+                        </div>
+                        <div class="bg-gradient-to-br from-amber-50 to-slate-100 dark:from-amber-950 dark:to-slate-900 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50 shadow">
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Total Vacant Slots</p>
+                            <h3 id="totalVacantCount" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</h3>
                         </div>
                         <div class="bg-gradient-to-br from-indigo-50 to-slate-100 dark:from-indigo-950 dark:to-slate-900 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50 shadow">
                             <p class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Conversion Rate</p>
@@ -334,6 +465,17 @@
                         </div>
                         <div class="relative w-full" style="height: 280px;">
                             <canvas id="monthlyRecruiterChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- BRANCH VACANCY ANALYTICS GRAPH -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Branch Vacancy Distribution Analytics</h3>
+                            <span class="text-[10px] text-slate-500">Total Vacant Slots per Branch</span>
+                        </div>
+                        <div class="relative w-full" style="height: 280px;">
+                            <canvas id="branchVacancyChart"></canvas>
                         </div>
                     </div>
 
@@ -374,6 +516,9 @@
                                     <td colspan="4" class="py-4 text-center text-slate-500">Loading recruiter breakdown...</td>
                                 </tr>
                             </tbody>
+                            <tfoot id="recruiterTableFooter" class="border-t-2 border-slate-300 dark:border-slate-700 font-bold bg-slate-100/50 dark:bg-slate-900/50">
+                                <!-- Grand Total will be injected here -->
+                            </tfoot>
                         </table>
                         <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
                             <span id="recruiterPaginationInfo">Showing 0 of 0 entries</span>
@@ -429,7 +574,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: EMPLOYEE TENURE TRACKER -->
+                <!-- TAB 5: EMPLOYEE TENURE TRACKER -->
                 <div id="tabContent-tenure" class="tab-content hidden space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
                         <div>
@@ -509,7 +654,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 5: ADMIN CONTROLS -->
+                <!-- TAB 6: ADMIN CONTROLS -->
                 <div id="tabContent-admin" class="tab-content hidden space-y-6">
                     <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-4 rounded-xl">
                         <h2 class="text-sm font-bold text-amber-700 dark:text-amber-400 flex items-center gap-2">
@@ -566,8 +711,11 @@
         let myChart = null;
         let clientChart = null; 
         let monthlyRecruiterChart = null;
+        let branchVacancyChart = null;
         let globalAvailablePool = [];
         let globalRawSummaryData = null;
+        let globalVacantList = [];
+        let globalMyPoolingList = [];
 
         const recruiterImages = {
             "mercedes.dondonilla@imerchmedia.net": "hr merzy.png",
@@ -583,6 +731,18 @@
             "geraldine.certifico@imerchmedia.net": "hr geraldine.png",
             "mariely.haya@imerchmedia.net": "hr mariely.png",
             "ellengrace.placido@imerchmedia.net": "hr ellen.png"
+        };
+
+        const branchRecruitersMap = {
+            "GMA IMERCH MAIN BRANCH": ["beverly.batulanon@imerchmedia.net", "mercedes.dondonilla@imerchmedia.net", "christian.moralde@imerchmedia.net", "karla.sanpedro@imerchmedia.net"],
+            "Cabuyao SOUTH LUZON IMERCH BRANCH": ["beverly.bosita@imerchmedia.net", "sheena.gillo@imerchmedia.net"],
+            "PAMPANGA CENTRAL LUZON IMERCH BRANCH": ["anna.santos@imerchmedia.net"],
+            "DAGUPAN NORTH LUZON IMERCH BRANCH": ["judith.balquin@imerchmedia.net"],
+            "CAUAYAN ISABELA IMERCH BRANCH": ["ellengrace.placido@imerchmedia.net"],
+            "ILOILO IMERCH BRANCH": ["generose.francisco@imerchmedia.net"],
+            "CEBU IMERCH BRANCH": ["glenry.ramirez@imerchmedia.net"],
+            "CDO IMERCH BRANCH": ["mariely.haya@imerchmedia.net"],
+            "DAVAO IMERCH BRANCH": ["geraldine.certifico@imerchmedia.net"]
         };
 
         let dropdownCurrentPage = 1;
@@ -712,10 +872,12 @@
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
                 loadSummaryData();
                 loadTenureData();
+                loadVacantData();
             } else {
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
                 loadSummaryData();
                 loadPoolingForRecruiter();
+                loadVacantData();
             }
         }
 
@@ -754,6 +916,10 @@
                 loadTenureData();
             } else if(tabName === 'hiring') {
                 loadPoolingForRecruiter();
+            } else if(tabName === 'vacant') {
+                loadVacantData();
+            } else if(tabName === 'pooling') {
+                loadPoolingForRecruiter();
             }
             lucide.createIcons();
         }
@@ -783,7 +949,9 @@
                 if(result.status === 'success') {
                     globalRawSummaryData = result;
                     globalAvailablePool = result.availablePooling || [];
+                    globalMyPoolingList = result.allPoolingRecords || [];
                     populateHiringDropdown(globalAvailablePool);
+                    renderPoolingListTable();
                     applyAdminFilter();
                 }
             } catch (err) {
@@ -802,6 +970,255 @@
                 }
             } catch (err) {
                 console.error("Error loading tenure records:", err);
+            }
+        }
+
+        async function loadVacantData() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getVacancies`);
+                const result = await response.json();
+                if(result.status === 'success') {
+                    globalVacantList = result.vacancies || [];
+                    renderVacantTable();
+                }
+            } catch(err) {
+                console.error("Error loading vacancies:", err);
+            }
+        }
+
+        function renderVacantTable() {
+            const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+
+            const filtered = globalVacantList.filter(item => {
+                return (item.branch || "").toLowerCase().includes(query) ||
+                       (item.outlet || "").toLowerCase().includes(query) ||
+                       (item.address || "").toLowerCase().includes(query) ||
+                       (item.area || "").toLowerCase().includes(query);
+            });
+
+            const tbody = document.getElementById('vacantTableBody');
+            tbody.innerHTML = '';
+
+            let totalVacantCount = 0;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang vacant positions.</td></tr>';
+            } else {
+                filtered.forEach((item, idx) => {
+                    totalVacantCount += parseInt(item.slots || 0);
+                    const isOwner = (item.encodedBy || "").toLowerCase() === currentUser || isAdmin;
+                    
+                    const actionBtns = isOwner ? `
+                        <button onclick="editVacantRecord(${idx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
+                        <button onclick="deleteVacantRecord(${idx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
+                    ` : `<span class="text-slate-400">View Only</span>`;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.branch || 'N/A'}</td>
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.outlet || 'N/A'}</td>
+                        <td class="py-3 px-3 text-slate-600 dark:text-slate-400">${item.address || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.area || 'N/A'}</td>
+                        <td class="py-3 px-3 font-bold text-amber-600 dark:text-amber-400">${item.slots || 0} slots</td>
+                        <td class="py-3 px-3 text-slate-500 text-[11px]">${item.encodedBy || 'N/A'}</td>
+                        <td class="py-3 px-3 text-right">${actionBtns}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('totalVacantCount').textContent = totalVacantCount;
+            renderBranchVacancyChart();
+        }
+
+        async function submitVacantData(e) {
+            e.preventDefault();
+            const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";
+            const editIdx = document.getElementById('v_index').value;
+
+            const payload = {
+                action: editIdx === "" ? 'addVacant' : 'updateVacant',
+                index: editIdx,
+                branch: document.getElementById('v_branch').value,
+                outlet: document.getElementById('v_outlet').value,
+                address: document.getElementById('v_address').value,
+                area: document.getElementById('v_area').value,
+                slots: document.getElementById('v_slots').value,
+                encodedBy: currentUser
+            };
+
+            const btn = document.getElementById('vacantSubmitBtn');
+            const originalText = btn.textContent;
+            btn.textContent = "Saving...";
+            btn.disabled = true;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+                alert("Vacant position successfully saved!");
+                e.target.reset();
+                document.getElementById('v_index').value = "";
+                document.getElementById('vacantSubmitBtn').textContent = "Add Vacant Position";
+                document.getElementById('vacantCancelBtn').classList.add('hidden');
+                loadVacantData();
+            } catch(err) {
+                alert("Error saving vacant position.");
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function editVacantRecord(idx) {
+            const item = globalVacantList[idx];
+            if(!item) return;
+
+            document.getElementById('v_index').value = idx;
+            document.getElementById('v_branch').value = item.branch || "";
+            document.getElementById('v_outlet').value = item.outlet || "";
+            document.getElementById('v_address').value = item.address || "";
+            document.getElementById('v_area').value = item.area || "";
+            document.getElementById('v_slots').value = item.slots || "";
+
+            document.getElementById('vacantSubmitBtn').textContent = "Update Vacant Position";
+            document.getElementById('vacantCancelBtn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelVacantEdit() {
+            document.getElementById('vacantForm').reset();
+            document.getElementById('v_index').value = "";
+            document.getElementById('vacantSubmitBtn').textContent = "Add Vacant Position";
+            document.getElementById('vacantCancelBtn').classList.add('hidden');
+        }
+
+        async function deleteVacantRecord(idx) {
+            if(!confirm("Sigurado ka bang na-fill na o gusto mo nang alisin ang vacant position na ito? Bababa ang total vacant count.")) return;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'deleteVacant', index: idx })
+                });
+                alert("Vacant position successfully removed / marked as filled!");
+                loadVacantData();
+            } catch(err) {
+                alert("Error removing vacant record.");
+            }
+        }
+
+        function renderPoolingListTable() {
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+            const query = (document.getElementById('poolingListSearch').value || "").toLowerCase();
+
+            const filtered = globalMyPoolingList.filter(item => {
+                const isOwner = (item.recruiter || "").toLowerCase() === currentUser || isAdmin;
+                if (!isOwner) return false;
+                return (item.fullName || "").toLowerCase().includes(query) ||
+                       (item.address || "").toLowerCase().includes(query) ||
+                       (item.contactNumber || "").toLowerCase().includes(query) ||
+                       (item.area || "").toLowerCase().includes(query);
+            });
+
+            const tbody = document.getElementById('poolingListTableBody');
+            tbody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang pooling records.</td></tr>';
+            } else {
+                filtered.forEach(item => {
+                    // Find actual index in globalMyPoolingList
+                    const realIdx = globalMyPoolingList.findIndex(p => p.fullName === item.fullName && p.contactNumber === item.contactNumber);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.date || 'N/A'}</td>
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.fullName || 'N/A'}</td>
+                        <td class="py-3 px-3 text-slate-600 dark:text-slate-400">${item.address || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.contactNumber || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.area || 'N/A'}</td>
+                        <td class="py-3 px-3"><span class="bg-emerald-500/10 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full font-bold">${item.status || 'Active'}</span></td>
+                        <td class="py-3 px-3 text-right">
+                            <button onclick="editPoolingRecord(${realIdx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Edit</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        function editPoolingRecord(idx) {
+            const item = globalMyPoolingList[idx];
+            if(!item) return;
+
+            document.getElementById('p_edit_index').value = idx;
+            document.getElementById('p_name').value = item.fullName || "";
+            document.getElementById('p_address').value = item.address || "";
+            document.getElementById('p_contact').value = item.contactNumber || "";
+            document.getElementById('p_area').value = item.area || "";
+            document.getElementById('p_date').value = item.date || "";
+            document.getElementById('p_status').value = item.status || "Active";
+
+            document.getElementById('poolingFormTitle').textContent = "Edit Pooling Record";
+            document.getElementById('poolingSubmitBtn').textContent = "Update Pooling Record";
+            document.getElementById('poolingCancelBtn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelPoolingEdit() {
+            document.getElementById('poolingForm').reset();
+            document.getElementById('p_edit_index').value = "";
+            document.getElementById('poolingFormTitle').textContent = "Daily Pooling Entry";
+            document.getElementById('poolingSubmitBtn').textContent = "Submit Pooling Record";
+            document.getElementById('poolingCancelBtn').classList.add('hidden');
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('p_date').value = today;
+        }
+
+        async function submitPoolingData(e) {
+            e.preventDefault();
+            const currentUser = localStorage.getItem("imerch_hr_user") || "unknown";
+            const editIdx = document.getElementById('p_edit_index').value;
+
+            const payload = {
+                action: editIdx === "" ? 'addPooling' : 'updatePooling',
+                index: editIdx,
+                tab: 'Pooling',
+                fullName: document.getElementById('p_name').value,
+                address: document.getElementById('p_address').value,
+                contactNumber: document.getElementById('p_contact').value,
+                area: document.getElementById('p_area').value,
+                date: document.getElementById('p_date').value,
+                status: document.getElementById('p_status').value,
+                recruiter: currentUser
+            };
+
+            const btn = document.getElementById('poolingSubmitBtn');
+            const originalText = btn.textContent;
+            btn.textContent = "Saving...";
+            btn.disabled = true;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+                alert("Pooling record successfully saved!");
+                e.target.reset();
+                cancelPoolingEdit();
+                await loadSummaryData();
+            } catch(err) {
+                alert("Error saving pooling record.");
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
             }
         }
 
@@ -1076,7 +1493,7 @@
 
             let recruiterStats = {};
             let clientStats = {};
-            let monthlyRecruiterStats = {}; // { "YYYY-MM": { "recruiterName": count } }
+            let monthlyRecruiterStats = {};
 
             filteredPool.forEach(item => {
                 const rec = item.recruiter || "unknown";
@@ -1092,9 +1509,8 @@
                 const cl = item.client && item.client.trim() !== "" ? item.client : "Unassigned";
                 clientStats[cl] = (clientStats[cl] || 0) + 1;
 
-                // Monthly per Recruiter tally calculation
                 if (item.date) {
-                    const monthKey = item.date.substring(0, 7); // YYYY-MM
+                    const monthKey = item.date.substring(0, 7);
                     if (!monthlyRecruiterStats[monthKey]) monthlyRecruiterStats[monthKey] = {};
                     if (!monthlyRecruiterStats[monthKey][rec]) monthlyRecruiterStats[monthKey][rec] = 0;
                     monthlyRecruiterStats[monthKey][rec] += 1;
@@ -1124,6 +1540,7 @@
             renderTopToBottomChart(globalRecruiterStatsArray);
             renderClientAnalyticsChart(clientStats);
             renderMonthlyRecruiterChart(monthlyRecruiterStats);
+            renderBranchVacancyChart();
 
             globalFilteredHiredList = filteredHired;
             hiredCurrentPage = 1;
@@ -1149,6 +1566,16 @@
             const tbody = document.getElementById('recruiterTableBody');
             tbody.innerHTML = '';
 
+            let sumPooled = 0;
+            let sumHired = 0;
+            let sumNet = 0;
+
+            globalRecruiterStatsArray.forEach(item => {
+                sumPooled += item.pooled;
+                sumHired += item.hired;
+                sumNet += item.netActive;
+            });
+
             if (paginatedItems.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" class="py-4 text-center text-slate-500">No recruiters found matching your search.</td></tr>';
             } else {
@@ -1166,6 +1593,17 @@
                     tbody.appendChild(tr);
                 });
             }
+
+            // Render Grand Total Footer
+            const tfoot = document.getElementById('recruiterTableFooter');
+            tfoot.innerHTML = `
+                <tr>
+                    <td class="py-3 px-3 uppercase text-slate-900 dark:text-white font-black">Grand Total</td>
+                    <td class="py-3 px-3 font-black text-slate-900 dark:text-white">${sumPooled}</td>
+                    <td class="py-3 px-3 font-black text-emerald-600 dark:text-emerald-400">${sumHired}</td>
+                    <td class="py-3 px-3 font-black text-indigo-600 dark:text-indigo-400">${sumNet}</td>
+                </tr>
+            `;
 
             document.getElementById('recruiterPaginationInfo').textContent = `Showing ${startIdx + 1} to ${Math.min(startIdx + rowsPerPage, totalRows)} of ${totalRows} recruiters`;
             document.getElementById('recruiterPageNum').textContent = recruiterCurrentPage;
@@ -1255,9 +1693,11 @@
         }
 
         function exportRecruiterSummary() {
-            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool
+";
             globalRecruiterStatsArray.forEach(item => {
-                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}
+`;
             });
 
             const encodedUri = encodeURI(csvContent);
@@ -1355,7 +1795,7 @@
                 monthlyRecruiterChart.destroy();
             }
 
-            const months = Object.keys(monthlyStats).sort(); // Sorted YYYY-MM
+            const months = Object.keys(monthlyStats).sort();
             let allRecruitersSet = new Set();
             months.forEach(m => {
                 Object.keys(monthlyStats[m]).forEach(rec => allRecruitersSet.add(rec));
@@ -1402,6 +1842,59 @@
                     plugins: {
                         legend: {
                             labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderBranchVacancyChart() {
+            const ctx = document.getElementById('branchVacancyChart').getContext('2d');
+            const isDark = document.documentElement.classList.contains('dark');
+
+            if (branchVacancyChart) {
+                branchVacancyChart.destroy();
+            }
+
+            let branchStats = {};
+            globalVacantList.forEach(item => {
+                const br = item.branch || "Unassigned";
+                branchStats[br] = (branchStats[br] || 0) + parseInt(item.slots || 0);
+            });
+
+            const labels = Object.keys(branchStats);
+            const data = Object.values(branchStats);
+
+            branchVacancyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.length > 0 ? labels : ['No Data'],
+                    datasets: [{
+                        label: 'Total Vacant Slots per Branch',
+                        data: data.length > 0 ? data : [0],
+                        backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 9 }, maxRotation: 25, minRotation: 25 }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' },
+                            ticks: { color: isDark ? '#94a3b8' : '#64748b', stepSize: 1, font: { size: 10 } }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: isDark ? '#cbd5e1' : '#334155', font: { size: 11 } }
                         }
                     }
                 }
@@ -1463,39 +1956,6 @@
 
             if (tabType === 'Pooling') {
                 btnId = 'poolingSubmitBtn';
-                const newNameInput = document.getElementById('p_name').value.trim().toLowerCase();
-                const newContactInput = document.getElementById('p_contact').value.trim();
-
-                let isDuplicateName = false;
-                let isDuplicateContact = false;
-
-                if (globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
-                    globalRawSummaryData.allPoolingRecords.some(item => {
-                        const existingName = (item.fullName || "").trim().toLowerCase();
-                        const existingContact = String(item.contactNumber || "").trim();
-
-                        if (existingName === newNameInput && newNameInput !== "") {
-                            isDuplicateName = true;
-                        }
-                        
-                        if (existingContact === newContactInput && newContactInput !== "") {
-                            isDuplicateContact = true;
-                        }
-
-                        return isDuplicateName || isDuplicateContact;
-                    });
-                }
-
-                if (isDuplicateName) {
-                    alert("Duplicate Error: This name has already been recorded in the pool!");
-                    return;
-                }
-
-                if (isDuplicateContact) {
-                    alert("Duplicate Error: This mobile number is already registered by another applicant!");
-                    return;
-                }
-
                 payload = {
                     tab: 'Pooling',
                     fullName: document.getElementById('p_name').value,
