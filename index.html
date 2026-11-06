@@ -421,9 +421,9 @@
                                 <option value="month">Specific Month</option>
                             </select>
                             
-                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
-                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
-                            <input type="month" id="filterMonthInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white">
+                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
+                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
+                            <input type="month" id="filterMonthInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
                         </div>
 
                         <!-- EXPORT BUTTON ADMIN ONLY -->
