@@ -175,7 +175,7 @@
                         </div>
                     </form>
 
-                    <!-- LIVE POOLING LIST TABLE WITH EDIT -->
+                    <!-- LIVE POOLING LIST TABLE WITH EDIT AND PAGINATION -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 overflow-x-auto space-y-4 mt-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">My Pooling Records (Editable)</h3>
@@ -200,6 +200,16 @@
                                 <tr><td colspan="7" class="py-4 text-center text-slate-500">Loading pooling records...</td></tr>
                             </tbody>
                         </table>
+
+                        <!-- Pagination Controls (15 rows minimum per page) -->
+                        <div class="flex justify-between items-center pt-3 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500">
+                            <span id="poolingPaginationInfo">Showing 0 of 0 entries</span>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="changePoolingPage(-1)" id="poolingPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
+                                <span id="poolingPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
+                                <button type="button" onclick="changePoolingPage(1)" id="poolingNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -707,7 +717,7 @@
     <!-- SCRIPT LOGIC -->
     <script>
         lucide.createIcons();
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwixtK_bphrq_EekoFaV_ZbJ12bWmlF-UvCFX2FemhDl6S_gdLHJ1iCKO7SpQe5L7ET/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-WM1OzAg8_eaF-SpPgUNpUA_phm1ULP4A9KM5MAXVcIJSznvlbp7x_95Me2S1Lbzl/exec";
         let myChart = null;
         let clientChart = null; 
         let monthlyRecruiterChart = null;
@@ -751,6 +761,10 @@
         let globalRecruiterStatsArray = [];
         let recruiterCurrentPage = 1;
         const rowsPerPage = 15;
+
+        // Pooling Tab Pagination State
+        let poolingCurrentPage = 1;
+        const poolingRowsPerPage = 15;
 
         let globalFilteredHiredList = [];
         let hiredCurrentPage = 1;
@@ -1113,6 +1127,12 @@
             }
         }
 
+        // --- POOLING PAGINATION LOGIC (15 MINIMUM) ---
+        function changePoolingPage(direction) {
+            poolingCurrentPage += direction;
+            renderPoolingListTable();
+        }
+
         function renderPoolingListTable() {
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
@@ -1127,14 +1147,21 @@
                        (item.area || "").toLowerCase().includes(query);
             });
 
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / poolingRowsPerPage) || 1;
+            if (poolingCurrentPage > totalPages) poolingCurrentPage = totalPages;
+            if (poolingCurrentPage < 1) poolingCurrentPage = 1;
+
+            const startIdx = (poolingCurrentPage - 1) * poolingRowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + poolingRowsPerPage);
+
             const tbody = document.getElementById('poolingListTableBody');
             tbody.innerHTML = '';
 
-            if (filtered.length === 0) {
+            if (paginatedItems.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang pooling records.</td></tr>';
             } else {
-                filtered.forEach(item => {
-                    // Find actual index in globalMyPoolingList
+                paginatedItems.forEach(item => {
                     const realIdx = globalMyPoolingList.findIndex(p => p.fullName === item.fullName && p.contactNumber === item.contactNumber);
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
@@ -1151,6 +1178,17 @@
                     tbody.appendChild(tr);
                 });
             }
+
+            // Update Pagination UI Info
+            const infoEl = document.getElementById('poolingPaginationInfo');
+            const pageNumEl = document.getElementById('poolingPageNum');
+            const prevBtn = document.getElementById('poolingPrevBtn');
+            const nextBtn = document.getElementById('poolingNextBtn');
+
+            if (infoEl) infoEl.textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + poolingRowsPerPage, totalRows)} of ${totalRows} entries`;
+            if (pageNumEl) pageNumEl.textContent = poolingCurrentPage;
+            if (prevBtn) prevBtn.disabled = poolingCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = poolingCurrentPage >= totalPages;
         }
 
         function editPoolingRecord(idx) {
@@ -1693,11 +1731,9 @@
         }
 
         function exportRecruiterSummary() {
-            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool
-";
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
             globalRecruiterStatsArray.forEach(item => {
-                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}
-`;
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
