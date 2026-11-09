@@ -2281,43 +2281,43 @@
             const totalVacantCountEl = document.getElementById('totalVacantCount');
             if (totalVacantCountEl) totalVacantCountEl.textContent = totalVacantCount;
         }
-// --- AUTO COMPUTE GRAND TOTAL SA TABLE FOOTER ---
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        const tbody = document.getElementById('branchAllocationTableBody');
-        if (!tbody) return;
+// --- DYNAMIC GRAND TOTAL COMPUTATION ---
+function updateBranchAllocationGrandTotal() {
+    const tbody = document.getElementById('branchAllocationTableBody');
+    if (!tbody) return;
 
-        let totalSlots = 0;
-        let totalPooled = 0;
+    let totalSlots = 0;
+    let totalPooled = 0;
 
-        // Babasahin nito ang bawat row sa table habang naglo-load
-        const rows = tbody.querySelectorAll('tr');
-        rows.forEach(tr => {
-            const cols = tr.querySelectorAll('td');
-            if (cols.length >= 4) {
-                // Kukunin ang numero sa Total Vacant Slots at Active Pooled Candidates
-                const slotsText = cols[2].textContent.replace(/[^0-9]/g, '');
-                const pooledText = cols[3].textContent.replace(/[^0-9]/g, '');
-                
-                totalSlots += parseInt(slotsText || 0);
-                totalPooled += parseInt(pooledText || 0);
-            }
-        });
-
-        // Ilalagay sa tfoot na ginawa natin
-        const tfootEl = document.getElementById('branchAllocationTableFooter');
-        if (tfootEl) {
-            tfootEl.innerHTML = `
-                <tr>
-                    <td class="py-3 px-3 text-slate-900 dark:text-white uppercase font-bold">Grand Total</td>
-                    <td class="py-3 px-3"></td>
-                    <td class="py-3 px-3 text-amber-600 dark:text-amber-400 font-extrabold">${totalSlots} slots</td>
-                    <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-extrabold">${totalPooled} candidates</td>
-                </tr>
-            `;
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(tr => {
+        const cols = tr.querySelectorAll('td');
+        if (cols.length >= 4) {
+            // Kunin ang text sa column ng Slots at Candidates at linisin ang mga letra
+            const slotsText = cols[2].textContent.replace(/[^0-9]/g, '');
+            const pooledText = cols[3].textContent.replace(/[^0-9]/g, '');
+            
+            totalSlots += parseInt(slotsText || 0);
+            totalPooled += parseInt(pooledText || 0);
         }
-    }, 1500); // 1.5 seconds na hintay para siguradong tapos nang mag-load ang table data
-});
+    });
+
+    const tfootEl = document.getElementById('branchAllocationTableFooter');
+    if (tfootEl) {
+        tfootEl.innerHTML = `
+            <tr>
+                <td class="py-3 px-3 text-slate-900 dark:text-white uppercase font-bold">Grand Total</td>
+                <td class="py-3 px-3"></td>
+                <td class="py-3 px-3 text-amber-600 dark:text-amber-400 font-extrabold">${totalSlots} slots</td>
+                <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-extrabold">${totalPooled} candidates</td>
+            </tr>
+        `;
+    }
+}
+
+// Patakbuhin ito pagkalipas ng konting oras at tuwing magbabago ang table
+setTimeout(updateBranchAllocationGrandTotal, 1000);
+setTimeout(updateBranchAllocationGrandTotal, 2500);
  </script>
 </body>
 </html>
