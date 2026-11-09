@@ -1000,7 +1000,7 @@
             }
         }
 
-        function renderVacantTable() {
+         function renderVacantTable() {
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
@@ -1045,9 +1045,8 @@
 
             document.getElementById('totalVacantCount').textContent = totalVacantCount;
             renderBranchVacancyChart();
-            renderBranchAllocationTable(); // Idinagdag natin ito para tawagin ang branch breakdown!
+            renderBranchAllocationTable();
         }
-
         // At isunod mo itong bagong function sa ibaba nito:
         function renderBranchAllocationTable() {
             const tbody = document.getElementById('branchAllocationTableBody');
