@@ -812,6 +812,10 @@
         // Pooling Tab Pagination State
         let poolingCurrentPage = 1;
         const poolingRowsPerPage = 15;
+        
+        // --- IDAGDAG DITO ANG VACANT TAB STATE ---
+        let vacantCurrentPage = 1;
+        const vacantRowsPerPage = 15;
 
         let globalFilteredHiredList = [];
         let hiredCurrentPage = 1;
@@ -2189,6 +2193,82 @@
             } finally {
                 btn.textContent = "Save User to Database";
             }
+        }
+        // ==========================================
+        // VACANT TAB PAGINATION LOGIC (15 ITEMS MAX)
+        // ==========================================
+        function changeVacantPage(direction) {
+            vacantCurrentPage += direction;
+            renderVacantTable();
+        }
+
+        function renderVacantTable() {
+            const query = (document.getElementById('vacantSearchInput')?.value || "").toLowerCase();
+            const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
+            const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
+
+            const filtered = globalVacantList.filter(item => {
+                return (item.branch || "").toLowerCase().includes(query) ||
+                       (item.outlet || "").toLowerCase().includes(query) ||
+                       (item.address || "").toLowerCase().includes(query) ||
+                       (item.area || "").toLowerCase().includes(query);
+            });
+
+            const totalRows = filtered.length;
+            const totalPages = Math.ceil(totalRows / vacantRowsPerPage) || 1;
+            if (vacantCurrentPage > totalPages) vacantCurrentPage = totalPages;
+            if (vacantCurrentPage < 1) vacantCurrentPage = 1;
+
+            const startIdx = (vacantCurrentPage - 1) * vacantRowsPerPage;
+            const paginatedItems = filtered.slice(startIdx, startIdx + vacantRowsPerPage);
+
+            const tbody = document.getElementById('vacantTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let totalVacantCount = 0;
+            filtered.forEach(item => {
+                totalVacantCount += parseInt(item.slots || 0);
+            });
+
+            if (paginatedItems.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang vacant positions.</td></tr>';
+            } else {
+                paginatedItems.forEach((item, index) => {
+                    const actualIdx = startIdx + index;
+                    const isOwner = (item.encodedBy || "").toLowerCase() === currentUser || isAdmin;
+                    
+                    const actionBtns = isOwner ? `
+                        <button onclick="editVacantRecord(${actualIdx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
+                        <button onclick="deleteVacantRecord(${actualIdx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
+                    ` : `<span class="text-slate-400">View Only</span>`;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-semibold text-indigo-600 dark:text-indigo-400">${item.branch || 'N/A'}</td>
+                        <td class="py-3 px-3 font-medium text-slate-900 dark:text-white">${item.outlet || 'N/A'}</td>
+                        <td class="py-3 px-3 text-slate-600 dark:text-slate-400">${item.address || 'N/A'}</td>
+                        <td class="py-3 px-3">${item.area || 'N/A'}</td>
+                        <td class="py-3 px-3 font-bold text-amber-600 dark:text-amber-400">${item.slots || 0} slots</td>
+                        <td class="py-3 px-3 text-slate-500 text-[11px]">${item.encodedBy || 'N/A'}</td>
+                        <td class="py-3 px-3 text-right">${actionBtns}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            const infoEl = document.getElementById('vacantPaginationInfo');
+            const pageNumEl = document.getElementById('vacantPageNum');
+            const prevBtn = document.getElementById('vacantPrevBtn');
+            const nextBtn = document.getElementById('vacantNextBtn');
+
+            if (infoEl) infoEl.textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + vacantRowsPerPage, totalRows)} of ${totalRows} entries`;
+            if (pageNumEl) pageNumEl.textContent = vacantCurrentPage;
+            if (prevBtn) prevBtn.disabled = vacantCurrentPage === 1;
+            if (nextBtn) nextBtn.disabled = vacantCurrentPage >= totalPages;
+
+            const totalVacantCountEl = document.getElementById('totalVacantCount');
+            if (totalVacantCountEl) totalVacantCountEl.textContent = totalVacantCount;
         }
     </script>
 </body>
