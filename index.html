@@ -1054,6 +1054,9 @@
         }
 
         function renderVacantTable() {
+            let vacantCurrentPage = 1;
+            const vacantRowsPerPage = 15;
+            
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
