@@ -1133,25 +1133,27 @@
             renderPoolingListTable();
         }
 
-       function handlePoolingSearch() {
-            poolingCurrentPage = 1;
-            renderPoolingListTable();
-        }
-
         function renderPoolingListTable() {
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
             
-            const searchEl = document.getElementById('poolingListSearch');
-            const query = searchEl ? searchEl.value.toLowerCase() : "";
+            const searchInput = document.getElementById('poolingListSearch');
+            const query = searchInput ? searchInput.value.toLowerCase() : "";
 
             const filtered = globalMyPoolingList.filter(item => {
                 const isOwner = (item.recruiter || "").toLowerCase() === currentUser || isAdmin;
                 if (!isOwner) return false;
-                return (item.fullName || "").toLowerCase().includes(query) ||
-                       (item.address || "").toLowerCase().includes(query) ||
-                       (item.contactNumber || "").toLowerCase().includes(query) ||
-                       (item.area || "").toLowerCase().includes(query);
+
+                // Ligtas na pag-convert sa String para hindi mag-crash kahit Number o Blank ang nasa Google Sheet
+                const fullNameStr = String(item.fullName || "").toLowerCase();
+                const addressStr = String(item.address || "").toLowerCase();
+                const contactStr = String(item.contactNumber || "").toLowerCase();
+                const areaStr = String(item.area || "").toLowerCase();
+
+                return fullNameStr.includes(query) ||
+                       addressStr.includes(query) ||
+                       contactStr.includes(query) ||
+                       areaStr.includes(query);
             });
 
             const totalRows = filtered.length;
@@ -1198,7 +1200,6 @@
             if (prevBtn) prevBtn.disabled = poolingCurrentPage === 1;
             if (nextBtn) nextBtn.disabled = poolingCurrentPage >= totalPages;
         }
-
         function editPoolingRecord(idx) {
             const item = globalMyPoolingList[idx];
             if(!item) return;
