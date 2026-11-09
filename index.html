@@ -489,33 +489,7 @@
                           </table>
                         </div>
                     </div>
-                    // --- 1. KUTISIN AT KUHUSIN ANG MGA TOTALS ---
-    let grandTotalSlots = 0;
-    let grandTotalPooled = 0;
-
-    // Kunin ang data array na ginagamit ninyo para sa table (Halimbawa: globalRecruiterStatsArray o kung ano man ang tawag ninyo rito)
-    // I-loop ito para i-sum ang slots at candidates:
-    if (typeof globalRecruiterStatsArray !== 'undefined' && Array.isArray(globalRecruiterStatsArray)) {
-        globalRecruiterStatsArray.forEach(row => {
-            grandTotalSlots += parseInt(row.vacantSlots || row.slots || 0);
-            grandTotalPooled += parseInt(row.pooledCount || row.candidates || 0);
-        });
-    }
-
-    // --- 2. ILAGAY SA TFOOT UI ---
-    const tfootEl = document.getElementById('branchAllocationTableFooter');
-    if (tfootEl) {
-        tfootEl.innerHTML = `
-            <tr>
-                <td class="py-3 px-3 text-slate-900 dark:text-white uppercase">Grand Total</td>
-                <td class="py-3 px-3"></td>
-                <td class="py-3 px-3 text-amber-600 dark:text-amber-400 font-extrabold">${grandTotalSlots} slots</td>
-                <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-extrabold">${grandTotalPooled} candidates</td>
-            </tr>
-        `;
-    }
-
-                    <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
+         <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Top to Below Performance Recruiter Ranking (Horizontal Graph)</h3>
