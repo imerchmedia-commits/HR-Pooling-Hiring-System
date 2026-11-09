@@ -486,9 +486,34 @@
                                 <!-- IDAGDAG MO LAMANG ITO SA BABA NG TBODY -->
                                 <tfoot id="branchAllocationTableFooter" class="border-t-2 border-slate-300 dark:border-slate-700 font-bold bg-slate-100/50 dark:bg-slate-900/50">
                                 </tfoot>
-                            </table>
+                          </table>
                         </div>
                     </div>
+                    // --- 1. KUTISIN AT KUHUSIN ANG MGA TOTALS ---
+    let grandTotalSlots = 0;
+    let grandTotalPooled = 0;
+
+    // Kunin ang data array na ginagamit ninyo para sa table (Halimbawa: globalRecruiterStatsArray o kung ano man ang tawag ninyo rito)
+    // I-loop ito para i-sum ang slots at candidates:
+    if (typeof globalRecruiterStatsArray !== 'undefined' && Array.isArray(globalRecruiterStatsArray)) {
+        globalRecruiterStatsArray.forEach(row => {
+            grandTotalSlots += parseInt(row.vacantSlots || row.slots || 0);
+            grandTotalPooled += parseInt(row.pooledCount || row.candidates || 0);
+        });
+    }
+
+    // --- 2. ILAGAY SA TFOOT UI ---
+    const tfootEl = document.getElementById('branchAllocationTableFooter');
+    if (tfootEl) {
+        tfootEl.innerHTML = `
+            <tr>
+                <td class="py-3 px-3 text-slate-900 dark:text-white uppercase">Grand Total</td>
+                <td class="py-3 px-3"></td>
+                <td class="py-3 px-3 text-amber-600 dark:text-amber-400 font-extrabold">${grandTotalSlots} slots</td>
+                <td class="py-3 px-3 text-indigo-600 dark:text-indigo-400 font-extrabold">${grandTotalPooled} candidates</td>
+            </tr>
+        `;
+    }
 
                     <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
