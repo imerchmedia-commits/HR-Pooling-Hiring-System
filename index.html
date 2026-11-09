@@ -1112,8 +1112,12 @@
 
         function renderBranchAllocationTable() {
             const tbody = document.getElementById('branchAllocationTableBody');
+            const tfoot = document.getElementById('branchAllocationTableFooter');
             if(!tbody) return;
             tbody.innerHTML = '';
+
+            let grandTotalVacancies = 0;
+            let grandTotalPool = 0;
 
             Object.keys(branchRecruitersMap).forEach(branchName => {
                 const recruiters = branchRecruitersMap[branchName];
@@ -1137,6 +1141,10 @@
                     });
                 }
 
+                // Add to Grand Totals
+                grandTotalVacancies += branchVacancies;
+                grandTotalPool += branchPoolCount;
+
                 // Render recruiters avatars/chips
                 let recruitersHTML = `<div class="flex flex-wrap gap-1.5 items-center">`;
                 recruiters.forEach(recEmail => {
@@ -1155,6 +1163,17 @@
                 `;
                 tbody.appendChild(tr);
             });
+
+            // Render Grand Total Footer
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td class="py-3 px-3 uppercase text-slate-900 dark:text-white font-black" colspan="2">Grand Total</td>
+                        <td class="py-3 px-3 font-black text-amber-600 dark:text-amber-400">${grandTotalVacancies} slots</td>
+                        <td class="py-3 px-3 font-black text-emerald-600 dark:text-emerald-400">${grandTotalPool} candidates</td>
+                    </tr>
+                `;
+            }
         }
 
         async function submitVacantData(e) {
