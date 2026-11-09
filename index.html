@@ -1053,9 +1053,7 @@
             // 1. Siguraduhing mayroon kang mga variable na ito sa itaas (global scope):
         let vacantCurrentPage = 1;
         const vacantRowsPerPage = 15;
-
-        // 2. Palitan ng buo ang iyong lumang renderVacantTable ng ganito:
-        function renderVacantTable() {
+      
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
