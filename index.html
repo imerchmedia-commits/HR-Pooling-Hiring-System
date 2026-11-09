@@ -1050,6 +1050,12 @@
         }
 
         function renderVacantTable() {
+            // 1. Siguraduhing mayroon kang mga variable na ito sa itaas (global scope):
+        let vacantCurrentPage = 1;
+        const vacantRowsPerPage = 15;
+
+        // 2. Palitan ng buo ang iyong lumang renderVacantTable ng ganito:
+        function renderVacantTable() {
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
@@ -1065,17 +1071,31 @@
             tbody.innerHTML = '';
 
             let totalVacantCount = 0;
+            // Kalkulahin ang total slots ng lahat ng filtered items
+            filtered.forEach(item => {
+                totalVacantCount += parseInt(item.slots || 0);
+            });
 
             if (filtered.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang vacant positions.</td></tr>';
+                vacantCurrentPage = 1;
+                updateVacantPaginationUI(0, 0, 0, 1);
             } else {
-                filtered.forEach((item, idx) => {
-                    totalVacantCount += parseInt(item.slots || 0);
+                // Pagination calculations (15 rows max per page)
+                const totalPages = Math.ceil(filtered.length / vacantRowsPerPage) || 1;
+                if (vacantCurrentPage > totalPages) vacantCurrentPage = totalPages;
+                if (vacantCurrentPage < 1) vacantCurrentPage = 1;
+
+                const startIdx = (vacantCurrentPage - 1) * vacantRowsPerPage;
+                const paginatedItems = filtered.slice(startIdx, startIdx + vacantRowsPerPage);
+
+                paginatedItems.forEach((item, index) => {
+                    const actualIdx = startIdx + index;
                     const isOwner = (item.encodedBy || "").toLowerCase() === currentUser || isAdmin;
                     
                     const actionBtns = isOwner ? `
-                        <button onclick="editVacantRecord(${idx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
-                        <button onclick="deleteVacantRecord(${idx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
+                        <button onclick="editVacantRecord(${actualIdx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
+                        <button onclick="deleteVacantRecord(${actualIdx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
                     ` : `<span class="text-slate-400">View Only</span>`;
 
                     const tr = document.createElement('tr');
@@ -1090,6 +1110,8 @@
                     `;
                     tbody.appendChild(tr);
                 });
+
+                updateVacantPaginationUI(filtered.length, startIdx, paginatedItems.length, totalPages);
             }
 
             document.getElementById('totalVacantCount').textContent = totalVacantCount;
@@ -1097,6 +1119,24 @@
             renderBranchAllocationTable();
         }
 
+        // 3. Idagdag din ang mga helper na ito sa script kung wala pa:
+        function changeVacantPage(direction) {
+            vacantCurrentPage += direction;
+            renderVacantTable();
+        }
+
+        function updateVacantPaginationUI(totalEntries, startIdx, currentBatchCount, totalPages) {
+            const infoEl = document.getElementById('vacantPaginationInfo');
+            const pageNumEl = document.getElementById('vacantPageNum');
+            const prevBtn = document.getElementById('vacantPrevBtn');
+            const nextBtn = document.getElementById('vacantNextBtn');
+
+            const endIdx = startIdx + currentBatchCount;
+            if (infoEl) infoEl.textContent = `Showing ${totalEntries > 0 ? startIdx + 1 : 0} to ${endIdx} of ${totalEntries} entries`;
+            if (pageNumEl) pageNumEl.textContent = vacantCurrentPage;
+            if (prevBtn) prevBtn.disabled = vacantCurrentPage <= 1;
+            if (nextBtn) nextBtn.disabled = vacantCurrentPage >= totalPages;
+        }
         function renderBranchAllocationTable() {
             const tbody = document.getElementById('branchAllocationTableBody');
             const tfoot = document.getElementById('branchAllocationTableFooter');
