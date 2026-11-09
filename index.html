@@ -453,6 +453,31 @@
                         </div>
                     </div>
 
+                    <!-- BRANCH & RECRUITER ALLOCATION & VACANCY DISTRIBUTION BREAKDOWN WIDGET -->
+                    <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Branch & Recruiter Allocation Breakdown</h3>
+                                <p class="text-[11px] text-slate-500">Makikita rito ang mga nakatalagang recruiters at active vacancies per branch.</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                        <th class="py-2.5 px-3">Branch / Region</th>
+                                        <th class="py-2.5 px-3">Assigned Recruiters</th>
+                                        <th class="py-2.5 px-3">Total Vacant Slots</th>
+                                        <th class="py-2.5 px-3">Active Pooled Candidates</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="branchAllocationTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
+                                    <tr><td colspan="4" class="py-4 text-center text-slate-500">Loading branch allocation breakdown...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- TOP TO BOTTOM RECRUITER PERFORMANCE HORIZONTAL BAR CHART -->
                     <div class="bg-slate-50 dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                         <div class="flex justify-between items-center mb-4">
@@ -744,15 +769,37 @@
         };
 
         const branchRecruitersMap = {
-            "GMA IMERCH MAIN BRANCH": ["beverly.batulanon@imerchmedia.net", "mercedes.dondonilla@imerchmedia.net", "christian.moralde@imerchmedia.net", "karla.sanpedro@imerchmedia.net"],
-            "Cabuyao SOUTH LUZON IMERCH BRANCH": ["beverly.bosita@imerchmedia.net", "sheena.gillo@imerchmedia.net"],
-            "PAMPANGA CENTRAL LUZON IMERCH BRANCH": ["anna.santos@imerchmedia.net"],
-            "DAGUPAN NORTH LUZON IMERCH BRANCH": ["judith.balquin@imerchmedia.net"],
-            "CAUAYAN ISABELA IMERCH BRANCH": ["ellengrace.placido@imerchmedia.net"],
-            "ILOILO IMERCH BRANCH": ["generose.francisco@imerchmedia.net"],
-            "CEBU IMERCH BRANCH": ["glenry.ramirez@imerchmedia.net"],
-            "CDO IMERCH BRANCH": ["mariely.haya@imerchmedia.net"],
-            "DAVAO IMERCH BRANCH": ["geraldine.certifico@imerchmedia.net"]
+            "GMA IMERCH MAIN BRANCH": [
+                "beverly.batulanon@imerchmedia.net", 
+                "mercedes.dondonilla@imerchmedia.net", 
+                "christian.moralde@imerchmedia.net", 
+                "karla.sanpedro@imerchmedia.net"
+            ],
+            "Cabuyao SOUTH LUZON IMERCH BRANCH": [
+                "beverly.bosita@imerchmedia.net", 
+                "sheena.gillo@imerchmedia.net"
+            ],
+            "PAMPANGA CENTRAL LUZON IMERCH BRANCH": [
+                "anna.santos@imerchmedia.net"
+            ],
+            "DAGUPAN NORTH LUZON IMERCH BRANCH": [
+                "judith.balquin@imerchmedia.net"
+            ],
+            "CAUAYAN ISABELA IMERCH BRANCH": [
+                "ellengrace.placido@imerchmedia.net"
+            ],
+            "ILOILO IMERCH BRANCH": [
+                "generose.francisco@imerchmedia.net"
+            ],
+            "CEBU IMERCH BRANCH": [
+                "glenry.ramirez@imerchmedia.net"
+            ],
+            "CDO IMERCH BRANCH": [
+                "mariely.haya@imerchmedia.net"
+            ],
+            "DAVAO IMERCH BRANCH": [
+                "geraldine.certifico@imerchmedia.net"
+            ]
         };
 
         let dropdownCurrentPage = 1;
@@ -1000,7 +1047,7 @@
             }
         }
 
-         function renderVacantTable() {
+        function renderVacantTable() {
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
@@ -1047,19 +1094,16 @@
             renderBranchVacancyChart();
             renderBranchAllocationTable();
         }
-        // At isunod mo itong bagong function sa ibaba nito:
+
         function renderBranchAllocationTable() {
             const tbody = document.getElementById('branchAllocationTableBody');
-            const tfoot = document.getElementById('branchAllocationTableFooter');
             if(!tbody) return;
             tbody.innerHTML = '';
-
-            let grandTotalVacancies = 0;
-            let grandTotalPool = 0;
 
             Object.keys(branchRecruitersMap).forEach(branchName => {
                 const recruiters = branchRecruitersMap[branchName];
                 
+                // Sum vacant slots for this branch
                 let branchVacancies = 0;
                 globalVacantList.forEach(v => {
                     if((v.branch || "").trim().toLowerCase() === branchName.toLowerCase()) {
@@ -1067,6 +1111,7 @@
                     }
                 });
 
+                // Count active pool candidates for recruiters in this branch
                 let branchPoolCount = 0;
                 if(globalRawSummaryData && globalRawSummaryData.allPoolingRecords) {
                     globalRawSummaryData.allPoolingRecords.forEach(p => {
@@ -1077,9 +1122,7 @@
                     });
                 }
 
-                grandTotalVacancies += branchVacancies;
-                grandTotalPool += branchPoolCount;
-
+                // Render recruiters avatars/chips
                 let recruitersHTML = `<div class="flex flex-wrap gap-1.5 items-center">`;
                 recruiters.forEach(recEmail => {
                     const imgFile = recruiterImages[recEmail] || '';
@@ -1097,16 +1140,6 @@
                 `;
                 tbody.appendChild(tr);
             });
-
-            if(tfoot) {
-                tfoot.innerHTML = `
-                    <tr>
-                        <td class="py-3 px-3 uppercase text-slate-900 dark:text-white font-black" colspan="2">Grand Total</td>
-                        <td class="py-3 px-3 font-black text-amber-600 dark:text-amber-400">${grandTotalVacancies} slots</td>
-                        <td class="py-3 px-3 font-black text-emerald-600 dark:text-emerald-400">${grandTotalPool} candidates</td>
-                    </tr>
-                `;
-            }
         }
 
         async function submitVacantData(e) {
@@ -1262,6 +1295,7 @@
             if (prevBtn) prevBtn.disabled = poolingCurrentPage === 1;
             if (nextBtn) nextBtn.disabled = poolingCurrentPage >= totalPages;
         }
+
         function editPoolingRecord(idx) {
             const item = globalMyPoolingList[idx];
             if(!item) return;
@@ -1314,7 +1348,6 @@
             btn.disabled = true;
 
             try {
-                // Alisin ang mode: 'no-cors' para mabasa natin ang response ng Apps Script
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
@@ -1322,14 +1355,12 @@
                 
                 const result = await response.json();
 
-                // Susuriin kung success o error (duplicate) ang ibinalik ng backend
                 if (result.status === 'success') {
                     alert("Pooling record successfully saved!");
                     e.target.reset();
                     cancelPoolingEdit();
                     await loadSummaryData();
                 } else {
-                    // Dito na lalabas ang eksaktong mensahe ng duplicate popup!
                     alert(result.message || "May error sa pag-save ng record.");
                 }
             } catch(err) {
@@ -1659,6 +1690,7 @@
             renderClientAnalyticsChart(clientStats);
             renderMonthlyRecruiterChart(monthlyRecruiterStats);
             renderBranchVacancyChart();
+            renderBranchAllocationTable();
 
             globalFilteredHiredList = filteredHired;
             hiredCurrentPage = 1;
