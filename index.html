@@ -1243,17 +1243,26 @@
             btn.disabled = true;
 
             try {
-                await fetch(SCRIPT_URL, {
+                // Alisin ang mode: 'no-cors' para mabasa natin ang response ng Apps Script
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
-                alert("Pooling record successfully saved!");
-                e.target.reset();
-                cancelPoolingEdit();
-                await loadSummaryData();
+                
+                const result = await response.json();
+
+                // Susuriin kung success o error (duplicate) ang ibinalik ng backend
+                if (result.status === 'success') {
+                    alert("Pooling record successfully saved!");
+                    e.target.reset();
+                    cancelPoolingEdit();
+                    await loadSummaryData();
+                } else {
+                    // Dito na lalabas ang eksaktong mensahe ng duplicate popup!
+                    alert(result.message || "May error sa pag-save ng record.");
+                }
             } catch(err) {
-                alert("Error saving pooling record.");
+                alert("Error saving pooling record. Subukan muli.");
             } finally {
                 btn.textContent = originalText;
                 btn.disabled = false;
