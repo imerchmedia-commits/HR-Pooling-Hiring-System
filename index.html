@@ -1133,10 +1133,17 @@
             renderPoolingListTable();
         }
 
+       function handlePoolingSearch() {
+            poolingCurrentPage = 1;
+            renderPoolingListTable();
+        }
+
         function renderPoolingListTable() {
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
             const isAdmin = localStorage.getItem("imerch_hr_role") === 'Admin';
-            const query = (document.getElementById('poolingListSearch').value || "").toLowerCase();
+            
+            const searchEl = document.getElementById('poolingListSearch');
+            const query = searchEl ? searchEl.value.toLowerCase() : "";
 
             const filtered = globalMyPoolingList.filter(item => {
                 const isOwner = (item.recruiter || "").toLowerCase() === currentUser || isAdmin;
@@ -1156,6 +1163,7 @@
             const paginatedItems = filtered.slice(startIdx, startIdx + poolingRowsPerPage);
 
             const tbody = document.getElementById('poolingListTableBody');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             if (paginatedItems.length === 0) {
