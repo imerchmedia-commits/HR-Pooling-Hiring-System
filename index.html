@@ -390,18 +390,9 @@
                                 <tr><td colspan="7" class="py-4 text-center text-slate-500">Loading branch vacancies...</td></tr>
                             </tbody>
                         </table>
-                        <!-- Pagination Controls (15 rows maximum per page) -->
-                        <div class="flex justify-between items-center pt-3 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500">
-                            <span id="vacantPaginationInfo">Showing 0 of 0 entries</span>
-                            <div class="flex items-center gap-2">
-                                <button type="button" onclick="changeVacantPage(-1)" id="vacantPrevBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Previous</button>
-                                <span id="vacantPageNum" class="font-bold text-slate-700 dark:text-slate-300">1</span>
-                                <button type="button" onclick="changeVacantPage(1)" id="vacantNextBtn" class="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 px-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition disabled:opacity-40">Next</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                  
+
                 <!-- TAB 4: SUMMARY & GRAPH -->
                 <div id="tabContent-summary" class="tab-content hidden space-y-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 gap-4">
@@ -430,9 +421,9 @@
                                 <option value="month">Specific Month</option>
                             </select>
                             
-                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100" onclick="this.showPicker && this.showPicker()">
-                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100" onclick="this.showPicker && this.showPicker()">
-                            <input type="month" id="filterMonthInput" onchange="applyAdminFilter()" class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100" onclick="this.showPicker && this.showPicker()">
+                            <input type="date" id="filterDayInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
+                            <input type="week" id="filterWeekInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
+                            <input type="month" id="filterMonthInput" onchange="applyAdminFilter()"class="hidden bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 dark:text-white cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100"onclick="this.showPicker && this.showPicker()">
                         </div>
 
                         <!-- EXPORT BUTTON ADMIN ONLY -->
@@ -483,8 +474,6 @@
                                 <tbody id="branchAllocationTableBody" class="divide-y divide-slate-200 dark:divide-slate-800/60 text-slate-800 dark:text-slate-200">
                                     <tr><td colspan="4" class="py-4 text-center text-slate-500">Loading branch allocation breakdown...</td></tr>
                                 </tbody>
-                                <tfoot id="branchAllocationTableFooter" class="border-t-2 border-slate-300 dark:border-slate-700 font-bold bg-slate-100/50 dark:bg-slate-900/50">
-                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -563,6 +552,7 @@
                                 </tr>
                             </tbody>
                             <tfoot id="recruiterTableFooter" class="border-t-2 border-slate-300 dark:border-slate-700 font-bold bg-slate-100/50 dark:bg-slate-900/50">
+                                <!-- Grand Total will be injected here -->
                             </tfoot>
                         </table>
                         <div class="flex justify-between items-center pt-2 text-xs text-slate-500">
@@ -823,10 +813,6 @@
         let poolingCurrentPage = 1;
         const poolingRowsPerPage = 15;
 
-        // Vacant Tab Pagination State
-        let vacantCurrentPage = 1;
-        const vacantRowsPerPage = 15;
-
         let globalFilteredHiredList = [];
         let hiredCurrentPage = 1;
 
@@ -1061,11 +1047,6 @@
             }
         }
 
-        function changeVacantPage(direction) {
-            vacantCurrentPage += direction;
-            renderVacantTable();
-        }
-
         function renderVacantTable() {
             const query = (document.getElementById('vacantSearchInput').value || "").toLowerCase();
             const currentUser = (localStorage.getItem("imerch_hr_user") || "").trim().toLowerCase();
@@ -1078,33 +1059,21 @@
                        (item.area || "").toLowerCase().includes(query);
             });
 
-            const totalRows = filtered.length;
-            const totalPages = Math.ceil(totalRows / vacantRowsPerPage) || 1;
-            if (vacantCurrentPage > totalPages) vacantCurrentPage = totalPages;
-            if (vacantCurrentPage < 1) vacantCurrentPage = 1;
-
-            const startIdx = (vacantCurrentPage - 1) * vacantRowsPerPage;
-            const paginatedItems = filtered.slice(startIdx, startIdx + vacantRowsPerPage);
-
             const tbody = document.getElementById('vacantTableBody');
-            if(!tbody) return;
             tbody.innerHTML = '';
 
             let totalVacantCount = 0;
-            filtered.forEach(item => {
-                totalVacantCount += parseInt(item.slots || 0);
-            });
 
-            if (paginatedItems.length === 0) {
+            if (filtered.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">Walang natagpuang vacant positions.</td></tr>';
             } else {
-                paginatedItems.forEach((item, index) => {
-                    const actualIdx = startIdx + index;
+                filtered.forEach((item, idx) => {
+                    totalVacantCount += parseInt(item.slots || 0);
                     const isOwner = (item.encodedBy || "").toLowerCase() === currentUser || isAdmin;
                     
                     const actionBtns = isOwner ? `
-                        <button onclick="editVacantRecord(${actualIdx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
-                        <button onclick="deleteVacantRecord(${actualIdx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
+                        <button onclick="editVacantRecord(${idx})" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline mr-3">Edit</button>
+                        <button onclick="deleteVacantRecord(${idx})" class="text-red-600 dark:text-red-400 font-semibold hover:underline">Remove / Filled</button>
                     ` : `<span class="text-slate-400">View Only</span>`;
 
                     const tr = document.createElement('tr');
@@ -1121,31 +1090,15 @@
                 });
             }
 
-            // Update Pagination UI Info
-            const infoEl = document.getElementById('vacantPaginationInfo');
-            const pageNumEl = document.getElementById('vacantPageNum');
-            const prevBtn = document.getElementById('vacantPrevBtn');
-            const nextBtn = document.getElementById('vacantNextBtn');
-
-            if (infoEl) infoEl.textContent = `Showing ${totalRows > 0 ? startIdx + 1 : 0} to ${Math.min(startIdx + vacantRowsPerPage, totalRows)} of ${totalRows} entries`;
-            if (pageNumEl) pageNumEl.textContent = vacantCurrentPage;
-            if (prevBtn) prevBtn.disabled = vacantCurrentPage <= 1;
-            if (nextBtn) nextBtn.disabled = vacantCurrentPage >= totalPages;
-
-            const totalVacantCountEl = document.getElementById('totalVacantCount');
-            if(totalVacantCountEl) totalVacantCountEl.textContent = totalVacantCount;
+            document.getElementById('totalVacantCount').textContent = totalVacantCount;
             renderBranchVacancyChart();
             renderBranchAllocationTable();
         }
 
         function renderBranchAllocationTable() {
             const tbody = document.getElementById('branchAllocationTableBody');
-            const tfoot = document.getElementById('branchAllocationTableFooter');
             if(!tbody) return;
             tbody.innerHTML = '';
-
-            let grandTotalVacancies = 0;
-            let grandTotalPool = 0;
 
             Object.keys(branchRecruitersMap).forEach(branchName => {
                 const recruiters = branchRecruitersMap[branchName];
@@ -1169,10 +1122,6 @@
                     });
                 }
 
-                // Add to Grand Totals
-                grandTotalVacancies += branchVacancies;
-                grandTotalPool += branchPoolCount;
-
                 // Render recruiters avatars/chips
                 let recruitersHTML = `<div class="flex flex-wrap gap-1.5 items-center">`;
                 recruiters.forEach(recEmail => {
@@ -1191,17 +1140,6 @@
                 `;
                 tbody.appendChild(tr);
             });
-
-            // Render Grand Total Footer
-            if(tfoot) {
-                tfoot.innerHTML = `
-                    <tr>
-                        <td class="py-3 px-3 uppercase text-slate-900 dark:text-white font-black" colspan="2">Grand Total</td>
-                        <td class="py-3 px-3 font-black text-amber-600 dark:text-amber-400">${grandTotalVacancies} slots</td>
-                        <td class="py-3 px-3 font-black text-emerald-600 dark:text-emerald-400">${grandTotalPool} candidates</td>
-                    </tr>
-                `;
-            }
         }
 
         async function submitVacantData(e) {
@@ -1301,6 +1239,7 @@
                 const isOwner = (item.recruiter || "").toLowerCase() === currentUser || isAdmin;
                 if (!isOwner) return false;
 
+                // Ligtas na pag-convert sa String para hindi mag-crash kahit Number o Blank ang nasa Google Sheet
                 const fullNameStr = String(item.fullName || "").toLowerCase();
                 const addressStr = String(item.address || "").toLowerCase();
                 const contactStr = String(item.contactNumber || "").toLowerCase();
@@ -1805,6 +1744,7 @@
                 });
             }
 
+            // Render Grand Total Footer
             const tfoot = document.getElementById('recruiterTableFooter');
             tfoot.innerHTML = `
                 <tr>
@@ -1903,11 +1843,9 @@
         }
 
         function exportRecruiterSummary() {
-            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool
-";
+            let csvContent = "data:text/csv;charset=utf-8,Recruiter,Total Pooled,Total Hired,Net Active Pool\n";
             globalRecruiterStatsArray.forEach(item => {
-                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}
-`;
+                csvContent += `"${item.recruiter}",${item.pooled},${item.hired},${item.netActive}\n`;
             });
 
             const encodedUri = encodeURI(csvContent);
